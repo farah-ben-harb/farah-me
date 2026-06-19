@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" fill="#f7f8f3" />
+  <path d="M0 0 H64 V18 H0 Z" fill="#047857" />
+  <path d="M0 46 H64 V64 H0 Z" fill="#2563eb" opacity="0.88" />
+  <text
+    x="32"
+    y="38"
+    fill="#12302b"
+    font-family="'Sora', 'Inter', ui-sans-serif, system-ui, sans-serif"
+    font-size="30"
+    font-weight="700"
+    letter-spacing="-1"
+    text-anchor="middle"
+    dominant-baseline="middle"
+  >
+    AB
+  </text>
+</svg>

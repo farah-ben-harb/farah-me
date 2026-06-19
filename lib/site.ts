@@ -1,0 +1,28 @@
+export const siteConfig = {
+  name: "Farah Ben Harb",
+  title: "Farah Ben Harb | Cloud & DevOps Engineering Student",
+  description:
+    "Engineering portfolio for Farah Ben Harb, an Ariana-based Cloud and DevOps student focused on cloud platforms, infrastructure automation, CI/CD, and observability.",
+  url: "https://farah.me",
+  email: "benharbfarah85@gmail.com",
+  phone: "+216 90 726 464",
+  phoneHref: "tel:+21690726464",
+  github: "https://github.com/farah-ben-harb",
+  linkedin: "https://linkedin.com/in/farah-ben-harb",
+  keywords: [
+    "Farah Ben Harb",
+    "cloud computing",
+    "DevOps",
+    "AWS",
+    "Azure",
+    "OpenStack",
+    "Docker",
+    "Kubernetes",
+    "Terraform",
+    "GitHub Actions",
+    "Python",
+    "Java",
+    "Tunis",
+    "software engineer",
+  ],
+} as const;
