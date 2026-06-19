@@ -5,8 +5,8 @@ export const siteConfig = {
     "Engineering portfolio for Farah Ben Harb, an Ariana-based Cloud and DevOps student focused on cloud platforms, infrastructure automation, CI/CD, and observability.",
   url: "https://farah.me",
   email: "benharbfarah85@gmail.com",
-  phone: "+216 90 726 464",
-  phoneHref: "tel:+21690726464",
+  phone: "+216907264646",
+  phoneHref: "tel:+216907264646",
   github: "https://github.com/farah-ben-harb",
   linkedin: "https://linkedin.com/in/farah-ben-harb",
   keywords: [

@@ -85,6 +85,32 @@ const community = [
   "Hackathon participant across 2023-2024, including AI IHEC 2024.",
 ];
 
+const heroBadges = [
+  "OpenStack",
+  "Terraform",
+  "Kubernetes",
+  "CI/CD",
+  "Observability",
+  "Azure",
+];
+
+const heroProfile = [
+  {
+    label: "Education",
+    value:
+      "Engineering Cycle in IT Architecture & Cloud Computing at ESPRIT. Expected graduation: 2027.",
+  },
+  {
+    label: "Prior education",
+    value:
+      "Scientific Baccalaureate (Honors), Lycee Rue El Attarine, 2019-2022.",
+  },
+  {
+    label: "Languages",
+    value: "Arabic (native), French (B2), English (B2), Spanish (A1).",
+  },
+];
+
 const links = [
   {
     label: "GitHub",
@@ -203,7 +229,10 @@ export default function Home() {
           </div>
         </header>
 
-        <section id="top" className="grid gap-12 pt-10 pb-16 sm:pt-12 sm:pb-24 lg:grid-cols-[1.15fr_0.85fr]">
+        <section
+          id="top"
+          className="grid gap-8 pt-10 pb-14 sm:pt-12 sm:pb-20 lg:grid-cols-[1.08fr_0.92fr] lg:items-start"
+        >
           <div className="max-w-3xl">
             <p className="mb-5 text-sm font-semibold text-primary">
               Cloud and DevOps engineering student
@@ -231,27 +260,62 @@ export default function Home() {
                 </a>
               </Button>
             </div>
+            <div className="mt-8 flex max-w-2xl flex-wrap gap-2">
+              {heroBadges.map((badge) => (
+                <span
+                  className="border border-emerald-950/10 bg-white/70 px-3 py-2 text-xs font-medium tracking-[0.12em] text-emerald-950 uppercase"
+                  key={badge}
+                >
+                  {badge}
+                </span>
+              ))}
+            </div>
           </div>
 
-          <aside className="grid content-start gap-5 border border-emerald-950/15 bg-white/65 p-5 shadow-xl shadow-emerald-950/5 backdrop-blur">
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Education</p>
-              <p className="mt-2 text-sm leading-6">
-                Engineering Cycle in IT Architecture & Cloud Computing, ESPRIT.
-                Expected graduation: 2027.
+          <aside className="self-start overflow-hidden border border-emerald-950/15 bg-white/72 shadow-xl shadow-emerald-950/5 backdrop-blur">
+            <div className="border-b border-emerald-950/10 bg-[linear-gradient(135deg,rgba(16,185,129,0.12),rgba(255,255,255,0.85),rgba(37,99,235,0.08))] px-5 py-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+                Quick profile
+              </p>
+              <h2 className="mt-3 max-w-sm text-2xl font-bold leading-tight text-emerald-950">
+                Strong cloud fundamentals with a delivery-first mindset.
+              </h2>
+              <p className="mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
+                Focused on infrastructure automation, container platforms, and
+                production-ready monitoring.
               </p>
             </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Prior Education</p>
-              <p className="mt-2 text-sm leading-6">
-                Scientific Baccalaureate (Honors), Lycée Rue El Attarine (2019-2022).
-              </p>
-            </div>
-            <div>
-              <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">Languages</p>
-              <p className="mt-2 text-sm leading-6">
-                Arabic (native), French (B2), English (B2), Spanish (A1).
-              </p>
+            <div className="grid gap-4 p-5">
+              {heroProfile.map((item) => (
+                <div className="border border-emerald-950/10 bg-white/80 p-4" key={item.label}>
+                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                    {item.label}
+                  </p>
+                  <p className="mt-2 text-sm leading-6 text-emerald-950">{item.value}</p>
+                </div>
+              ))}
+              <div className="grid gap-3 border border-emerald-950/10 bg-[#11211f] p-4 text-white sm:grid-cols-2 lg:grid-cols-1">
+                <a
+                  className="group border border-white/10 bg-white/5 px-3 py-3 transition-colors hover:bg-white/10"
+                  href={`mailto:${siteConfig.email}`}
+                >
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-200">
+                    Email
+                  </p>
+                  <p className="mt-2 text-sm font-medium break-all text-white">
+                    {siteConfig.email}
+                  </p>
+                </a>
+                <a
+                  className="group border border-white/10 bg-white/5 px-3 py-3 transition-colors hover:bg-white/10"
+                  href={siteConfig.phoneHref}
+                >
+                  <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-200">
+                    Phone
+                  </p>
+                  <p className="mt-2 text-sm font-medium text-white">{siteConfig.phone}</p>
+                </a>
+              </div>
             </div>
           </aside>
         </section>
@@ -398,13 +462,19 @@ export default function Home() {
 
         <footer
           id="contact"
-          className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between"
+          className="grid gap-6 py-8 lg:grid-cols-[1fr_auto_auto] lg:items-center"
         >
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
             Based in Ariana, Tunis. Seeking internships to apply skills in cloud
             infrastructure, DevOps automation, and platform reliability.
           </p>
-          <div className="flex flex-wrap gap-2">
+          <a
+            className="text-sm font-semibold text-emerald-950 underline-offset-4 hover:underline"
+            href={`mailto:${siteConfig.email}`}
+          >
+            {siteConfig.email}
+          </a>
+          <div className="flex flex-wrap items-center gap-3 lg:justify-end">
             {links.map(({ href, icon: Icon, label }) => (
               <Button asChild key={label} size="icon" variant="outline">
                 <a
@@ -417,13 +487,13 @@ export default function Home() {
                 </a>
               </Button>
             ))}
+            <a
+              className="text-sm font-semibold text-emerald-950 underline-offset-4 hover:underline"
+              href={siteConfig.phoneHref}
+            >
+              {siteConfig.phone}
+            </a>
           </div>
-          <a
-            className="text-sm font-semibold text-emerald-950 underline-offset-4 hover:underline"
-            href={siteConfig.phoneHref}
-          >
-            {siteConfig.phone}
-          </a>
         </footer>
       </div>
     </main>
