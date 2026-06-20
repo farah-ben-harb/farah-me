@@ -109,6 +109,10 @@ const heroProfile = [
     label: "Languages",
     value: "Arabic (native), French (B2), English (B2), Spanish (A1).",
   },
+  {
+    label: "Focus",
+    value: "Cloud infrastructure, CI/CD automation, observability, and reliable platform delivery.",
+  },
 ];
 
 const links = [
@@ -294,28 +298,6 @@ export default function Home() {
                   <p className="mt-2 text-sm leading-6 text-emerald-950">{item.value}</p>
                 </div>
               ))}
-              <div className="grid gap-3 border border-emerald-950/10 bg-[#11211f] p-4 text-white sm:grid-cols-2 lg:grid-cols-1">
-                <a
-                  className="group border border-white/10 bg-white/5 px-3 py-3 transition-colors hover:bg-white/10"
-                  href={`mailto:${siteConfig.email}`}
-                >
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-200">
-                    Email
-                  </p>
-                  <p className="mt-2 text-sm font-medium break-all text-white">
-                    {siteConfig.email}
-                  </p>
-                </a>
-                <a
-                  className="group border border-white/10 bg-white/5 px-3 py-3 transition-colors hover:bg-white/10"
-                  href={siteConfig.phoneHref}
-                >
-                  <p className="text-[11px] uppercase tracking-[0.18em] text-emerald-200">
-                    Phone
-                  </p>
-                  <p className="mt-2 text-sm font-medium text-white">{siteConfig.phone}</p>
-                </a>
-              </div>
             </div>
           </aside>
         </section>
@@ -462,19 +444,13 @@ export default function Home() {
 
         <footer
           id="contact"
-          className="grid gap-6 py-8 lg:grid-cols-[1fr_auto_auto] lg:items-center"
+          className="flex flex-col gap-6 py-8 sm:flex-row sm:items-center sm:justify-between"
         >
           <p className="max-w-md text-sm leading-6 text-muted-foreground">
             Based in Ariana, Tunis. Seeking internships to apply skills in cloud
             infrastructure, DevOps automation, and platform reliability.
           </p>
-          <a
-            className="text-sm font-semibold text-emerald-950 underline-offset-4 hover:underline"
-            href={`mailto:${siteConfig.email}`}
-          >
-            {siteConfig.email}
-          </a>
-          <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+          <div className="flex flex-wrap items-center gap-3">
             {links.map(({ href, icon: Icon, label }) => (
               <Button asChild key={label} size="icon" variant="outline">
                 <a
@@ -487,12 +463,6 @@ export default function Home() {
                 </a>
               </Button>
             ))}
-            <a
-              className="text-sm font-semibold text-emerald-950 underline-offset-4 hover:underline"
-              href={siteConfig.phoneHref}
-            >
-              {siteConfig.phone}
-            </a>
           </div>
         </footer>
       </div>
