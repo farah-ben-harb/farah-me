@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Farah Ben Harb",
-  title: "Farah Ben Harb | Cloud & DevOps Engineering Student",
+  title: "Farah Ben Harb | Portfolio",
   description:
     "Engineering portfolio for Farah Ben Harb, an Ariana-based Cloud and DevOps student focused on cloud platforms, infrastructure automation, CI/CD, and observability.",
   url: "https://farah.me",
