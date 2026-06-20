@@ -4,9 +4,9 @@ import {
   FileText,
   GithubLogo,
   LinkedinLogo,
-  Phone,
 } from "@phosphor-icons/react/dist/ssr";
 
+import { ContactActions } from "@/components/contact-actions";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site";
 
@@ -109,10 +109,6 @@ const heroProfile = [
     label: "Languages",
     value: "Arabic (native), French (B2), English (B2), Spanish (A1).",
   },
-  {
-    label: "Focus",
-    value: "Cloud infrastructure, CI/CD automation, observability, and reliable platform delivery.",
-  },
 ];
 
 const links = [
@@ -130,11 +126,6 @@ const links = [
     label: "Email",
     href: `mailto:${siteConfig.email}`,
     icon: EnvelopeSimple,
-  },
-  {
-    label: "Phone",
-    href: siteConfig.phoneHref,
-    icon: Phone,
   },
   {
     label: "Resume",
@@ -252,7 +243,11 @@ export default function Home() {
             </p>
             <div className="mt-10 flex flex-wrap gap-2">
               <Button asChild>
-                <a href={`mailto:${siteConfig.email}`}>
+                <a
+                  href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(siteConfig.email)}`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
                   Contact me
                   <EnvelopeSimple aria-hidden="true" />
                 </a>
@@ -450,20 +445,7 @@ export default function Home() {
             Based in Ariana, Tunis. Seeking internships to apply skills in cloud
             infrastructure, DevOps automation, and platform reliability.
           </p>
-          <div className="flex flex-wrap items-center gap-3">
-            {links.map(({ href, icon: Icon, label }) => (
-              <Button asChild key={label} size="icon" variant="outline">
-                <a
-                  href={href}
-                  aria-label={label}
-                  target={href.startsWith("http") ? "_blank" : undefined}
-                  rel={href.startsWith("http") ? "noreferrer" : undefined}
-                >
-                  <Icon aria-hidden="true" />
-                </a>
-              </Button>
-            ))}
-          </div>
+          <ContactActions />
         </footer>
       </div>
     </main>
