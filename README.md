@@ -46,3 +46,16 @@ The portfolio is deployed on Vercel.
 ## Notes
 
 This repository intentionally stays focused on the portfolio experience rather than duplicating the technical detail that lives in the backend and infrastructure repositories.
+
+## Branching and Commits
+
+- Use branches such as `feat/<area>`, `fix/<area>`, `docs/<area>`, or `ui/<area>`
+- Keep commits focused on one UI or content change
+- Prefer Conventional Commits such as `feat(portfolio): refine project cards`
+- Avoid vague commit messages like `update`, `misc`, or `final`
+
+## Contributing
+
+- Keep the public presentation polished and easy to navigate
+- Prefer small changes that are easy to review visually
+- Avoid committing generated artifacts unless they are required for the deployment workflow
