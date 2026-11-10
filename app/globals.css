@@ -1,13 +1,11 @@
 @import "tailwindcss";
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: var(--font-dm-sans);
   --font-mono: ui-monospace, "SFMono-Regular", "Menlo", "Monaco", "Consolas", monospace;
   --font-heading: var(--font-sora);
   --color-sidebar-ring: var(--sidebar-ring);
@@ -126,6 +124,7 @@
   }
   html {
     @apply font-sans;
+    scroll-padding-top: 1.5rem;
   }
   h1,
   h2,
@@ -135,5 +134,25 @@
   ::selection {
     background: oklch(0.84 0.08 162);
     color: oklch(0.18 0.04 165);
+  }
+  a,
+  button,
+  summary {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer components {
+  .section-kicker {
+    @apply font-mono text-xs font-bold uppercase tracking-[0.2em] text-emerald-700;
+  }
+  .evidence-details > summary::marker {
+    color: oklch(0.49 0.13 162);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }

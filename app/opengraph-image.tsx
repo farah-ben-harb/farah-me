@@ -15,7 +15,7 @@ export default function OpenGraphImage() {
       <div
         style={{
           alignItems: "center",
-          background: "#f7f8f3",
+          background: "linear-gradient(135deg, #e4f4ea 0%, #fffdf7 55%, #edf5ff 100%)",
           color: "#12302b",
           display: "flex",
           flexDirection: "column",
@@ -38,7 +38,7 @@ export default function OpenGraphImage() {
             width: "100%",
           }}
         >
-          AB
+          FBH / ENGINEERING PORTFOLIO
         </div>
         <div
           style={{
@@ -58,7 +58,7 @@ export default function OpenGraphImage() {
               lineHeight: 1,
             }}
           >
-            Aziz Ben Ammar
+            Farah Ben Harb
           </div>
           <div
             style={{
@@ -70,7 +70,7 @@ export default function OpenGraphImage() {
               maxWidth: 900,
             }}
           >
-            Backend, AI, microservices, and platform engineering student based in Tunis.
+            Cloud, DevOps, and MLOps engineering with the evidence attached.
           </div>
         </div>
       </div>

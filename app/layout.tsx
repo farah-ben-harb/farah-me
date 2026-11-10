@@ -1,13 +1,12 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora } from "next/font/google";
-import { Analytics } from "@vercel/analytics/next";
+import { DM_Sans, Sora } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
-const inter = Inter({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-dm-sans",
 });
 
 const sora = Sora({
@@ -63,6 +62,11 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   category: "technology",
+  formatDetection: {
+    address: false,
+    email: false,
+    telephone: false,
+  },
 };
 
 export const viewport: Viewport = {
@@ -82,13 +86,12 @@ export default function RootLayout({
         "h-full",
         "antialiased",
         "font-sans",
-        inter.variable,
+        dmSans.variable,
         sora.variable,
       )}
     >
       <body className="min-h-full flex flex-col">
         {children}
-        <Analytics />
       </body>
     </html>
   );
