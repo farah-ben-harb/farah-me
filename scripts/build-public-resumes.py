@@ -43,27 +43,27 @@ def experience(language: str) -> list[dict[str, str | list[str]]]:
         return [
             {
                 "title": "Stagiaire Cloud & DevOps | Devoteam",
-                "date": "juil. - aout 2026",
+                "date": "juil. - août 2026",
                 "bullets": [
-                    "Provisionnement d'infrastructure Azure automatise avec Terraform.",
-                    "CI/CD GitHub Actions : tests, publication d'images Docker et controles de securite.",
-                    "Deploiements K3s/Kubernetes avec Helm et Argo CD ; supervision Dynatrace.",
-                    "Integration MCP avec Claude Desktop pour interroger et piloter l'infrastructure.",
+                    "Provisionnement d'infrastructure Azure automatisé avec Terraform.",
+                    "CI/CD GitHub Actions : tests, publication d'images Docker et contrôles de sécurité.",
+                    "Déploiements K3s/Kubernetes avec Helm et Argo CD ; supervision Dynatrace.",
+                    "Intégration MCP avec Claude Desktop pour interroger et piloter l'infrastructure.",
                 ],
             },
             {
-                "title": "Stagiaire developpement logiciel & data | Ooredoo",
-                "date": "juil. - aout 2025",
+                "title": "Stagiaire développement logiciel & data | Ooredoo",
+                "date": "juil. - août 2025",
                 "bullets": [
-                    "Outils Python et Java pour traiter et analyser des donnees techniques et journaux systeme.",
-                    "Automatisation du traitement et interfaces de recherche pour faciliter l'acces aux donnees.",
+                    "Outils Python et Java pour traiter et analyser des données techniques et journaux système.",
+                    "Automatisation du traitement et interfaces de recherche pour faciliter l'accès aux données.",
                 ],
             },
             {
-                "title": "Stagiaire reseaux & systemes | Tunisie Telecom",
+                "title": "Stagiaire réseaux & systèmes | Tunisie Télécom",
                 "date": "juin - juil. 2023",
                 "bullets": [
-                    "Support d'environnements reseaux et systemes telecom ; Linux, TCP/IP, adressage IP et routage.",
+                    "Support d'environnements réseaux et systèmes télécom ; Linux, TCP/IP, adressage IP et routage.",
                 ],
             },
         ]
@@ -104,7 +104,7 @@ PROJECTS = {
         ),
         "fr": (
             "FootballMatch AI Platform | MLOps & Cloud-Native",
-            "Plateforme FastAPI d'analyse video : detection, suivi et classification des equipes avec YOLO11, ByteTrack, OpenCV, MLflow, Kubeflow, RAG optionnel, Docker, Helm et K3s. La CI execute tests et scans ; une demo CPU Azure Container Apps est active avec des limites non-production documentees.",
+            "Plateforme FastAPI d'analyse vidéo : détection, suivi et classification des équipes avec YOLO11, ByteTrack, OpenCV, MLflow, Kubeflow, RAG optionnel, Docker, Helm et K3s. La CI exécute tests et scans ; une démo CPU Azure Container Apps est active avec des limites non-production documentées.",
         ),
     },
     "crm": {
@@ -114,7 +114,7 @@ PROJECTS = {
         ),
         "fr": (
             "Mini CRM Intelligence | MLOps & DevSecOps",
-            "API de classification de profils avec TF-IDF, regression logistique, FastAPI et MLflow. Docker Compose, un reseau Docker gere par Terraform et Ansible automatisent l'environnement local. GitHub Actions execute tests et scans. Aucun deploiement AWS n'est prouve dans le depot.",
+            "API de classification de profils avec TF-IDF, régression logistique, FastAPI et MLflow. Docker Compose, un réseau Docker géré par Terraform et Ansible automatisent l'environnement local. GitHub Actions exécute tests et scans. Aucun déploiement AWS n'est prouvé dans le dépôt.",
         ),
     },
     "devsecops": {
@@ -124,7 +124,7 @@ PROJECTS = {
         ),
         "fr": (
             "Plateforme Cloud-Native DevSecOps",
-            "Service d'incidents FastAPI/PostgreSQL avec endpoints de sante, disponibilite et metriques. Pytest, Docker Compose et pipeline Jenkins configure pour les scans et mises a jour GitOps. Les tests publics GitHub Actions reussissent ; l'execution Jenkins n'est pas publiquement prouvee.",
+            "Service d'incidents FastAPI/PostgreSQL avec endpoints de santé, disponibilité et métriques. Pytest, Docker Compose et pipeline Jenkins configuré pour les scans et mises à jour GitOps. Les tests publics GitHub Actions réussissent ; l'exécution Jenkins n'est pas publiquement prouvée.",
         ),
     },
     "openstack": {
@@ -133,8 +133,8 @@ PROJECTS = {
             "Heat templates and Ansible automation for OpenStack compute, networking, storage and Kubernetes lab environments, with Prometheus/Grafana observability assets. Repository validation covers configuration and syntax; a fresh end-to-end cloud run is not publicly evidenced.",
         ),
         "fr": (
-            "Infrastructure Cloud Prive | OpenStack & automatisation",
-            "Templates Heat et automatisation Ansible pour le calcul, le reseau, le stockage OpenStack et des laboratoires Kubernetes, avec ressources Prometheus/Grafana. Les depots valident la configuration et la syntaxe ; aucune execution cloud recente de bout en bout n'est publiquement prouvee.",
+            "Infrastructure Cloud Privé | OpenStack & automatisation",
+            "Templates Heat et automatisation Ansible pour le calcul, le réseau, le stockage OpenStack et des laboratoires Kubernetes, avec ressources Prometheus/Grafana. Les dépôts valident la configuration et la syntaxe ; aucune exécution cloud récente de bout en bout n'est publiquement prouvée.",
         ),
     },
 }
@@ -155,15 +155,15 @@ VARIANTS = {
             ],
         },
         "fr": {
-            "title": "Eleve ingenieure | Cloud, DevOps, DevSecOps & SRE",
-            "target": "Recherche un stage de fin d'etudes de 6 mois des mars 2027 en Cloud Engineering, DevOps ou SRE.",
+            "title": "Élève ingénieure | Cloud, DevOps, DevSecOps & SRE",
+            "target": "Recherche un stage de fin d'études de 6 mois dès mars 2027 en Cloud Engineering, DevOps ou SRE.",
             "project_order": ["devsecops", "football", "crm", "openstack"],
             "skills": [
                 "Cloud & IaC : AWS, Azure, OpenStack, Terraform, Ansible",
                 "Conteneurs & GitOps : Docker, Kubernetes, K3s, Helm, Argo CD, GHCR",
-                "CI/CD & securite : GitHub Actions, Jenkins, Gitleaks, Semgrep, Trivy, Bandit",
-                "Observabilite : Prometheus, Grafana, Dynatrace, Zabbix",
-                "Systemes & backend : Linux, Bash, Python, FastAPI, PostgreSQL, API REST",
+                "CI/CD & sécurité : GitHub Actions, Jenkins, Gitleaks, Semgrep, Trivy, Bandit",
+                "Observabilité : Prometheus, Grafana, Dynatrace, Zabbix",
+                "Systèmes & backend : Linux, Bash, Python, FastAPI, PostgreSQL, API REST",
             ],
         },
     },
@@ -181,15 +181,15 @@ VARIANTS = {
             ],
         },
         "fr": {
-            "title": "Eleve ingenieure | Infrastructure, reseaux & SRE",
-            "target": "Recherche un stage de fin d'etudes de 6 mois des mars 2027 en Infrastructure, Cloud ou SRE.",
+            "title": "Élève ingénieure | Infrastructure, réseaux & SRE",
+            "target": "Recherche un stage de fin d'études de 6 mois dès mars 2027 en Infrastructure, Cloud ou SRE.",
             "project_order": ["openstack", "devsecops", "football", "crm"],
             "skills": [
-                "Systemes & reseaux : Linux, Bash, TCP/IP, adressage IP, routage",
+                "Systèmes & réseaux : Linux, Bash, TCP/IP, adressage IP, routage",
                 "Cloud & IaC : AWS, Azure, OpenStack, Terraform, Ansible",
                 "Orchestration : Docker, Kubernetes, K3s, Helm, Argo CD",
-                "Observabilite & SRE : Prometheus, Grafana, Dynatrace, Zabbix",
-                "Automatisation & securite : Python, GitHub Actions, Jenkins, Gitleaks, Trivy",
+                "Observabilité & SRE : Prometheus, Grafana, Dynatrace, Zabbix",
+                "Automatisation & sécurité : Python, GitHub Actions, Jenkins, Gitleaks, Trivy",
             ],
         },
     },
@@ -207,15 +207,15 @@ VARIANTS = {
             ],
         },
         "fr": {
-            "title": "Eleve ingenieure | MLOps, plateformes IA & DevOps",
-            "target": "Recherche un stage de fin d'etudes de 6 mois des mars 2027 en MLOps ou plateforme IA.",
+            "title": "Élève ingénieure | MLOps, plateformes IA & DevOps",
+            "target": "Recherche un stage de fin d'études de 6 mois dès mars 2027 en MLOps ou plateforme IA.",
             "project_order": ["football", "crm", "devsecops", "openstack"],
             "skills": [
                 "ML & vision : Python, PyTorch, Scikit-learn, YOLO11, ByteTrack, OpenCV",
                 "MLOps : MLflow Tracking/Registry, Kubeflow Pipelines, MCP",
                 "GenAI & data : RAG, Ollama, Sentence Transformers, PostgreSQL/pgvector",
                 "Cloud & conteneurs : AWS, Azure, Docker, Kubernetes, K3s, Helm",
-                "CI/CD & observabilite : GitHub Actions, Pytest, Trivy, Prometheus, Grafana",
+                "CI/CD & observabilité : GitHub Actions, Pytest, Trivy, Prometheus, Grafana",
             ],
         },
     },
@@ -320,9 +320,9 @@ def draw_resume(path: Path, track: str, language: str, data: dict[str, object]) 
     headings = {
         "fr": {
             "education": "Formation",
-            "experience": "Experience professionnelle",
-            "projects": "Projets selectionnes",
-            "skills": "Competences",
+            "experience": "Expérience professionnelle",
+            "projects": "Projets sélectionnés",
+            "skills": "Compétences",
             "certifications": "Certifications",
             "languages": "Langues",
             "verification": "Statut public",
@@ -340,13 +340,13 @@ def draw_resume(path: Path, track: str, language: str, data: dict[str, object]) 
 
     y = section(c, headings["education"], left_x, start_y, left_w)
     education = (
-        "<b>ESIGELEC, Rouen</b> | 2026-2027<br/>Echange academique en derniere annee du cycle ingenieur."
+        "<b>ESIGELEC, Rouen</b> | 2026-2027<br/>Échange académique en dernière année du cycle ingénieur."
         if language == "fr"
         else "<b>ESIGELEC, Rouen</b> | 2026-2027<br/>Academic exchange in the final year of the engineering program."
     )
     y = paragraph(c, education, left_x + 3, y, left_w - 6, "body") - 3
     education = (
-        "<b>ESPRIT, Tunis</b> | 2022-2027<br/>Diplome d'ingenieur en informatique, specialite Architecture IT & Cloud Computing. Diplome prevu en 2027."
+        "<b>ESPRIT, Tunis</b> | 2022-2027<br/>Diplôme d'ingénieur en informatique, spécialité Architecture IT & Cloud Computing. Diplôme prévu en 2027."
         if language == "fr"
         else "<b>ESPRIT, Tunis</b> | 2022-2027<br/>Computer Engineering degree, IT Architecture & Cloud Computing specialization. Expected graduation: 2027."
     )
@@ -382,7 +382,7 @@ def draw_resume(path: Path, track: str, language: str, data: dict[str, object]) 
 
     right_y = section(c, headings["languages"], right_x, right_y, right_w)
     languages = (
-        "Arabe : langue maternelle<br/>Francais : B2<br/>Anglais : C1<br/>Espagnol : A1"
+        "Arabe : langue maternelle<br/>Français : B2<br/>Anglais : C1<br/>Espagnol : A1"
         if language == "fr"
         else "Arabic: native<br/>French: B2<br/>English: C1<br/>Spanish: A1"
     )
@@ -390,7 +390,7 @@ def draw_resume(path: Path, track: str, language: str, data: dict[str, object]) 
 
     right_y = section(c, headings["verification"], right_x, right_y, right_w)
     verification = (
-        "Les projets et statuts CI/deploiement presentes ici ont ete recoupes avec les depots publics. Le telephone a ete retire de cette version publique."
+        "Les projets et statuts CI/déploiement présentés ici ont été recoupés avec les dépôts publics. Le téléphone a été retiré de cette version publique."
         if language == "fr"
         else "Projects and CI/deployment status shown here were cross-checked against public repositories. The phone number was removed from this public version."
     )
