@@ -9,13 +9,13 @@ const copy = {
   en: {
     nav: ["Projects", "Experience", "Skills", "Contact"],
     eyebrow: "Cloud · Platform · Reliability",
-    title: "Building the systems behind dependable software.",
-    intro: "I’m Farah Ben Harb, a computer engineering student focused on Cloud Engineering, DevOps, DevSecOps, Kubernetes, SRE and MLOps. I turn infrastructure and delivery ideas into documented, testable systems.",
+    title: "Cloud and DevOps engineering for reliable platforms.",
+    intro: "I’m Farah, a computer engineering student focused on cloud infrastructure, Kubernetes, automation and secure delivery. MLOps and AI platforms complement this foundation.",
     cta1: "Explore projects", cta2: "Get in touch",
     location: "Based in France · Open to internship opportunities",
-    selected: "SELECTED WORK", workTitle: "Selected projects.",
-    workIntro: "Six projects, with implementation and validation details available when you need them.",
-    github: "Repository", demo: "Open verified demo", architecture: "SYSTEM NOTES", validation: "VALIDATION", limits: "BOUNDARIES", viewCase: "Open repository",
+    selected: "PROJECTS", workTitle: "Work, by area.",
+    workIntro: "Start with the area that interests you. Each project separates implementation, validation and remaining limits.",
+    github: "GitHub repo", demo: "Live demo", implementation: "WHAT I BUILT", validation: "WHAT I VALIDATED", limits: "LIMITS", details: "Implementation & evidence",
     experience: "EXPERIENCE", experienceTitle: "Where I’ve worked.",
     skills: "SKILLS", skillsTitle: "Areas of focus.",
     contact: "CONTACT", contactTitle: "Let’s talk.",
@@ -25,13 +25,13 @@ const copy = {
   fr: {
     nav: ["Projets", "Expérience", "Compétences", "Contact"],
     eyebrow: "Cloud · Plateforme · Fiabilité",
-    title: "Concevoir les systèmes qui rendent le logiciel fiable.",
-    intro: "Je suis Farah Ben Harb, étudiante ingénieure en informatique, orientée Cloud Engineering, DevOps, DevSecOps, Kubernetes, SRE et MLOps. Je transforme des idées d’infrastructure et de livraison en systèmes documentés et testables.",
+    title: "Cloud et DevOps au service de plateformes fiables.",
+    intro: "Je suis Farah, étudiante ingénieure en informatique, orientée infrastructure cloud, Kubernetes, automatisation et livraison sécurisée. Le MLOps et les plateformes IA complètent ce socle.",
     cta1: "Explorer les projets", cta2: "Me contacter",
     location: "Basée en France · Ouverte aux opportunités de stage",
-    selected: "PROJETS SÉLECTIONNÉS", workTitle: "Mes projets.",
-    workIntro: "Six projets, avec les détails d’implémentation et de validation à consulter si besoin.",
-    github: "Dépôt", demo: "Ouvrir la démo vérifiée", architecture: "ARCHITECTURE", validation: "VALIDATION", limits: "LIMITES", viewCase: "Voir le dépôt",
+    selected: "PROJETS", workTitle: "Mes réalisations, par domaine.",
+    workIntro: "Choisissez un domaine. Chaque projet distingue les réalisations, les validations et les limites restantes.",
+    github: "Dépôt GitHub", demo: "Démo en ligne", implementation: "RÉALISATIONS", validation: "VALIDATIONS", limits: "LIMITES", details: "Détails techniques et preuves",
     experience: "EXPÉRIENCE", experienceTitle: "Mes expériences.",
     skills: "COMPÉTENCES", skillsTitle: "Mes domaines d’intervention.",
     contact: "CONTACT", contactTitle: "Échangeons.",
@@ -42,7 +42,7 @@ const copy = {
 
 const cases = [
   {
-    id: "footballmatch", number: "01", category: "MLOPS / VIDEO SYSTEMS", name: "FootballMatch AI Platform",
+    id: "footballmatch", group: "ai", number: "01", category: "MLOPS / VIDEO SYSTEMS", name: "FootballMatch AI Platform",
     summary: { en: "A video-analysis pipeline combining computer vision, experiment tracking and several deliberately distinct runtime paths.", fr: "Un pipeline d’analyse vidéo qui combine vision par ordinateur, suivi d’expériences et plusieurs chemins d’exécution clairement distincts." },
     stack: "FastAPI · YOLO11n · ByteTrack · OpenCV · MLflow · Docker · Helm",
     detail: { en: "Compose runs FastAPI, PostgreSQL/pgvector and MLflow with named volumes. On K3s, Helm deploys the API while MLflow, PostgreSQL/pgvector and Ollama remain on the VM. Azure Container Apps is an independent GHCR-based demo with ephemeral storage and SQLite-backed MLflow. Prometheus/Grafana are optional local or VM-side overlays, not evidence of Azure monitoring. MLflow Tracking is part of the runtime; the Model Registry is implemented, but inference uses yolo11n.pt by default unless the champion alias is explicitly configured.", fr: "Compose exécute FastAPI, PostgreSQL/pgvector et MLflow avec volumes nommés. Sur K3s, Helm déploie l’API tandis que MLflow, PostgreSQL/pgvector et Ollama restent sur la VM. Azure Container Apps est une démo indépendante basée sur GHCR, avec stockage éphémère et MLflow sur SQLite. Prometheus/Grafana sont des overlays locaux ou côté VM, pas la preuve d’une supervision Azure. MLflow Tracking est utilisé; le Model Registry est implémenté, mais l’inférence charge yolo11n.pt par défaut, sauf configuration explicite de l’alias champion." },
@@ -51,7 +51,7 @@ const cases = [
     repo: "footballmatch-ai-platform-mlops", demo: "https://footballmatch-api-demo2.nicewater-00626e15.francecentral.azurecontainerapps.io/docs", badge: "CI VERIFIED · DEMO", featured: true,
   },
   {
-    id: "incident", number: "02", category: "DEVSECOPS / DELIVERY", name: "DevSecOps Incident Platform",
+    id: "incident", group: "platform", number: "02", category: "DEVSECOPS / DELIVERY", name: "DevSecOps Incident Platform",
     summary: { en: "A PostgreSQL-backed incident API with observable endpoints and a gated application delivery pipeline.", fr: "Une API d’incidents adossée à PostgreSQL, avec endpoints observables et chaîne de livraison applicative contrôlée." },
     stack: "FastAPI · PostgreSQL · Docker · GitHub Actions · Jenkins · Gitleaks · Semgrep",
     detail: { en: "GitHub Actions validates tests, Compose, Docker build, non-root execution, Gitleaks and Semgrep. A Jenkinsfile defines additional scans and an explicitly gated CD path.", fr: "GitHub Actions valide les tests, Compose, le build Docker, l’exécution non-root, Gitleaks et Semgrep. Le Jenkinsfile décrit des scans complémentaires et un chemin CD explicitement protégé." },
@@ -60,7 +60,7 @@ const cases = [
     repo: "devsecops-incident-platform", badge: "CI VERIFIED", featured: true,
   },
   {
-    id: "anomaly", number: "03", category: "SRE / OBSERVABILITY", name: "Kubernetes Anomaly Detection",
+    id: "anomaly", group: "other", number: "03", category: "SRE / OBSERVABILITY", name: "Kubernetes Anomaly Detection",
     summary: { en: "A FastAPI service that queries Prometheus and applies Isolation Forest to historical pod metrics.", fr: "Un service FastAPI qui interroge Prometheus et applique Isolation Forest à l’historique des métriques de Pods." },
     stack: "FastAPI · Prometheus · Isolation Forest · Docker · Kubernetes",
     detail: { en: "The API queries Prometheus, standardizes metric history and exposes anomaly detection and service metrics. The image and manifest use non-root execution, probes and resource bounds.", fr: "L’API interroge Prometheus, standardise l’historique métrique et expose la détection d’anomalies et les métriques de service. Image et manifeste utilisent un utilisateur non-root, des probes et des limites de ressources." },
@@ -69,7 +69,7 @@ const cases = [
     repo: "kubernetes-anomaly-detection-openstack", badge: "CI VERIFIED", featured: false,
   },
   {
-    id: "cluster", number: "04", category: "INFRASTRUCTURE / KUBERNETES", name: "Kubernetes Cluster Automation",
+    id: "cluster", group: "cloud", number: "04", category: "INFRASTRUCTURE / KUBERNETES", name: "Kubernetes Cluster Automation",
     summary: { en: "An OpenStack lab bootstrap using Heat and Ansible, with kubeadm, containerd, Calico and monitoring components.", fr: "Automatisation d’un lab Kubernetes sur OpenStack avec Heat et Ansible, kubeadm, containerd, Calico et composants de supervision." },
     stack: "OpenStack Heat · Ansible · kubeadm · containerd · Calico · Helm",
     detail: { en: "Heat provisions the lab network and nodes; Ansible prepares the OS, bootstraps the control plane, joins workers, configures Calico and installs monitoring.", fr: "Heat provisionne le réseau et les nœuds; Ansible prépare les systèmes, initialise le plan de contrôle, joint les workers, configure Calico et installe la supervision." },
@@ -78,7 +78,7 @@ const cases = [
     repo: "k8s-cluster-automation", badge: "STATIC CI", featured: true,
   },
   {
-    id: "heat", number: "05", category: "CLOUD / INFRASTRUCTURE AS CODE", name: "OpenStack Heat Infrastructure",
+    id: "heat", group: "cloud", number: "05", category: "CLOUD / INFRASTRUCTURE AS CODE", name: "OpenStack Heat Infrastructure",
     summary: { en: "A Heat template describing Neutron networks, compute, Cinder storage, floating IPs and restricted administration.", fr: "Un template Heat décrivant réseaux Neutron, calcul, stockage Cinder, IP flottantes et accès d’administration restreints." },
     stack: "OpenStack · Heat · Neutron · Nova · Cinder · YAML",
     detail: { en: "SSH and ICMP ingress use an explicit admin_cidr. No public MySQL ingress is defined; web ports are public for the lab scenario.", fr: "Les flux SSH et ICMP utilisent admin_cidr. Aucun accès MySQL public n’est défini; les ports web sont publics pour le scénario de lab." },
@@ -87,7 +87,7 @@ const cases = [
     repo: "openstack-heat-infrastructure", badge: "STATIC CI", featured: true,
   },
   {
-    id: "gitops", number: "06", category: "PLATFORM / GITOPS", name: "GitOps Delivery Platform",
+    id: "gitops", group: "platform", number: "06", category: "PLATFORM / GITOPS", name: "GitOps Delivery Platform",
     summary: { en: "Kustomize and Argo CD configuration for an incident platform, with PostgreSQL persistence and hardened workloads.", fr: "Configuration Kustomize et Argo CD pour une plateforme d’incidents, avec persistance PostgreSQL et workloads durcis." },
     stack: "Kubernetes · Kustomize · Argo CD · PVC · GHCR",
     detail: { en: "The overlay renders a PostgreSQL PVC, immutable-style image tag, example Secret excluded from rendered resources, and non-root pod security contexts.", fr: "L’overlay génère un PVC PostgreSQL, une image taguée, un Secret d’exemple exclu du rendu et des contextes de sécurité non-root." },
@@ -96,7 +96,7 @@ const cases = [
     repo: "gitops-delivery-platform", badge: "CI VERIFIED", featured: true,
   },
   {
-    id: "flask", number: "07", category: "AZURE / CI-CD", name: "Flask Azure DevOps Pipeline",
+    id: "flask", group: "cloud", number: "07", category: "AZURE / CI-CD", name: "Flask Azure DevOps Pipeline",
     summary: { en: "A Flask service with tests, Prometheus monitoring and Terraform definitions for an Azure VM path.", fr: "Un service Flask avec tests, supervision Prometheus et définitions Terraform pour un chemin de déploiement sur VM Azure." },
     stack: "Flask · Docker · GitHub Actions · Terraform · Azure · Prometheus",
     detail: { en: "Application, monitoring and Terraform static validation are automated. Docker publication and Azure apply require explicit workflow dispatch and protected values.", fr: "Les validations applicatives, monitoring et Terraform statique sont automatisées. Publication Docker et apply Azure nécessitent une action manuelle et des variables protégées." },
@@ -105,7 +105,7 @@ const cases = [
     repo: "flask-azure-devops-pipeline", badge: "CI VERIFIED", featured: true,
   },
   {
-    id: "crm", number: "08", category: "MLOPS / LOCAL PLATFORM", name: "Mini CRM Intelligence",
+    id: "crm", group: "other", number: "08", category: "MLOPS / LOCAL PLATFORM", name: "Mini CRM Intelligence",
     summary: { en: "A small profile-classification service with experiment tracking and infrastructure examples.", fr: "Un service de classification de profils avec suivi d’expériences et exemples d’infrastructure." },
     stack: "FastAPI · Scikit-learn · MLflow · Docker · Terraform · Ansible",
     detail: { en: "The repository includes training, inference, experiment tracking and a local container stack.", fr: "Le dépôt comprend entraînement, inférence, suivi d’expériences et une stack conteneurisée locale." },
@@ -114,7 +114,7 @@ const cases = [
     repo: "crm-intelligence-mlops", badge: "SEPARATE WORKSTREAM", featured: false,
   },
   {
-    id: "devorecruiter", number: "09", category: "AI PLATFORM / RAG", name: "DevoRecruiter",
+    id: "devorecruiter", group: "other", number: "09", category: "AI PLATFORM / RAG", name: "DevoRecruiter",
     summary: { en: "A recruiting assistant architecture spanning Angular, NestJS, FastAPI and a document RAG path.", fr: "Une architecture d’assistant de recrutement reliant Angular, NestJS, FastAPI et un pipeline documentaire RAG." },
     stack: "Angular · NestJS · FastAPI · RAG · PostgreSQL · GitOps",
     detail: { en: "Retained as requested, but its technical modernization is paused and not represented as finalized.", fr: "Présenté comme demandé, mais sa modernisation technique est en pause et n’est pas présentée comme finalisée." },
@@ -137,6 +137,12 @@ const domains = [
   { title: { en: "MLOps & AI Platform", fr: "MLOps & Plateformes IA" }, items: "MLflow · Kubeflow Pipelines · YOLO11 · ByteTrack · OpenCV · RAG · pgvector" },
 ];
 
+const projectGroups = [
+  { id: "cloud", title: { en: "Cloud & infrastructure", fr: "Cloud & infrastructure" }, description: { en: "Provisioning, cluster automation and cloud delivery.", fr: "Provisionnement, automatisation de clusters et livraison cloud." } },
+  { id: "platform", title: { en: "Platform & DevSecOps", fr: "Plateforme & DevSecOps" }, description: { en: "Application delivery, security controls and GitOps.", fr: "Livraison applicative, contrôles de sécurité et GitOps." } },
+  { id: "ai", title: { en: "MLOps & AI", fr: "MLOps & IA" }, description: { en: "Computer vision, model workflows and experiment tracking.", fr: "Vision par ordinateur, flux de modèles et suivi d’expériences." } },
+] as const;
+
 function CaseCard({ item, locale }: { item: typeof cases[number]; locale: Locale }) {
   const t = copy[locale];
   return <article className={`case-card ${item.id === "footballmatch" ? "case-featured" : ""}`} id={item.id}>
@@ -144,7 +150,7 @@ function CaseCard({ item, locale }: { item: typeof cases[number]; locale: Locale
     <h3>{item.name}</h3><p className="case-summary">{item.summary[locale]}</p>
     <div className="case-stack">{item.stack}</div>
     {item.id === "footballmatch" && <div className="deployment-rails" aria-label="Deployment paths"><div><small>01 / LOCAL</small><b>Docker Compose</b><span>FastAPI · PostgreSQL/pgvector · MLflow · volumes</span></div><div><small>02 / HYBRID</small><b>K3s / Helm / Argo CD</b><span>API in Kubernetes · MLflow / PostgreSQL / Ollama on VM</span></div><div><small>03 / INDEPENDENT</small><b>Azure Container Apps</b><span>GHCR · ephemeral storage · SQLite MLflow</span></div></div>}
-    <details className="case-details"><summary>{t.architecture}<ArrowDown aria-hidden="true" /></summary><div className="case-detail-grid"><div><small>{t.architecture}</small><p>{item.detail[locale]}</p></div><div><small>{t.validation}</small><p>{item.validation[locale]}</p></div><div><small>{t.limits}</small><p>{item.limit[locale]}</p></div></div></details>
+    <details className="case-details"><summary>{t.details}<ArrowDown aria-hidden="true" /></summary><div className="case-detail-grid"><div><small>{t.implementation}</small><p>{item.detail[locale]}</p></div><div><small>{t.validation}</small><p>{item.validation[locale]}</p></div><div><small>{t.limits}</small><p>{item.limit[locale]}</p></div></div></details>
     <div className="case-actions"><a href={`https://github.com/farah-ben-harb/${item.repo}`} target="_blank" rel="noreferrer">{t.github}<GithubLogo aria-hidden="true" /></a>{item.demo&&<a className="demo-link" href={item.demo} target="_blank" rel="noreferrer">{t.demo}<ArrowUpRight aria-hidden="true" /></a>}</div>
   </article>;
 }
@@ -174,7 +180,7 @@ export function MissionControl({ locale }: { locale: Locale }) {
           <div className="hero-coordinate">49°26′N<br/>01°06′E</div>
         </div>
       </section>
-      <section className="work-section" id="work"><div className="section-head"><div><p className="eyebrow">{t.selected}</p><h2>{t.workTitle}</h2></div><p>{t.workIntro}</p></div><div className="case-grid">{cases.filter(c=>c.featured).map(c=><CaseCard item={c} locale={locale} key={c.id}/>)}</div><div className="more-work"><p className="eyebrow">{locale === "fr" ? "AUTRES PROJETS" : "MORE PROJECTS"}</p><div className="project-links">{cases.filter(c=>!c.featured).map(c=><a href={`https://github.com/farah-ben-harb/${c.repo}`} target="_blank" rel="noreferrer" key={c.id}>{c.name}<ArrowUpRight aria-hidden="true"/></a>)}</div></div></section>
+      <section className="work-section" id="work"><div className="section-head"><div><p className="eyebrow">{t.selected}</p><h2>{t.workTitle}</h2></div><p>{t.workIntro}</p></div>{projectGroups.map(group=><div className="project-group" key={group.id}><div className="project-group-heading"><div><h3>{group.title[locale]}</h3><p>{group.description[locale]}</p></div><span>{String(cases.filter(c=>c.group===group.id&&c.featured).length).padStart(2,"0")}</span></div><div className="case-grid">{cases.filter(c=>c.group===group.id&&c.featured).map(c=><CaseCard item={c} locale={locale} key={c.id}/>)}</div></div>)}<div className="more-work"><p className="eyebrow">{locale === "fr" ? "AUTRES PROJETS" : "MORE PROJECTS"}</p><div className="project-links">{cases.filter(c=>!c.featured).map(c=><a href={`https://github.com/farah-ben-harb/${c.repo}`} target="_blank" rel="noreferrer" key={c.id}>{c.name}<ArrowUpRight aria-hidden="true"/></a>)}</div></div></section>
       <section className="experience-section" id="experience"><div className="section-head"><div><p className="eyebrow">{t.experience}</p><h2>{t.experienceTitle}</h2></div></div><div className="timeline">{experience.map((e,i)=><article className="timeline-item" key={e.company}><div className="timeline-index">0{i+1}</div><div><p className="timeline-company">{e.company}<span>{e.period}</span></p><h3>{e.role[locale]}</h3><p className="timeline-copy">{e.text[locale]}</p><p className="timeline-tags">{e.tags}</p></div></article>)}</div></section>
       <section className="expertise-section" id="expertise"><div className="section-head"><div><p className="eyebrow">{t.skills}</p><h2>{t.skillsTitle}</h2></div></div><div className="expertise-grid">{domains.map((d,i)=><article key={d.title.en}><span>0{i+1}</span><h3>{d.title[locale]}</h3><p>{d.items}</p></article>)}</div></section>
       <section className="contact-section" id="contact"><p className="eyebrow">{t.contact}</p><h2>{t.contactTitle}</h2><p>{t.contactText}</p><div className="contact-grid"><div className="contact-details"><a className="contact-item" href={`mailto:${siteConfig.email}`}><EnvelopeSimple aria-hidden="true"/><span><small>{t.email}</small>{siteConfig.email}</span><ArrowUpRight aria-hidden="true"/></a><a className="contact-item" href={`tel:${siteConfig.phone}`}><Phone aria-hidden="true"/><span><small>{t.phone}</small>+33 7 75 69 18 67</span><ArrowUpRight aria-hidden="true"/></a><div className="contact-item"><MapPin aria-hidden="true"/><span><small>{locale === "fr" ? "Localisation" : "Location"}</small>{t.basedIn}</span></div></div></div></section>
