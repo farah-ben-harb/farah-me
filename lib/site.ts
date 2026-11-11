@@ -5,6 +5,7 @@ export const siteConfig = {
     "Evidence-first engineering portfolio for Farah Ben Harb, focused on cloud platforms, infrastructure automation, DevSecOps, MLOps, GitOps, and observability.",
   url: "https://farah-me.vercel.app",
   email: "benharbfarah85@gmail.com",
+  phone: "+33775691867",
   github: "https://github.com/farah-ben-harb",
   linkedin: "https://www.linkedin.com/in/farah-ben-harb-b26845313/",
   keywords: [

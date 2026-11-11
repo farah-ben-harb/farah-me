@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowDown, ArrowUpRight, GithubLogo, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
+import { ArrowDown, ArrowUpRight, EnvelopeSimple, GithubLogo, LinkedinLogo, MapPin, Phone } from "@phosphor-icons/react/dist/ssr";
 import { siteConfig } from "@/lib/site";
 
 type Locale = "en" | "fr";
@@ -12,7 +12,7 @@ const copy = {
     title: "Building the systems behind dependable software.",
     intro: "I’m Farah Ben Harb, a computer engineering student focused on Cloud Engineering, DevOps, DevSecOps, Kubernetes, SRE and MLOps. I turn infrastructure and delivery ideas into documented, testable systems.",
     cta1: "Explore projects", cta2: "Get in touch",
-    status: "ENGINEERING PROFILE / 2026", location: "Rouen, France · Open to internship opportunities",
+    status: "ENGINEERING PROFILE / 2026", location: "Based in France · Open to internship opportunities",
     topology: "DELIVERY SIGNAL PATH", topologyNote: "Illustrative system path — not a live production dashboard.",
     steps: ["SOURCE", "CI / SECURITY", "REGISTRY", "RUNTIME", "OBSERVABILITY"],
     selected: "01 / FIELD NOTES", workTitle: "Systems, with their evidence attached.",
@@ -21,7 +21,7 @@ const copy = {
     experience: "02 / EXPERIENCE", experienceTitle: "Learning through real operating contexts.",
     skills: "03 / TECHNICAL RANGE", skillsTitle: "Tools in context, not badges in a wall.",
     education: "EDUCATION", certifications: "CERTIFICATIONS", about: "ABOUT", contact: "04 / CONTACT", contactTitle: "Let’s make infrastructure easier to trust.",
-    contactText: "Interested in Cloud, Platform Engineering, DevOps, SRE or MLOps internship opportunities.",
+    contactText: "Interested in Cloud, Platform Engineering, DevOps, SRE or MLOps internship opportunities.", basedIn: "Based in France", phone: "Phone",
     githubProfile: "GitHub", linkedin: "LinkedIn", email: "Email", verified: "CI VERIFIED", recorded: "DEMO RECORDED", static: "STATIC VALIDATION", notDeployed: "NOT DEPLOYED HERE",
   },
   fr: {
@@ -30,7 +30,7 @@ const copy = {
     title: "Concevoir les systèmes qui rendent le logiciel fiable.",
     intro: "Je suis Farah Ben Harb, étudiante ingénieure en informatique, orientée Cloud Engineering, DevOps, DevSecOps, Kubernetes, SRE et MLOps. Je transforme des idées d’infrastructure et de livraison en systèmes documentés et testables.",
     cta1: "Explorer les projets", cta2: "Me contacter",
-    status: "PROFIL INGÉNIERIE / 2026", location: "Rouen, France · Ouverte aux opportunités de stage",
+    status: "PROFIL INGÉNIERIE / 2026", location: "Basée en France · Ouverte aux opportunités de stage",
     topology: "CHAÎNE DE LIVRAISON", topologyNote: "Schéma illustratif, pas un tableau de production en direct.",
     steps: ["SOURCE", "CI / SÉCURITÉ", "REGISTRE", "RUNTIME", "OBSERVABILITÉ"],
     selected: "01 / PROJETS", workTitle: "Des systèmes, avec leurs preuves.",
@@ -39,7 +39,7 @@ const copy = {
     experience: "02 / EXPÉRIENCE", experienceTitle: "Apprendre au contact des environnements réels.",
     skills: "03 / COMPÉTENCES TECHNIQUES", skillsTitle: "Des outils en contexte, pas un mur de badges.",
     education: "FORMATION", certifications: "CERTIFICATIONS", about: "À PROPOS", contact: "04 / CONTACT", contactTitle: "Rendons l’infrastructure plus fiable.",
-    contactText: "Intéressée par des stages en Cloud, Platform Engineering, DevOps, SRE ou MLOps.",
+    contactText: "Intéressée par des stages en Cloud, Platform Engineering, DevOps, SRE ou MLOps.", basedIn: "Basée en France", phone: "Téléphone",
     githubProfile: "GitHub", linkedin: "LinkedIn", email: "E-mail", verified: "CI VALIDÉE", recorded: "DÉMO DOCUMENTÉE", static: "VALIDATION STATIQUE", notDeployed: "NON DÉPLOYÉ ICI",
   },
 } as const;
@@ -200,7 +200,7 @@ export function MissionControl({ locale }: { locale: Locale }) {
       <section className="expertise-section" id="expertise"><div className="section-head"><div><p className="eyebrow">{t.skills}</p><h2>{t.skillsTitle}</h2></div></div><div className="expertise-grid">{domains.map((d,i)=><article key={d.title.en}><span>0{i+1}</span><h3>{d.title[locale]}</h3><p>{d.items}</p></article>)}</div></section>
       <section className="credentials-section"><div><p className="eyebrow">{t.education}</p><h2>ESPRIT <span>×</span> ESIGELEC</h2><p>{locale === "fr" ? "Génie informatique · Architecture IT & Cloud Computing · échange académique à Rouen" : "Computer Engineering · IT Architecture & Cloud Computing · academic exchange in Rouen"}</p></div><div className="certifications"><p className="eyebrow">{t.certifications}</p><ul><li>AWS Academy — Cloud Operations</li><li>AWS Academy — Cloud Security</li><li>AWS Certified Cloud Practitioner</li><li>Hedera Certified Developer Associate</li><li>Cisco Networking Academy — Network Security</li><li>CCNA Switching, Routing & Wireless Essentials</li></ul><small>{locale === "fr" ? "Certifications conservées depuis les données existantes; dates et badges externes non vérifiés dans cette phase." : "Certifications retained from existing portfolio data; external dates and badge URLs were not verified in this phase."}</small></div></section>
       <section className="about-section"><p className="eyebrow">{t.about}</p><div><h2>{locale === "fr" ? "Des systèmes lisibles, opérables et vérifiables." : "Systems that are legible, operable and verifiable."}</h2><p>{locale === "fr" ? "Mon intérêt se situe à l’intersection de l’infrastructure, de l’automatisation et du logiciel. Je documente aussi ce qui n’a pas encore été testé : un manifeste n’est pas un déploiement, et une CI verte ne remplace pas une validation runtime." : "I work at the intersection of infrastructure, automation and software. I document what has not yet been tested too: a manifest is not a deployment, and a green CI is not a substitute for runtime validation."}</p></div></section>
-      <section className="contact-section" id="contact"><p className="eyebrow">{t.contact}</p><h2>{t.contactTitle}</h2><p>{t.contactText}</p><div><a className="button-primary" href={`mailto:${siteConfig.email}`}>{t.email}<ArrowUpRight /></a><a className="button-quiet" href={siteConfig.github} target="_blank" rel="noreferrer">{t.githubProfile}<GithubLogo /></a><a className="button-quiet" href={siteConfig.linkedin} target="_blank" rel="noreferrer">{t.linkedin}<LinkedinLogo /></a></div></section>
+      <section className="contact-section" id="contact"><p className="eyebrow">{t.contact}</p><h2>{t.contactTitle}</h2><p>{t.contactText}</p><div className="contact-grid"><div className="contact-details"><a className="contact-item" href={`mailto:${siteConfig.email}`}><EnvelopeSimple aria-hidden="true"/><span><small>{t.email}</small>{siteConfig.email}</span><ArrowUpRight aria-hidden="true"/></a><a className="contact-item" href={`tel:${siteConfig.phone}`}><Phone aria-hidden="true"/><span><small>{t.phone}</small>+33 7 75 69 18 67</span><ArrowUpRight aria-hidden="true"/></a><div className="contact-item"><MapPin aria-hidden="true"/><span><small>{locale === "fr" ? "Localisation" : "Location"}</small>{t.basedIn}</span></div></div><div className="contact-socials" aria-label={locale === "fr" ? "Réseaux sociaux" : "Social profiles"}><a className="contact-social-icon" aria-label="GitHub" title="GitHub" href={siteConfig.github} target="_blank" rel="noreferrer"><GithubLogo aria-hidden="true"/></a><a className="contact-social-icon" aria-label="LinkedIn" title="LinkedIn" href={siteConfig.linkedin} target="_blank" rel="noreferrer"><LinkedinLogo aria-hidden="true"/></a></div></div></section>
     </div><footer><Link href="#top">FARAH BEN HARB</Link><span>© 2026 · {locale === "fr" ? "Conçu avec soin. Déploiement non publié." : "Built with care. Deployment not published."}</span><span>FR / EN · NEXT.JS</span></footer>
   </main>;
 }
