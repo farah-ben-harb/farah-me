@@ -1,16 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, Sora } from "next/font/google";
+import { Manrope, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
-const dmSans = DM_Sans({
+const manrope = Manrope({
   subsets: ["latin"],
-  variable: "--font-dm-sans",
+  variable: "--font-manrope",
 });
 
-const sora = Sora({
-  variable: "--font-sora",
+const spaceGrotesk = Space_Grotesk({
+  variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["500", "600", "700"],
 });
@@ -85,8 +85,8 @@ export default function RootLayout({
         "h-full",
         "antialiased",
         "font-sans",
-        dmSans.variable,
-        sora.variable,
+        manrope.variable,
+        spaceGrotesk.variable,
       )}
     >
       <body className="min-h-full flex flex-col">
