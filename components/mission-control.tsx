@@ -181,7 +181,18 @@ export function MissionControl({ locale }: { locale: Locale }) {
     <div id="main">
       <section className="hero" id="systems">
         <div className="hero-copy"><p className="eyebrow"><span className="signal-dot" />{t.eyebrow}</p><h1>{t.title}</h1><p className="hero-intro">{t.intro}</p><div className="hero-cta"><a className="button-primary" href="#work">{t.cta1}<ArrowDown /></a><a className="button-quiet" href="#contact">{t.cta2}<ArrowUpRight /></a></div><div className="hero-meta"><span>{t.location}</span><span>PLATFORM / DELIVERY / AI</span></div></div>
-        <div className="hero-visual"><div className="portrait-frame"><div className="portrait-label"><span>PORTRAIT / 01</span><span>F. BEN HARB</span></div><Image src="/images/farah-ben-harb-black-dress.webp" alt={locale === "fr" ? "Farah Ben Harb en robe noire" : "Farah Ben Harb wearing a black dress"} fill priority sizes="(max-width: 900px) 90vw, 36vw" className="portrait-image" /><div className="portrait-scanline"/><div className="portrait-caption"><span>FARAH BEN HARB</span><small>CLOUD / DEVOPS / MLOPS</small></div></div><div className="orbit orbit-one"/><div className="orbit orbit-two"/><div className="hero-coordinate">49°26′N<br/>01°06′E</div></div>
+        <div className="hero-visual">
+          <div className="orbit orbit-one" aria-hidden="true" />
+          <div className="orbit orbit-two" aria-hidden="true" />
+          <div className="avatar-cutout-wrap">
+            <Image src="/images/farah-ben-harb-avatar-cutout.png" alt={locale === "fr" ? "Portrait détouré de Farah Ben Harb" : "Background-removed portrait of Farah Ben Harb"} fill priority sizes="(max-width: 640px) 90vw, 36vw" className="avatar-cutout" />
+          </div>
+          <figure className="portrait-circle-widget">
+            <div className="portrait-circle-shell"><div className="portrait-circle-clip"><Image src="/images/farah-ben-harb-black-dress.webp" alt="" fill priority sizes="150px" className="portrait-circle-image" /></div></div>
+            <figcaption>{locale === "fr" ? "PHOTO ORIGINALE" : "ORIGINAL PHOTO"}<small>FARAH BEN HARB</small></figcaption>
+          </figure>
+          <div className="hero-coordinate">49°26′N<br/>01°06′E</div>
+        </div>
       </section>
       <section className="topology-wrap"><Topology locale={locale}/></section>
       <section className="work-section" id="work"><div className="section-head"><div><p className="eyebrow">{t.selected}</p><h2>{t.workTitle}</h2></div><p>{t.workIntro}</p></div><div className="case-grid">{cases.filter(c=>c.featured).map(c=><CaseCard item={c} locale={locale} key={c.id}/>)}</div><div className="more-work"><p className="eyebrow">ADDITIONAL CASES / {locale === "fr" ? "AUTRES PROJETS" : "OTHER PROJECTS"}</p><div className="case-grid compact">{cases.filter(c=>!c.featured).map(c=><CaseCard item={c} locale={locale} key={c.id}/>)}</div></div></section>

@@ -38,7 +38,7 @@ The six resume PDFs and their six previews are preserved unchanged in a local ar
 
 ## Images and privacy
 
-The public portrait is an optimized WebP conversion of the photo supplied by Farah; it is not AI-generated and its facial features were not altered. No project screenshots are fabricated. LinkedIn post/badge URLs are not included unless individually confirmed and publicly accessible.
+The circular portrait is the optimized original photo supplied by Farah. The larger transparent avatar is an AI-assisted background-removal derivative of that same photo; because a generated cutout can subtly differ, the unedited original remains visible beside it. No project screenshots are fabricated. LinkedIn post/badge URLs are not included unless individually confirmed and publicly accessible.
 
 ## Deployment
 
