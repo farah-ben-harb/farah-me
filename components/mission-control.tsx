@@ -168,16 +168,10 @@ export function MissionControl({ locale }: { locale: Locale }) {
       <section className="hero" id="systems">
         <div className="hero-copy"><p className="eyebrow"><span className="signal-dot" />{t.eyebrow}</p><h1>{t.title}</h1><p className="hero-intro">{t.intro}</p><div className="hero-cta"><a className="button-primary" href="#work">{t.cta1}<ArrowDown /></a><a className="button-quiet" href="#contact">{t.cta2}<ArrowUpRight /></a></div><div className="hero-meta"><span>{t.location}</span></div></div>
         <div className="hero-visual">
-          <div className="orbit orbit-one" aria-hidden="true" />
-          <div className="orbit orbit-two" aria-hidden="true" />
-          <div className="avatar-cutout-wrap">
-            <Image src="/images/farah-ben-harb-avatar-cutout.png" alt={locale === "fr" ? "Portrait détouré de Farah Ben Harb" : "Background-removed portrait of Farah Ben Harb"} fill priority sizes="(max-width: 640px) 90vw, 36vw" className="avatar-cutout" />
-          </div>
           <figure className="portrait-circle-widget">
-            <div className="portrait-circle-shell"><div className="portrait-circle-clip"><Image src="/images/farah-ben-harb-black-dress.webp" alt="" fill priority sizes="150px" className="portrait-circle-image" /></div></div>
-            <figcaption>{locale === "fr" ? "PHOTO ORIGINALE" : "ORIGINAL PHOTO"}<small>FARAH BEN HARB</small></figcaption>
+            <div className="portrait-circle-shell"><div className="portrait-circle-clip"><Image src="/images/farah-ben-harb-black-dress.webp" alt={locale === "fr" ? "Portrait de Farah Ben Harb" : "Portrait of Farah Ben Harb"} fill priority sizes="(max-width: 640px) 230px, (max-width: 900px) 280px, 340px" className="portrait-circle-image" /></div></div>
+            <figcaption>FARAH BEN HARB</figcaption>
           </figure>
-          <div className="hero-coordinate">49°26′N<br/>01°06′E</div>
         </div>
       </section>
       <section className="work-section" id="work"><div className="section-head"><div><p className="eyebrow">{t.selected}</p><h2>{t.workTitle}</h2></div><p>{t.workIntro}</p></div>{projectGroups.map(group=><div className="project-group" key={group.id}><div className="project-group-heading"><div><h3>{group.title[locale]}</h3><p>{group.description[locale]}</p></div><span>{String(cases.filter(c=>c.group===group.id&&c.featured).length).padStart(2,"0")}</span></div><div className="case-grid">{cases.filter(c=>c.group===group.id&&c.featured).map(c=><CaseCard item={c} locale={locale} key={c.id}/>)}</div></div>)}<div className="more-work"><p className="eyebrow">{locale === "fr" ? "AUTRES PROJETS" : "MORE PROJECTS"}</p><div className="project-links">{cases.filter(c=>!c.featured).map(c=><a href={`https://github.com/farah-ben-harb/${c.repo}`} target="_blank" rel="noreferrer" key={c.id}>{c.name}<ArrowUpRight aria-hidden="true"/></a>)}</div></div></section>
