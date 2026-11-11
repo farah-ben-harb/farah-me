@@ -1,18 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import { IBM_Plex_Sans, Outfit } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
-const manrope = Manrope({
+const ibmPlexSans = IBM_Plex_Sans({
   subsets: ["latin"],
-  variable: "--font-manrope",
+  variable: "--font-ibm-plex-sans",
+  weight: ["400", "500", "600", "700"],
 });
 
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-space-grotesk",
+const outfit = Outfit({
+  variable: "--font-outfit",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -69,8 +70,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#081116",
-  colorScheme: "dark",
+  themeColor: "#f4f6f3",
+  colorScheme: "light",
 };
 
 export default function RootLayout({
@@ -85,8 +86,8 @@ export default function RootLayout({
         "h-full",
         "antialiased",
         "font-sans",
-        manrope.variable,
-        spaceGrotesk.variable,
+        ibmPlexSans.variable,
+        outfit.variable,
       )}
     >
       <body className="min-h-full flex flex-col">
