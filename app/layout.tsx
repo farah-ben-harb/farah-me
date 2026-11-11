@@ -27,9 +27,7 @@ export const metadata: Metadata = {
   creator: siteConfig.name,
   publisher: siteConfig.name,
   keywords: [...siteConfig.keywords],
-  alternates: {
-    canonical: "/",
-  },
+  alternates: { canonical: "/", languages: { en: "/", fr: "/fr" } },
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -43,6 +41,7 @@ export const metadata: Metadata = {
     url: "/",
     siteName: siteConfig.name,
     locale: "en_US",
+    alternateLocale: "fr_FR",
     type: "website",
   },
   robots: {
@@ -70,8 +69,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f7f8f3",
-  colorScheme: "light",
+  themeColor: "#081116",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

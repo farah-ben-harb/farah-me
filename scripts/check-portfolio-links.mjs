@@ -10,12 +10,7 @@ const repositoryNames = [
 
 const localFiles = [
   "public/project-media/alif-donations.webp",
-  ...["cloud-engineering", "infrastructure-devops", "mlops"].flatMap((track) =>
-    ["en", "fr"].flatMap((language) => [
-      `public/resumes/farah-ben-harb-${track}-${language}.pdf`,
-      `public/resume-previews/farah-ben-harb-${track}-${language}.webp`,
-    ]),
-  ),
+  "public/images/farah-ben-harb-black-dress.webp",
 ];
 
 const remoteUrls = [
