@@ -1,19 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans, Outfit } from "next/font/google";
+import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { siteConfig } from "@/lib/site";
 
-const ibmPlexSans = IBM_Plex_Sans({
+const dmSans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-ibm-plex-sans",
+  variable: "--font-dm-sans",
   weight: ["400", "500", "600", "700"],
 });
 
-const outfit = Outfit({
-  variable: "--font-outfit",
+const dmSerif = DM_Serif_Display({
+  variable: "--font-dm-serif",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -86,8 +86,8 @@ export default function RootLayout({
         "h-full",
         "antialiased",
         "font-sans",
-        ibmPlexSans.variable,
-        outfit.variable,
+        dmSans.variable,
+        dmSerif.variable,
       )}
     >
       <body className="min-h-full flex flex-col">
