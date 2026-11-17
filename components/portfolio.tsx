@@ -4,8 +4,8 @@ import {
   DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin,
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
-import { experience, focusAreas, projectNotes, resumeNotes, tr, type Locale } from "@/lib/portfolio-copy";
-import { otherProjects, projects, resumeTracks, type Project } from "@/lib/portfolio-data";
+import { experience, focusAreas, projectNotes, tr, type Locale } from "@/lib/portfolio-copy";
+import { otherProjects, projects, type Project } from "@/lib/portfolio-data";
 import { siteConfig } from "@/lib/site";
 
 const slug = (project: Project) => project.repository.split("/").at(-1)!;
@@ -131,6 +131,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
     ["Contact", "#contact"],
   ];
   const localHome = locale === "fr" ? "/" : "/en";
+  const cloudResume = `/resumes/farah-ben-harb-cloud-engineering-${locale}.pdf`;
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -169,7 +170,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             )}</p>
             <div className="actions">
               <a className="action action-primary" href="#projects">{t("Explorer les projets", "Explore projects")}<ArrowDownRight aria-hidden="true" /></a>
-              <a className="action action-outline" href="#resumes">{t("Consulter mes CV", "View my resumes")}<FileText aria-hidden="true" /></a>
+              <a className="action action-outline" href="#resumes">{t("Consulter mon CV", "View my resume")}<FileText aria-hidden="true" /></a>
             </div>
             <p className="hero-location"><MapPin aria-hidden="true" /> {t("Rouen, France · Stage de fin d’études dès mars 2027", "Rouen, France · Available for a final-year internship from March 2027")}</p>
           </div>
@@ -251,28 +252,23 @@ export function Portfolio({ locale }: { locale: Locale }) {
         </section>
 
         <section className="section" id="resumes">
-          <SectionTitle index="03" label={t("Candidature", "Applications")} title={t("Mes CV par spécialité", "Resumes by specialism")} />
-          <div className="resume-grid">
-            {resumeTracks.map((track) => (
-              <article className="resume-card" key={track.slug}>
-                <FileText aria-hidden="true" />
-                <h3>{track.name}</h3>
-                <p>{tr(locale, resumeNotes[track.slug])}</p>
-                <ul>
-                  {(["fr", "en"] as const).map((language) => {
-                    const pdf = `/resumes/farah-ben-harb-${track.slug}-${language}.pdf`;
-                    const label = language === "fr" ? "Français" : "English";
-                    return (
-                      <li key={language}>
-                        <span lang={language}>{label}</span>
-                        <a className="text-link" href={pdf} hrefLang={language} aria-label={`${t("Ouvrir", "Open")} ${track.name} (${label})`}>PDF <ArrowUpRight aria-hidden="true" /></a>
-                        <a className="icon-link" download href={pdf} aria-label={`${t("Télécharger", "Download")} ${track.name} (${label})`}><DownloadSimple aria-hidden="true" /></a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </article>
-            ))}
+          <SectionTitle index="03" label={t("Candidature", "Applications")} title={t("CV Cloud Engineering", "Cloud Engineering Resume")} />
+          <div className="resume-card">
+            <div className="resume-info">
+              <FileText aria-hidden="true" />
+              <div>
+                <p className="eyebrow">{t("Français", "English")} · PDF</p>
+                <p>{t("Plateformes cloud, infrastructure as code et livraison sécurisée.", "Cloud platforms, infrastructure as code and secure delivery.")}</p>
+              </div>
+            </div>
+            <div className="actions">
+              <a className="action action-outline" href={cloudResume} hrefLang={locale}>
+                {t("Ouvrir le PDF", "Open PDF")} <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a className="action action-primary" download href={cloudResume} hrefLang={locale}>
+                {t("Télécharger", "Download")} <DownloadSimple aria-hidden="true" />
+              </a>
+            </div>
           </div>
         </section>
 
