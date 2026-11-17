@@ -12,7 +12,7 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 - Two supporting projects (FootballMatch and Kubernetes automation) plus a collapsible project archive
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom
 - technical skills and education, grouped alongside professional experience
-- 6 sanitized one-page resumes across Cloud Engineering, Infrastructure/DevOps, and MLOps in English and French
+- One Cloud Engineering resume per language, linked in the matching portfolio version
 
 The content follows an evidence-first rule: a deployment or test is described as successful only when a repository, public workflow, validation report, or reachable endpoint supports it. A live-demo button is shown only for a verified public endpoint.
 
@@ -51,14 +51,12 @@ npm run build
 
 ## Public Resumes
 
-Stable files are stored in `public/resumes/`:
+Each page links only to its matching Cloud Engineering PDF:
 
 - `farah-ben-harb-cloud-engineering-en.pdf`
 - `farah-ben-harb-cloud-engineering-fr.pdf`
-- `farah-ben-harb-infrastructure-devops-en.pdf`
-- `farah-ben-harb-infrastructure-devops-fr.pdf`
-- `farah-ben-harb-mlops-en.pdf`
-- `farah-ben-harb-mlops-fr.pdf`
+
+The other PDFs remain unlisted in `public/resumes/` to preserve existing direct links.
 
 The public versions omit the phone number while retaining email, Rouen, LinkedIn, GitHub, and the portfolio URL. Rebuild them with:
 
@@ -72,7 +70,7 @@ The source script requires ReportLab, pypdf, and Pillow. PDF previews in `public
 
 - `app/` - page, layout, metadata, manifest, sitemap, robots, and Open Graph image
 - `components/` - reusable UI and contact actions
-- `lib/portfolio-data.ts` - audited project and resume-track content
+- `lib/portfolio-data.ts` - audited project content
 - `lib/site.ts` - canonical identity, domain, social links, and SEO keywords
 - `public/resumes/` - downloadable sanitized PDFs
 - `public/resume-previews/` - lazy-loaded WebP previews

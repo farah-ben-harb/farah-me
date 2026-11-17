@@ -399,21 +399,3 @@ export const otherProjects = [
     summary: "Modular SPA for campus suggestions with reactive forms, lazy routing, CRUD, filtering, and REST/JSON Server support.",
   },
 ] as const;
-
-export const resumeTracks = [
-  {
-    name: "Cloud Engineering",
-    slug: "cloud-engineering",
-    description: "Cloud platforms, infrastructure as code, delivery automation, security, and SRE foundations.",
-  },
-  {
-    name: "Infrastructure / DevOps",
-    slug: "infrastructure-devops",
-    description: "Linux, networking, OpenStack, Kubernetes automation, observability, and reliability workflows.",
-  },
-  {
-    name: "MLOps",
-    slug: "mlops",
-    description: "ML lifecycle, computer vision, RAG, model tracking, cloud-native delivery, and observability.",
-  },
-] as const;

@@ -74,6 +74,7 @@ async function capture(spec) {
       atlasLinks: document.querySelectorAll(".atlas-links a").length,
       atlasAnimates: getComputedStyle(document.querySelector(".atlas")).animationName !== "none",
       cvCount: document.querySelectorAll("#resumes a[download]").length,
+      cvLinks: Array.from(document.querySelectorAll('a[href$=".pdf"]'), (link) => link.getAttribute("href")),
       crm: Boolean(document.querySelector('#crm-intelligence-mlops')),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
@@ -93,8 +94,11 @@ async function capture(spec) {
   if (dimensions.scrollWidth > dimensions.innerWidth || dimensions.bodyWidth > dimensions.innerWidth) {
     throw new Error(`${spec.name} has horizontal overflow: ${JSON.stringify(dimensions)}`);
   }
-  if (dimensions.language !== (spec.route === "/en" ? "en" : "fr") ||
-      dimensions.heroImageCount !== 0 || dimensions.cvCount !== 6 || !dimensions.crm ||
+  const expectedLocale = spec.route === "/en" ? "en" : "fr";
+  const expectedResume = `/resumes/farah-ben-harb-cloud-engineering-${expectedLocale}.pdf`;
+  if (dimensions.language !== expectedLocale ||
+      dimensions.heroImageCount !== 0 || dimensions.cvCount !== 1 || !dimensions.crm ||
+      dimensions.cvLinks.length !== 2 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.missingAnchors.length || !dimensions.archiveWorks) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);

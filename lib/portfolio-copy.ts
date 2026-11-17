@@ -99,9 +99,3 @@ export const projectNotes: Record<string, Translation> = {
     "Kubernetes and MetalLB manifests for Alif services on a private cloud.",
   ],
 };
-
-export const resumeNotes: Record<string, Translation> = {
-  "cloud-engineering": ["Plateformes cloud, IaC et livraison sécurisée.", "Cloud platforms, IaC and secure delivery."],
-  "infrastructure-devops": ["Linux, Kubernetes, réseaux et observabilité.", "Linux, Kubernetes, networking and observability."],
-  mlops: ["Cycle de vie ML, vision par ordinateur et plateformes IA.", "ML lifecycle, computer vision and AI platforms."],
-};
