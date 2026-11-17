@@ -6,10 +6,11 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 
 ## What This Portfolio Shows
 
-- 12 recent engineering projects with repository-backed architecture, completed features, CI status, infrastructure, and current limits
-- 6 additional software projects
+- French home page at `/` and English version at `/en`
+- A Mini CRM Intelligence case study with its ML pipeline, architecture and CI evidence
+- Two supporting projects (FootballMatch and Kubernetes automation) plus a collapsible project archive
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom
-- verified skills, education, languages, and certifications
+- technical skills and education, grouped alongside professional experience
 - 6 sanitized one-page resumes across Cloud Engineering, Infrastructure/DevOps, and MLOps in English and French
 
 The content follows an evidence-first rule: a deployment or test is described as successful only when a repository, public workflow, validation report, or reachable endpoint supports it. A live-demo button is shown only for a verified public endpoint.
@@ -22,7 +23,7 @@ The content follows an evidence-first rule: a deployment or test is described as
 - Tailwind CSS 4
 - Vercel hosting
 
-The main page is statically rendered. Project data stays in `lib/portfolio-data.ts`, and interactive disclosure uses native HTML `details` elements to avoid unnecessary client JavaScript.
+Both language versions are statically rendered. Project data stays in `lib/portfolio-data.ts`, translated copy in `lib/portfolio-copy.ts`, and the shared page in `components/portfolio.tsx`. The archive uses native HTML `details` without client state.
 
 ## Local Development
 

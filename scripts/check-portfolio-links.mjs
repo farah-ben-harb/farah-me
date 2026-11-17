@@ -20,6 +20,8 @@ const localFiles = [
 
 const remoteUrls = [
   ...repositoryNames.map((name) => `https://github.com/farah-ben-harb/${name}`),
+  "https://github.com/farah-ben-harb/crm-intelligence-mlops/blob/main/docs/ARCHITECTURE.md",
+  "https://github.com/farah-ben-harb/crm-intelligence-mlops/actions/runs/43736282419",
   "https://footballmatch-api-demo2.nicewater-00626e15.francecentral.azurecontainerapps.io/health",
   "https://footballmatch-api-demo2.nicewater-00626e15.francecentral.azurecontainerapps.io/docs",
 ];

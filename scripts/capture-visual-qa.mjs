@@ -10,6 +10,7 @@ const specs = [
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
   { name: "mobile-resumes", width: 390, height: 844, mobile: true, selector: "#resumes" },
+  { name: "mobile-english", width: 320, height: 740, mobile: true, selector: null, route: "/en" },
 ];
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
@@ -50,8 +51,9 @@ async function capture(spec) {
     deviceScaleFactor: 1,
     mobile: spec.mobile,
   });
-  await send("Page.navigate", { url: siteUrl });
+  await send("Page.navigate", { url: new URL(spec.route ?? "/", siteUrl).href });
   await sleep(1800);
+  await send("Runtime.evaluate", { expression: "document.fonts.ready", awaitPromise: true });
 
   if (spec.selector) {
     await send("Runtime.evaluate", {
@@ -61,13 +63,34 @@ async function capture(spec) {
   }
 
   const metrics = await send("Runtime.evaluate", {
-    expression:
-      "JSON.stringify({innerWidth,scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,scrollY})",
+    expression: `JSON.stringify({
+      innerWidth, scrollWidth: document.documentElement.scrollWidth, bodyWidth: document.body.scrollWidth, scrollY,
+      language: document.documentElement.lang,
+      heroImageCount: document.querySelectorAll(".hero img").length,
+      cvCount: document.querySelectorAll("#resumes a[download]").length,
+      crm: Boolean(document.querySelector('#crm-intelligence-mlops')),
+      missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
+        .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
+      archiveWorks: (() => {
+        const archive = document.querySelector("#more-projects");
+        if (!archive || archive.open) return false;
+        const summary = archive.querySelector("summary");
+        summary.click();
+        const opened = archive.open;
+        summary.click();
+        return opened && !archive.open;
+      })()
+    })`,
     returnByValue: true,
   });
   const dimensions = JSON.parse(metrics.result.value);
   if (dimensions.scrollWidth > dimensions.innerWidth || dimensions.bodyWidth > dimensions.innerWidth) {
     throw new Error(`${spec.name} has horizontal overflow: ${JSON.stringify(dimensions)}`);
+  }
+  if (dimensions.language !== (spec.route === "/en" ? "en" : "fr") ||
+      dimensions.heroImageCount !== 0 || dimensions.cvCount !== 6 || !dimensions.crm ||
+      dimensions.missingAnchors.length || !dimensions.archiveWorks) {
+    throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
 
   const screenshot = await send("Page.captureScreenshot", {

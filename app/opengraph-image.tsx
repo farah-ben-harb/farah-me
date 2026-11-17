@@ -15,8 +15,8 @@ export default function OpenGraphImage() {
       <div
         style={{
           alignItems: "center",
-          background: "linear-gradient(135deg, #e4f4ea 0%, #fffdf7 55%, #edf5ff 100%)",
-          color: "#12302b",
+          background: "linear-gradient(135deg, #17392c 0%, #0e261d 65%, #214635 100%)",
+          color: "#f7f3df",
           display: "flex",
           flexDirection: "column",
           height: "100%",
@@ -27,7 +27,8 @@ export default function OpenGraphImage() {
       >
         <div
           style={{
-            borderBottom: "2px solid #047857",
+            borderBottom: "2px solid #648360",
+            color: "#d7ef9d",
             display: "flex",
             fontFamily: "sans-serif",
             fontSize: 32,
@@ -62,7 +63,7 @@ export default function OpenGraphImage() {
           </div>
           <div
             style={{
-              color: "#41645d",
+            color: "#bfd0c1",
               display: "flex",
               fontFamily: "sans-serif",
               fontSize: 34,
@@ -70,7 +71,7 @@ export default function OpenGraphImage() {
               maxWidth: 900,
             }}
           >
-            Cloud, DevOps, and MLOps engineering with the evidence attached.
+            Cloud · DevOps · MLOps
           </div>
         </div>
       </div>
