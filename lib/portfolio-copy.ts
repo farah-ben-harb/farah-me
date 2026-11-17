@@ -38,19 +38,16 @@ export const experience = [
 export const focusAreas = [
   {
     label: ["Cloud & infrastructure", "Cloud & infrastructure"],
-    description: ["Provisionner et configurer", "Provision and configure"],
     tools: "Azure · AWS · OpenStack · Terraform · Ansible · Linux",
     href: "#k8s-cluster-automation",
   },
   {
     label: ["DevOps & fiabilité", "DevOps & reliability"],
-    description: ["Livrer, sécuriser et observer", "Deliver, secure and observe"],
     tools: "Kubernetes · Helm · Argo CD · GitHub Actions · Prometheus · Grafana",
-    href: "#more-projects",
+    href: "#devsecops-incident-platform",
   },
   {
     label: ["MLOps & plateformes IA", "MLOps & AI platforms"],
-    description: ["Entraîner, valider et exposer", "Train, validate and serve"],
     tools: "FastAPI · scikit-learn · Kubeflow Pipelines · MLflow",
     href: "#crm-intelligence-mlops",
   },

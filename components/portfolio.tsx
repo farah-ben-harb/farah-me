@@ -1,8 +1,9 @@
 import Link from "next/link";
 import {
   ArrowDown, ArrowDownRight, ArrowUpRight, BracketsCurly, CaretDown,
-  Cloud, DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin,
+  DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin,
 } from "@phosphor-icons/react/dist/ssr";
+import { PlatformAtlas } from "@/components/platform-atlas";
 import { experience, focusAreas, projectNotes, resumeNotes, tr, type Locale } from "@/lib/portfolio-copy";
 import { otherProjects, projects, resumeTracks, type Project } from "@/lib/portfolio-data";
 import { siteConfig } from "@/lib/site";
@@ -15,11 +16,31 @@ const supporting = ["footballmatch-ai-platform-mlops", "k8s-cluster-automation"]
 const archive = projects.filter((project) => project !== crm && !supporting.includes(project));
 const crmRun = `${crm.repository}/actions/runs/43736282419`;
 const flow = [
-  { title: ["Données", "Data"], tool: ["Profils synthétiques", "Synthetic profiles"] },
-  { title: ["Entraînement", "Training"], tool: ["TF-IDF · scikit-learn", "TF-IDF · scikit-learn"] },
-  { title: ["Validation", "Validation"], tool: ["Kubeflow Pipelines", "Kubeflow Pipelines"] },
-  { title: ["Modèle candidat", "Candidate model"], tool: ["MLflow Registry", "MLflow Registry"] },
-  { title: ["API de prédiction", "Prediction API"], tool: ["FastAPI", "FastAPI"] },
+  {
+    title: ["Données", "Data"],
+    tool: ["Profils synthétiques", "Synthetic profiles"],
+    detail: ["Trois catégories : Backend, DevOps et MLOps.", "Three classes: Backend, DevOps and MLOps."],
+  },
+  {
+    title: ["Entraînement", "Training"],
+    tool: ["TF-IDF · scikit-learn", "TF-IDF · scikit-learn"],
+    detail: ["TF-IDF transforme les compétences en vecteurs ; une régression logistique classe les profils.", "TF-IDF turns skills into feature vectors; logistic regression classifies the profiles."],
+  },
+  {
+    title: ["Validation", "Validation"],
+    tool: ["Kubeflow Pipelines", "Kubeflow Pipelines"],
+    detail: ["Un seuil de qualité sur le score F1 macro bloque l’enregistrement d’un candidat qui ne le franchit pas.", "A macro F1 quality gate prevents a failing candidate from being registered."],
+  },
+  {
+    title: ["Modèle candidat", "Candidate model"],
+    tool: ["MLflow Registry", "MLflow Registry"],
+    detail: ["Les artefacts du pipeline sont importés dans MLflow ; la version validée reçoit l’alias candidate.", "Pipeline artifacts are imported into MLflow; the validated version receives the candidate alias."],
+  },
+  {
+    title: ["API de prédiction", "Prediction API"],
+    tool: ["FastAPI", "FastAPI"],
+    detail: ["FastAPI expose les prédictions. Le passage d’un candidat au canary EC2 se fait séparément.", "FastAPI exposes predictions. Promoting a candidate to the EC2 canary is a separate step."],
+  },
 ] as const;
 
 function ProjectLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -61,13 +82,21 @@ function CRMCase({ locale }: { locale: Locale }) {
         </div>
       </div>
       <div className="case-flow">
-        <p className="eyebrow"><BracketsCurly aria-hidden="true" /> {t("Du jeu de données à l’API", "From dataset to API")}</p>
-        <ol>
+        <p className="eyebrow"><BracketsCurly aria-hidden="true" /> {t("Explorer le pipeline", "Explore the pipeline")}</p>
+        <ol className="flow-steps">
           {flow.map((step, index) => (
             <li key={step.title[1]}>
-              <span className="step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
-              <strong>{tr(locale, step.title)}</strong>
-              <span>{tr(locale, step.tool)}</span>
+              <details name="crm-pipeline">
+                <summary>
+                  <span className="step-number" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="step-label">
+                    <strong>{tr(locale, step.title)}</strong>
+                    <small>{tr(locale, step.tool)}</small>
+                  </span>
+                  <CaretDown aria-hidden="true" />
+                </summary>
+                <p>{tr(locale, step.detail)}</p>
+              </details>
             </li>
           ))}
         </ol>
@@ -144,20 +173,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
             <p className="hero-location"><MapPin aria-hidden="true" /> {t("Rouen, France · Stage de fin d’études dès mars 2027", "Rouen, France · Available for a final-year internship from March 2027")}</p>
           </div>
-          <aside className="focus-panel" aria-label={t("Domaines de travail", "Focus areas")}>
-            <p className="eyebrow"><Cloud aria-hidden="true" /> {t("Domaines de travail", "Focus areas")}</p>
-            <ol>
-              {focusAreas.map((area, index) => (
-                <li key={area.href}>
-                  <a href={area.href}>
-                    <span className="focus-number" aria-hidden="true">0{index + 1}</span>
-                    <span><strong>{tr(locale, area.label)}</strong><small>{tr(locale, area.description)}</small></span>
-                    <ArrowUpRight className="focus-arrow" aria-hidden="true" />
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </aside>
+          <PlatformAtlas locale={locale} />
         </section>
 
         <section className="section" id="projects">
@@ -183,7 +199,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <h3>{t("Cloud, DevSecOps & applications", "Cloud, DevSecOps & applications")}</h3>
               <ul className="archive-list">
                 {archive.map((project) => (
-                  <li key={project.repository}>
+                  <li key={project.repository} id={slug(project)}>
                     <ProjectLink href={project.repository}>{project.name}</ProjectLink>
                     <p>{tr(locale, projectNotes[slug(project)])}</p>
                   </li>

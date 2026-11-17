@@ -11,12 +11,13 @@ const specs = [
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
   { name: "mobile-resumes", width: 390, height: 844, mobile: true, selector: "#resumes" },
   { name: "mobile-english", width: 320, height: 740, mobile: true, selector: null, route: "/en" },
+  { name: "desktop-reduced-motion", width: 1280, height: 960, mobile: false, selector: null, reducedMotion: true },
 ];
 
 const sleep = (milliseconds) => new Promise((resolve) => setTimeout(resolve, milliseconds));
 
 async function capture(spec) {
-  const target = await fetch(`${cdpBase}/json/new?${encodeURIComponent(siteUrl)}`, {
+  const target = await fetch(`${cdpBase}/json/new?about:blank`, {
     method: "PUT",
   }).then((response) => response.json());
   const socket = new WebSocket(target.webSocketDebuggerUrl);
@@ -45,6 +46,9 @@ async function capture(spec) {
 
   await send("Page.enable");
   await send("Runtime.enable");
+  await send("Emulation.setEmulatedMedia", {
+    features: [{ name: "prefers-reduced-motion", value: spec.reducedMotion ? "reduce" : "no-preference" }],
+  });
   await send("Emulation.setDeviceMetricsOverride", {
     width: spec.width,
     height: spec.height,
@@ -67,6 +71,8 @@ async function capture(spec) {
       innerWidth, scrollWidth: document.documentElement.scrollWidth, bodyWidth: document.body.scrollWidth, scrollY,
       language: document.documentElement.lang,
       heroImageCount: document.querySelectorAll(".hero img").length,
+      atlasLinks: document.querySelectorAll(".atlas-links a").length,
+      atlasAnimates: getComputedStyle(document.querySelector(".atlas")).animationName !== "none",
       cvCount: document.querySelectorAll("#resumes a[download]").length,
       crm: Boolean(document.querySelector('#crm-intelligence-mlops')),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
@@ -89,6 +95,7 @@ async function capture(spec) {
   }
   if (dimensions.language !== (spec.route === "/en" ? "en" : "fr") ||
       dimensions.heroImageCount !== 0 || dimensions.cvCount !== 6 || !dimensions.crm ||
+      dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.missingAnchors.length || !dimensions.archiveWorks) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
@@ -100,6 +107,35 @@ async function capture(spec) {
   });
   const output = path.join(outputDir, `${spec.name}.png`);
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
+
+  await send("Runtime.evaluate", { expression: 'document.querySelector(".flow-steps summary").focus()' });
+  for (const type of ["keyDown", "keyUp"]) {
+    await send("Input.dispatchKeyEvent", { type, key: " ", code: "Space", windowsVirtualKeyCode: 32 });
+  }
+  const flow = await send("Runtime.evaluate", {
+    expression: `(() => {
+      const steps = [...document.querySelectorAll(".flow-steps details")];
+      const keyboardOpened = steps[0].open;
+      steps[1].querySelector("summary").click();
+      return JSON.stringify({count: steps.length, keyboardOpened, firstOpen: steps[0].open, secondOpen: steps[1].open});
+    })()`,
+    returnByValue: true,
+  });
+  const pipeline = JSON.parse(flow.result.value);
+  if (pipeline.count !== 5 || !pipeline.keyboardOpened || pipeline.firstOpen || !pipeline.secondOpen) {
+    throw new Error(`${spec.name}: pipeline accordion did not respond correctly: ${flow.result.value}`);
+  }
+
+  await send("Runtime.evaluate", {
+    expression: 'document.querySelector(".atlas-links a[href=\\"#devsecops-incident-platform\\"]").click()',
+  });
+  await sleep(250);
+  const navigation = await send("Runtime.evaluate", {
+    expression: 'location.hash === "#devsecops-incident-platform" && document.querySelector("#more-projects").open',
+    returnByValue: true,
+  });
+  if (!navigation.result.value) throw new Error(`${spec.name}: DevOps shortcut did not reveal the project`);
+
   socket.close();
   await fetch(`${cdpBase}/json/close/${target.id}`);
   return { output, dimensions };

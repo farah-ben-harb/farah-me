@@ -7,7 +7,8 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 ## What This Portfolio Shows
 
 - French home page at `/` and English version at `/en`
-- A Mini CRM Intelligence case study with its ML pipeline, architecture and CI evidence
+- An illustrated systems map linking directly to Cloud, DevOps and MLOps work
+- A Mini CRM Intelligence case study with an explorable ML pipeline, architecture and CI evidence
 - Two supporting projects (FootballMatch and Kubernetes automation) plus a collapsible project archive
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom
 - technical skills and education, grouped alongside professional experience
@@ -23,7 +24,7 @@ The content follows an evidence-first rule: a deployment or test is described as
 - Tailwind CSS 4
 - Vercel hosting
 
-Both language versions are statically rendered. Project data stays in `lib/portfolio-data.ts`, translated copy in `lib/portfolio-copy.ts`, and the shared page in `components/portfolio.tsx`. The archive uses native HTML `details` without client state.
+Both language versions are statically rendered. Project data stays in `lib/portfolio-data.ts`, translated copy in `lib/portfolio-copy.ts`, and the shared page in `components/portfolio.tsx`. The systems map uses inline SVG and motion respects `prefers-reduced-motion`. The archive and pipeline use native HTML `details` without client state.
 
 ## Local Development
 
