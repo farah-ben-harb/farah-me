@@ -4,7 +4,8 @@ import {
   DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin,
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
-import { experience, focusAreas, projectNotes, tr, type Locale } from "@/lib/portfolio-copy";
+import { TechStack } from "@/components/tech-stack";
+import { education, experience, focusAreas, projectNotes, tr, type Locale } from "@/lib/portfolio-copy";
 import { otherProjects, projects, type Project } from "@/lib/portfolio-data";
 import { siteConfig } from "@/lib/site";
 
@@ -56,10 +57,6 @@ function SectionTitle({ index, label, title }: { index: string; label: string; t
   );
 }
 
-function Stack({ tools }: { tools: string[] }) {
-  return <ul className="stack">{tools.map((tool) => <li key={tool}>{tool}</li>)}</ul>;
-}
-
 function CRMCase({ locale }: { locale: Locale }) {
   const t = (fr: string, en: string) => tr(locale, [fr, en]);
   return (
@@ -71,7 +68,7 @@ function CRMCase({ locale }: { locale: Locale }) {
           "Classer des profils techniques à partir de leurs compétences, puis rendre le chemin de l’entraînement à l’API reproductible et vérifiable.",
           "Classify technical profiles from their skills, with a reproducible and verifiable path from training to a prediction API.",
         )}</p>
-        <Stack tools={["FastAPI", "scikit-learn", "MLflow", "Kubeflow", "K3s"]} />
+        <TechStack tools={["FastAPI", "scikit-learn", "MLflow", "Kubeflow", "K3s"]} />
         <div className="actions">
           <a className="action action-primary" href={crm.repository}>
             <GithubLogo aria-hidden="true" /> GitHub
@@ -127,6 +124,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
   const sections = [
     [t("Projets", "Work"), "#projects"],
     [t("Expérience", "Experience"), "#experience"],
+    [t("Formation", "Education"), "#education"],
+    [t("Compétences", "Skills"), "#skills"],
     ["CV", "#resumes"],
     ["Contact", "#contact"],
   ];
@@ -186,7 +185,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 <p className="eyebrow"><span>0{index + 2} /</span> {index === 0 ? t("Vision par ordinateur", "Computer vision") : t("Infrastructure", "Infrastructure")}</p>
                 <h3>{project.name}</h3>
                 <p>{tr(locale, projectNotes[slug(project)])}</p>
-                <Stack tools={index === 0 ? ["YOLO11", "ByteTrack", "FastAPI", "MLflow"] : ["OpenStack", "Heat", "Ansible", "Kubernetes"]} />
+                <TechStack tools={index === 0 ? ["YOLO11", "ByteTrack", "FastAPI", "MLflow"] : ["OpenStack", "Heat", "Ansible", "Kubernetes"]} />
                 <div className="card-links">
                   <ProjectLink href={project.repository}>GitHub</ProjectLink>
                   {project.liveDemo && <ProjectLink href={project.liveDemo}>{t("Démo API", "API demo")}</ProjectLink>}
@@ -203,6 +202,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
                   <li key={project.repository} id={slug(project)}>
                     <ProjectLink href={project.repository}>{project.name}</ProjectLink>
                     <p>{tr(locale, projectNotes[slug(project)])}</p>
+                    <TechStack tools={project.technologies.slice(0, 5)} />
                   </li>
                 ))}
               </ul>
@@ -211,7 +211,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 {otherProjects.map((project) => (
                   <li key={project.repository}>
                     <ProjectLink href={project.repository}>{project.name}</ProjectLink>
-                    <p>{project.stack}</p>
+                    <TechStack tools={project.stack.split(" · ")} />
                   </li>
                 ))}
               </ul>
@@ -220,39 +220,48 @@ export function Portfolio({ locale }: { locale: Locale }) {
         </section>
 
         <section className="section" id="experience">
-          <SectionTitle index="02" label={t("Parcours", "Background")} title={t("Expérience & compétences", "Experience & skills")} />
-          <div className="background-grid">
-            <div className="timeline">
-              {experience.map((item) => (
-                <article key={item.company}>
-                  <p className="eyebrow">{tr(locale, item.period)}</p>
-                  <h3>{item.company}</h3>
-                  <p className="role">{tr(locale, item.role)}</p>
-                  <p>{tr(locale, item.summary)}</p>
-                </article>
-              ))}
-            </div>
-            <aside className="toolbox">
-              <h3>{t("Compétences techniques", "Technical skills")}</h3>
-              <dl>
-                {focusAreas.map((area) => (
-                  <div key={area.href}>
-                    <dt>{tr(locale, area.label)}</dt>
-                    <dd>{area.tools}</dd>
-                  </div>
-                ))}
-              </dl>
-              <h3>{t("Formation", "Education")}</h3>
-              <p>{t(
-                "ESIGELEC, Rouen : échange académique en dernière année (2026–2027). ESPRIT, Tunis : cycle ingénieur en architecture IT et cloud (2022–2027).",
-                "ESIGELEC, Rouen: final-year exchange (2026–2027). ESPRIT, Tunis: engineering programme in IT architecture and cloud (2022–2027).",
-              )}</p>
-            </aside>
+          <SectionTitle index="02" label={t("Parcours professionnel", "Professional background")} title={t("Expérience", "Experience")} />
+          <div className="timeline experience-list">
+            {experience.map((item) => (
+              <article key={item.company}>
+                <p className="eyebrow">{tr(locale, item.period)}</p>
+                <h3>{item.company}</h3>
+                <p className="role">{tr(locale, item.role)}</p>
+                <p className="experience-summary">{tr(locale, item.summary)}</p>
+                <TechStack tools={item.tools} />
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section" id="education">
+          <SectionTitle index="03" label={t("Parcours académique", "Academic path")} title={t("Formation", "Education")} />
+          <div className="education-grid">
+            {education.map((item) => (
+              <article className="education-card" key={`${item.school}-${item.period[0]}`}>
+                <p className="eyebrow">{tr(locale, item.period)}</p>
+                <h3>{tr(locale, item.title)}</h3>
+                <p className="education-school">{item.school}</p>
+                <p className="education-detail">{tr(locale, item.detail)}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section" id="skills">
+          <SectionTitle index="04" label={t("Outils & pratiques", "Tools & practices")} title={t("Compétences", "Skills")} />
+          <div className="skills-grid">
+            {focusAreas.map((area) => (
+              <article className="skills-card" key={area.href}>
+                <h3>{tr(locale, area.label)}</h3>
+                <TechStack tools={area.tools} />
+              </article>
+            ))}
           </div>
         </section>
 
         <section className="section" id="resumes">
-          <SectionTitle index="03" label={t("Candidature", "Applications")} title={t("CV Cloud Engineering", "Cloud Engineering Resume")} />
+          <SectionTitle index="05" label={t("Candidature", "Applications")} title={t("CV Cloud Engineering", "Cloud Engineering Resume")} />
           <div className="resume-card">
             <div className="resume-info">
               <FileText aria-hidden="true" />
@@ -273,7 +282,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
         </section>
 
         <section className="section contact" id="contact">
-          <SectionTitle index="04" label="Contact" title={t("Parlons de votre projet.", "Let’s talk about your project.")} />
+          <SectionTitle index="06" label="Contact" title={t("Parlons de votre projet.", "Let’s talk about your project.")} />
           <p>{t(
             "Je recherche un stage de fin d’études de six mois à partir de mars 2027, en Cloud, DevOps, SRE ou MLOps.",
             "I’m looking for a six-month final-year internship from March 2027 in Cloud, DevOps, SRE or MLOps.",
