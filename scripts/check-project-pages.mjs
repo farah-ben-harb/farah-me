@@ -13,7 +13,18 @@ for (const locale of ["fr", "en"]) {
   assert.ok(home.includes('href="tel:+33775691867"'), `${locale}: click-to-call link`);
   assert.ok(home.includes('+33 7 75 69 18 67'), `${locale}: readable phone number`);
   assert.ok(home.includes(`aria-label="${locale === "fr" ? "Appeler Farah au" : "Call Farah at"} +33 7 75 69 18 67"`), `${locale}: accessible phone label`);
-  assert.ok(home.includes('id="project-search"') && home.includes('data-filter="ai"'), `${locale}: catalogue controls`);
+  assert.equal([...home.matchAll(/class="selected-card project-details-link"/g)].length, 6, `${locale}: six selected projects`);
+  assert.equal([...home.matchAll(/class="companion-link"/g)].length, 2, `${locale}: two companion repositories`);
+  assert.ok(home.includes('id="ai-projects"') && home.includes('id="application-projects"'), `${locale}: domain groups`);
+  const selected = home.match(/<ul class="selected-grid">([\s\S]*?)<\/section>/)?.[1] ?? "";
+  assert.deepEqual([...selected.matchAll(/class="selected-card project-details-link"[^>]+id="([^"]+)"/g)].map(m => m[1]), [
+    "k8s-cluster-automation", "footballmatch-ai-platform-mlops", "devsecops-incident-platform",
+    "gitops-delivery-platform", "openstack-heat-infrastructure", "flask-azure-devops-pipeline",
+  ], `${locale}: Cloud/DevOps featured order`);
+  for (const [primary, companion] of [["devorecruiter", "devorecruiter-gitops"], ["alif-app", "Alif.tn-App-k8s"]]) {
+    const item = home.split(`class="directory-item" id="${primary}"`)[1]?.split('class="directory-item"')[0] ?? "";
+    assert.ok(item.includes(`class="companion-link" id="${companion}"`), `${locale}: ${companion} grouped with ${primary}`);
+  }
   const links = [...new Set([...home.matchAll(/href="((?:\/en)?\/projects\/[^"#?]+)"/g)].map(m => m[1]))];
   assert.equal(links.length, 18, `${locale}: all 18 project pages must be discoverable`);
   for (const route of links) {
