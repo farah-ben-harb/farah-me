@@ -7,7 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
-    "check:links": "node scripts/check-portfolio-links.mjs"
+    "check:links": "node scripts/check-portfolio-links.mjs",
+    "test:projects": "node scripts/check-project-pages.mjs"
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",

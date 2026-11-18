@@ -3,6 +3,7 @@ import path from "node:path";
 
 const root = process.cwd();
 const data = await readFile(path.join(root, "lib", "portfolio-data.ts"), "utf8");
+const details = await readFile(path.join(root, "lib", "project-details.ts"), "utf8");
 
 const repositoryNames = [
   ...data.matchAll(/repository: `\$\{github\}\/([^`]+)`/g),
@@ -19,6 +20,7 @@ const localFiles = [
 ];
 
 const remoteUrls = [
+  ...new Set([...details.matchAll(/https:\/\/github\.com\/farah-ben-harb\/[^" ]+\/actions\/runs\/\d+/g)].map((match) => match[0])),
   ...repositoryNames.map((name) => `https://github.com/farah-ben-harb/${name}`),
   "https://github.com/farah-ben-harb/crm-intelligence-mlops/blob/main/docs/ARCHITECTURE.md",
   "https://github.com/farah-ben-harb/crm-intelligence-mlops/actions/runs/43736282419",
