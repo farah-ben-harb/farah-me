@@ -15,6 +15,20 @@ for (const locale of ["fr", "en"]) {
     ? ["Cycle d’ingénieur en informatique", "Spécialisation Architecture IT et Cloud Computing.", "Semestre d’échange en dernière année", "Spécialisation Réseaux et Télécommunications."]
     : ["Engineering degree in Computer Science", "Specialization in IT Architecture and Cloud Computing.", "Final-year exchange semester", "Specialization in Networks and Telecommunications."];
   for (const text of expectedEducation) assert.ok(education.includes(text), `${locale}: education includes ${text}`);
+  const resume = `/resumes/farah-ben-harb-cloud-engineering-${locale}.pdf`;
+  const hero = home.split('class="hero-copy"')[1]?.split('</section>')[0] ?? "";
+  const resumeLink = hero.match(/<a\b[^>]*class="icon-link resume-link"[^>]*>/)?.[0] ?? "";
+  for (const attribute of [`href="${resume}"`, `hrefLang="${locale}"`, 'target="_blank"', 'rel="noopener noreferrer"', 'aria-label=', 'title=']) {
+    assert.ok(resumeLink.includes(attribute), `${locale}: hero CV icon has ${attribute}`);
+  }
+  assert.ok(!/\sdownload(?:[\s=>])/.test(resumeLink), `${locale}: CV opens rather than forcing a download`);
+  assert.equal([...home.matchAll(/href="[^"]+\.pdf"/g)].length, 1, `${locale}: one direct CV link`);
+  assert.ok(!home.includes('<section class="section" id="resumes">'), `${locale}: no separate CV section`);
+  const pdf = await fetch(new URL(resume, base), { signal: AbortSignal.timeout(20000) });
+  assert.equal(pdf.status, 200, `${locale}: CV is available`);
+  assert.match(pdf.headers.get('content-type') ?? '', /application\/pdf/, `${locale}: CV MIME type`);
+  assert.ok(!(pdf.headers.get('content-disposition') ?? '').includes('attachment'), `${locale}: PDF can open inline`);
+  assert.equal(Buffer.from(await pdf.arrayBuffer()).subarray(0, 5).toString(), '%PDF-', `${locale}: valid PDF header`);
   assert.ok(home.includes('href="tel:+33775691867"'), `${locale}: click-to-call link`);
   assert.ok(home.includes('+33 7 75 69 18 67'), `${locale}: readable phone number`);
   assert.ok(home.includes(`aria-label="${locale === "fr" ? "Appeler Farah au" : "Call Farah at"} +33 7 75 69 18 67"`), `${locale}: accessible phone label`);

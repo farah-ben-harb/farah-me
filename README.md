@@ -14,7 +14,7 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom, each with its own verified tool stack
 - separate education chronology (ESIGELEC, ESPRIT preparatory and engineering cycles, and the 2022 scientific baccalaureate) and technical skills section
 - locally hosted Devicon tool logos with text labels and a generic fallback for unbranded technologies; the icons are from [Devicon](https://github.com/devicons/devicon) revision `32fe1d3b3f36ad11f90ab94f7db59738139c2bf6` under the license in `public/tool-icons/LICENSE.txt`
-- One Cloud Engineering resume per language, linked in the matching portfolio version
+- A compact CV icon beside the hero actions opens the matching Cloud Engineering PDF in a new tab, with no separate resume section
 
 The content follows an evidence-first rule: a deployment or test is described as successful only when a repository, public workflow, validation report, or reachable endpoint supports it. A live-demo button is shown only for a verified public endpoint.
 

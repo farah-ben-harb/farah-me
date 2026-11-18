@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {
-  ArrowDown, ArrowDownRight, ArrowUpRight,
-  DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
+  ArrowDown, ArrowDownRight,
+  EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
 import { ProjectCollection } from "@/components/project-collection";
@@ -25,11 +25,11 @@ export function Portfolio({ locale }: { locale: Locale }) {
     [t("Expérience", "Experience"), "#experience"],
     [t("Formation", "Education"), "#education"],
     [t("Compétences", "Skills"), "#skills"],
-    ["CV", "#resumes"],
     ["Contact", "#contact"],
   ];
   const localHome = locale === "fr" ? "/" : "/en";
   const cloudResume = `/resumes/farah-ben-harb-cloud-engineering-${locale}.pdf`;
+  const resumeLabel = t("Ouvrir mon CV Cloud (PDF, nouvel onglet)", "Open my Cloud resume (PDF, new tab)");
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -68,7 +68,9 @@ export function Portfolio({ locale }: { locale: Locale }) {
             )}</p>
             <div className="actions">
               <a className="action action-primary" href="#projects">{t("Explorer les projets", "Explore projects")}<ArrowDownRight aria-hidden="true" /></a>
-              <a className="action action-outline" href="#resumes">{t("Consulter mon CV", "View my resume")}<FileText aria-hidden="true" /></a>
+              <a className="icon-link resume-link" id="resumes" href={cloudResume} hrefLang={locale} type="application/pdf" target="_blank" rel="noopener noreferrer" aria-label={resumeLabel} title={resumeLabel}>
+                <FileText aria-hidden="true" /><span aria-hidden="true">CV</span>
+              </a>
             </div>
             <p className="hero-location"><MapPin aria-hidden="true" /> {t("Rouen, France · Stage de fin d’études dès mars 2027", "Rouen, France · Available for a final-year internship from March 2027")}</p>
           </div>
@@ -121,29 +123,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section className="section" id="resumes">
-          <SectionTitle index="05" label={t("Candidature", "Applications")} title={t("CV Cloud Engineering", "Cloud Engineering Resume")} />
-          <div className="resume-card">
-            <div className="resume-info">
-              <FileText aria-hidden="true" />
-              <div>
-                <p className="eyebrow">{t("Français", "English")} · PDF</p>
-                <p>{t("Plateformes cloud, infrastructure as code et livraison sécurisée.", "Cloud platforms, infrastructure as code and secure delivery.")}</p>
-              </div>
-            </div>
-            <div className="actions">
-              <a className="action action-outline" href={cloudResume} hrefLang={locale}>
-                {t("Ouvrir le PDF", "Open PDF")} <ArrowUpRight aria-hidden="true" />
-              </a>
-              <a className="action action-primary" download href={cloudResume} hrefLang={locale}>
-                {t("Télécharger", "Download")} <DownloadSimple aria-hidden="true" />
-              </a>
-            </div>
-          </div>
-        </section>
-
         <section className="section contact" id="contact">
-          <SectionTitle index="06" label="Contact" title={t("Parlons de votre projet.", "Let’s talk about your project.")} />
+          <SectionTitle index="05" label="Contact" title={t("Parlons de votre projet.", "Let’s talk about your project.")} />
           <p>{t(
             "Je recherche un stage de fin d’études de six mois à partir de mars 2027, en Cloud, DevOps, SRE ou MLOps.",
             "I’m looking for a six-month final-year internship from March 2027 in Cloud, DevOps, SRE or MLOps.",

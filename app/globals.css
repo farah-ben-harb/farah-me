@@ -173,8 +173,8 @@ section, article, details { scroll-margin-top: 1rem; }
 .stack li { display: inline-flex; align-items: center; gap: .36rem; min-height: 1.9rem; padding: .25rem .62rem .25rem .3rem; border: 1px solid var(--line); border-radius: 999px; font-size: .74rem; font-weight: 750; }
 .tool-logo { width: 1.3rem; height: 1.3rem; padding: .12rem; border-radius: 50%; background: #fffdf7; object-fit: contain; }
 .tool-fallback { width: 1.25rem; height: 1.25rem; padding: .18rem; border-radius: 50%; background: var(--accent); color: var(--forest-deep); }
-.experience-summary, .education-detail, .resume-info p:last-child, .contact > p { color: var(--muted); }
-.resume-card, .skills-card { min-width: 0; padding: clamp(1.15rem, 2.8vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.experience-summary, .education-detail, .contact > p { color: var(--muted); }
+.skills-card { min-width: 0; padding: clamp(1.15rem, 2.8vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .skills-card h3 { margin: .6rem 0 .72rem; font-size: clamp(1.45rem, 2.55vw, 2.2rem); }
 .text-link { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.65rem; width: fit-content; color: var(--accent); font-size: .88rem; font-weight: 800; }
 .text-link:hover { text-decoration: underline; text-underline-offset: .22em; }
@@ -280,13 +280,11 @@ section, article, details { scroll-margin-top: 1rem; }
 .skills-card:nth-child(3) { border-top-color: #a6c6ad; }
 .skills-card h3 { margin-top: 0; }
 .skills-card .stack { margin-top: .9rem; }
-.resume-card { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem 1.75rem; }
-.resume-info { display: flex; align-items: center; gap: .85rem; }
-.resume-info > svg { color: var(--accent); width: 1.65rem; height: 1.65rem; }
-.resume-info p:last-child { margin-top: .32rem; }
-.resume-card .actions { margin-top: 0; }
 .icon-link { display: grid; place-items: center; color: var(--accent); min-width: 2.75rem; min-height: 2.75rem; border: 1px solid var(--line); border-radius: .55rem; }
 .icon-link:hover { border-color: var(--accent); color: var(--ink); background: var(--surface-light); }
+.resume-link { width: 3rem; height: 3rem; align-content: center; gap: .12rem; }
+.resume-link svg { width: 1.25rem; height: 1.25rem; }
+.resume-link span { font-size: .6rem; line-height: 1; font-weight: 800; letter-spacing: .04em; }
 .social-link { min-width: 3rem; min-height: 3rem; }
 .social-link svg { width: 1.3rem; height: 1.3rem; }
 .contact > p { max-width: 41rem; }
