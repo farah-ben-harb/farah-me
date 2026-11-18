@@ -41,15 +41,15 @@ export const experience = [
 export const education = [
   {
     school: "ESIGELEC · Rouen, France",
-    title: ["Échange académique en dernière année", "Final-year academic exchange"],
+    title: ["Semestre d’échange en dernière année", "Final-year exchange semester"],
     period: ["2026–2027", "2026–2027"],
-    detail: ["Parcours d’ingénierie en France.", "Engineering studies in France."],
+    detail: ["Spécialisation Réseaux et Télécommunications.", "Specialization in Networks and Telecommunications."],
   },
   {
     school: "ESPRIT · Tunis, Tunisie",
-    title: ["Cycle ingénieur · architecture IT & cloud", "Engineering cycle · IT architecture & cloud"],
+    title: ["Cycle d’ingénieur en informatique", "Engineering degree in Computer Science"],
     period: ["Diplôme prévu en 2027", "Expected graduation in 2027"],
-    detail: ["Formation d’ingénieure après le cycle préparatoire.", "Engineering studies following the preparatory cycle."],
+    detail: ["Spécialisation Architecture IT et Cloud Computing.", "Specialization in IT Architecture and Cloud Computing."],
   },
   {
     school: "ESPRIT · Tunis, Tunisie",
