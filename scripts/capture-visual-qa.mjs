@@ -8,6 +8,8 @@ const outputDir = path.join(process.cwd(), "artifacts", "screenshots-cdp");
 const specs = [
   { name: "desktop-home", width: 1440, height: 1200, mobile: false, selector: null },
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
+  { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
+  { name: "mobile-skills", width: 390, height: 844, mobile: true, selector: "#skills" },
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
   { name: "mobile-resumes", width: 390, height: 844, mobile: true, selector: "#resumes" },
   { name: "mobile-english", width: 320, height: 740, mobile: true, selector: null, route: "/en" },
@@ -76,6 +78,12 @@ async function capture(spec) {
       cvCount: document.querySelectorAll("#resumes a[download]").length,
       cvLinks: Array.from(document.querySelectorAll('a[href$=".pdf"]'), (link) => link.getAttribute("href")),
       crm: Boolean(document.querySelector('#crm-intelligence-mlops')),
+      educationCards: document.querySelectorAll('#education .education-card').length,
+      experienceStacks: document.querySelectorAll('#experience article .stack').length,
+      skillsGroups: document.querySelectorAll('#skills .skills-card').length,
+      archiveStacks: document.querySelectorAll('#more-projects .archive-list li .stack').length,
+      logoCount: document.querySelectorAll('.tool-logo').length,
+      hasBaccalaureate: document.querySelector('#education')?.textContent.includes(${JSON.stringify("Baccalauréat scientifique")}) || document.querySelector('#education')?.textContent.includes('Scientific baccalaureate'),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
       archiveWorks: (() => {
@@ -100,6 +108,8 @@ async function capture(spec) {
       dimensions.heroImageCount !== 0 || dimensions.cvCount !== 1 || !dimensions.crm ||
       dimensions.cvLinks.length !== 2 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
+      dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 3 ||
+      dimensions.archiveStacks !== 15 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.archiveWorks) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }

@@ -14,6 +14,7 @@ export const experience = [
       "Automatisation d’infrastructure Azure avec Terraform, intégration continue sur GitHub Actions et livraison vers K3s avec Helm et Argo CD. Supervision Dynatrace et intégration MCP pour Claude Desktop.",
       "Automated Azure infrastructure with Terraform, built GitHub Actions workflows and delivered services to K3s with Helm and Argo CD. Used Dynatrace for monitoring and developed an MCP integration for Claude Desktop.",
     ],
+    tools: ["Azure", "Terraform", "GitHub Actions", "K3s", "Helm", "Argo CD", "Dynatrace", "MCP"],
   },
   {
     company: "Ooredoo",
@@ -23,6 +24,7 @@ export const experience = [
       "Développement d’outils Python et Java pour traiter, analyser et rechercher dans des journaux techniques.",
       "Built Python and Java tools for processing, analysing and searching technical logs.",
     ],
+    tools: ["Python", "Java"],
   },
   {
     company: "Tunisie Télécom",
@@ -32,23 +34,51 @@ export const experience = [
       "Découverte de l’exploitation des réseaux télécoms : Linux, TCP/IP, adressage, routage et services d’infrastructure.",
       "Worked with telecom network operations: Linux, TCP/IP, IP addressing, routing and infrastructure services.",
     ],
+    tools: ["Linux", "TCP/IP", "Routage"],
+  },
+] as const;
+
+export const education = [
+  {
+    school: "ESIGELEC · Rouen, France",
+    title: ["Échange académique en dernière année", "Final-year academic exchange"],
+    period: ["2026–2027", "2026–2027"],
+    detail: ["Parcours d’ingénierie en France.", "Engineering studies in France."],
+  },
+  {
+    school: "ESPRIT · Tunis, Tunisie",
+    title: ["Cycle ingénieur · architecture IT & cloud", "Engineering cycle · IT architecture & cloud"],
+    period: ["Diplôme prévu en 2027", "Expected graduation in 2027"],
+    detail: ["Formation d’ingénieure après le cycle préparatoire.", "Engineering studies following the preparatory cycle."],
+  },
+  {
+    school: "ESPRIT · Tunis, Tunisie",
+    title: ["Cycle préparatoire", "Preparatory cycle"],
+    period: ["2 ans", "2 years"],
+    detail: ["Deux années de formation préparatoire à l’ingénierie.", "Two years of preparatory engineering studies."],
+  },
+  {
+    school: "Lycée Rue El Attarien · Tunis, Tunisie",
+    title: ["Baccalauréat scientifique", "Scientific baccalaureate"],
+    period: ["2022", "2022"],
+    detail: ["Diplôme de fin d’études secondaires.", "Secondary school diploma."],
   },
 ] as const;
 
 export const focusAreas = [
   {
     label: ["Cloud & infrastructure", "Cloud & infrastructure"],
-    tools: "Azure · AWS · OpenStack · Terraform · Ansible · Linux",
+    tools: ["Azure", "AWS", "OpenStack", "Terraform", "Ansible", "Linux"],
     href: "#k8s-cluster-automation",
   },
   {
     label: ["DevOps & fiabilité", "DevOps & reliability"],
-    tools: "Kubernetes · Helm · Argo CD · GitHub Actions · Prometheus · Grafana",
+    tools: ["Kubernetes", "Helm", "Argo CD", "GitHub Actions", "Prometheus", "Grafana"],
     href: "#devsecops-incident-platform",
   },
   {
     label: ["MLOps & plateformes IA", "MLOps & AI platforms"],
-    tools: "FastAPI · scikit-learn · Kubeflow Pipelines · MLflow",
+    tools: ["FastAPI", "scikit-learn", "Kubeflow Pipelines", "MLflow"],
     href: "#crm-intelligence-mlops",
   },
 ] as const;
