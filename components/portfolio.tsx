@@ -8,6 +8,7 @@ import { TechStack } from "@/components/tech-stack";
 import { education, experience, focusAreas, projectNotes, tr, type Locale } from "@/lib/portfolio-copy";
 import { otherProjects, projects, type Project } from "@/lib/portfolio-data";
 import { siteConfig } from "@/lib/site";
+import { findCaseStudy, projectPath } from "@/lib/project-details";
 
 const slug = (project: Project) => project.repository.split("/").at(-1)!;
 const crm = projects.find((project) => slug(project) === "crm-intelligence-mlops")!;
@@ -45,7 +46,7 @@ const flow = [
 ] as const;
 
 function ProjectLink({ href, children }: { href: string; children: React.ReactNode }) {
-  return <a className="text-link" href={href}>{children}<ArrowUpRight aria-hidden="true" /></a>;
+  return <Link className="text-link" href={href}>{children}<ArrowUpRight aria-hidden="true" /></Link>;
 }
 
 function SectionTitle({ index, label, title }: { index: string; label: string; title: string }) {
@@ -63,19 +64,17 @@ function CRMCase({ locale }: { locale: Locale }) {
     <article className="case-study" id={slug(crm)} aria-labelledby="crm-title">
       <div className="case-story">
         <p className="eyebrow case-label"><span className="signal" /> {t("Projet phare · MLOps", "Featured project · MLOps")}</p>
-        <h3 id="crm-title">Mini CRM<br className="case-break" /> Intelligence<span>.</span></h3>
+        <h3 id="crm-title"><Link href={projectPath(locale, slug(crm))}>Mini CRM<br className="case-break" /> Intelligence<span>.</span></Link></h3>
         <p className="case-summary">{t(
           "Classer des profils techniques à partir de leurs compétences, puis rendre le chemin de l’entraînement à l’API reproductible et vérifiable.",
           "Classify technical profiles from their skills, with a reproducible and verifiable path from training to a prediction API.",
         )}</p>
         <TechStack tools={["FastAPI", "scikit-learn", "MLflow", "Kubeflow", "K3s"]} />
         <div className="actions">
-          <a className="action action-primary" href={crm.repository}>
-            <GithubLogo aria-hidden="true" /> GitHub
-          </a>
-          <a className="action action-outline" href={`${crm.repository}/blob/main/docs/ARCHITECTURE.md`}>
-            Architecture <ArrowUpRight aria-hidden="true" />
-          </a>
+          <Link className="action action-primary project-details-link" href={projectPath(locale, slug(crm))}>
+            {t("Découvrir le projet", "Explore the project")} <ArrowUpRight aria-hidden="true" />
+          </Link>
+          <a className="action action-outline" href={crm.repository}><GithubLogo aria-hidden="true" /> GitHub</a>
         </div>
       </div>
       <div className="case-flow">
@@ -183,26 +182,27 @@ export function Portfolio({ locale }: { locale: Locale }) {
             {supporting.map((project, index) => (
               <article className="support-card" key={project.repository} id={slug(project)}>
                 <p className="eyebrow"><span>0{index + 2} /</span> {index === 0 ? t("Vision par ordinateur", "Computer vision") : t("Infrastructure", "Infrastructure")}</p>
-                <h3>{project.name}</h3>
+                <h3><Link href={projectPath(locale, slug(project))}>{project.name}</Link></h3>
                 <p>{tr(locale, projectNotes[slug(project)])}</p>
                 <TechStack tools={index === 0 ? ["YOLO11", "ByteTrack", "FastAPI", "MLflow"] : ["OpenStack", "Heat", "Ansible", "Kubernetes"]} />
                 <div className="card-links">
+                  <Link className="text-link project-details-link" href={projectPath(locale, slug(project))}>{t("Découvrir le projet", "Explore the project")}<ArrowUpRight aria-hidden="true" /></Link>
                   <ProjectLink href={project.repository}>GitHub</ProjectLink>
                   {project.liveDemo && <ProjectLink href={project.liveDemo}>{t("Démo API", "API demo")}</ProjectLink>}
                 </div>
               </article>
             ))}
           </div>
-          <details className="archive" id="more-projects">
-            <summary><span>{t("Voir les autres projets", "Browse more projects")}</span><span className="archive-count">{archive.length + otherProjects.length}</span><CaretDown aria-hidden="true" /></summary>
+          <div className="archive" id="more-projects">
+            <p className="archive-heading">{t("Explorer aussi", "More to explore")}<span className="archive-count">{archive.length + otherProjects.length}</span></p>
             <div className="archive-body">
               <h3>{t("Cloud, DevSecOps & applications", "Cloud, DevSecOps & applications")}</h3>
               <ul className="archive-list">
                 {archive.map((project) => (
                   <li key={project.repository} id={slug(project)}>
-                    <ProjectLink href={project.repository}>{project.name}</ProjectLink>
+                    <ProjectLink href={projectPath(locale, slug(project))}>{project.name}</ProjectLink>
                     <p>{tr(locale, projectNotes[slug(project)])}</p>
-                    <TechStack tools={project.technologies.slice(0, 5)} />
+                    <TechStack tools={(findCaseStudy(slug(project))?.technologies ?? project.technologies).slice(0, 5)} />
                   </li>
                 ))}
               </ul>
@@ -210,13 +210,14 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <ul className="archive-list">
                 {otherProjects.map((project) => (
                   <li key={project.repository}>
-                    <ProjectLink href={project.repository}>{project.name}</ProjectLink>
+                    <ProjectLink href={projectPath(locale, project.repository.split("/").at(-1)!)}>{project.name}</ProjectLink>
+                    <p>{tr(locale, findCaseStudy(project.repository.split("/").at(-1)!)!.description)}</p>
                     <TechStack tools={project.stack.split(" · ")} />
                   </li>
                 ))}
               </ul>
             </div>
-          </details>
+          </div>
         </section>
 
         <section className="section" id="experience">
