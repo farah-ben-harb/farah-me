@@ -4,6 +4,7 @@ import {
   DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
+import { ProjectCatalogue, type ProjectCategory } from "@/components/project-catalogue";
 import { TechStack } from "@/components/tech-stack";
 import { education, experience, focusAreas, projectNotes, tr, type Locale } from "@/lib/portfolio-copy";
 import { otherProjects, projects, type Project } from "@/lib/portfolio-data";
@@ -16,6 +17,14 @@ const supporting = ["footballmatch-ai-platform-mlops", "k8s-cluster-automation"]
   (name) => projects.find((project) => slug(project) === name)!,
 );
 const archive = projects.filter((project) => project !== crm && !supporting.includes(project));
+const catalogueCategories: Record<string, ProjectCategory> = {
+  devorecruiter: "ai", "devorecruiter-gitops": "cloud", "devsecops-incident-platform": "cloud",
+  "gitops-delivery-platform": "cloud", "openstack-heat-infrastructure": "cloud",
+  "kubernetes-anomaly-detection-openstack": "ai", "flask-azure-devops-pipeline": "cloud",
+  "alif-app": "apps", "Alif.tn-App-k8s": "cloud", "Application-Airport-Management": "apps",
+  "wefarm-smart-agriculture-platform": "apps", "QuantumEscape-Game-2D-SDL": "apps",
+  "SmartFarm-Desktop-Application": "apps", "CryptoCurrency-Project": "ai", "CampusIdeas-SPA": "apps",
+};
 const crmRun = `${crm.repository}/actions/runs/43736282419`;
 const flow = [
   {
@@ -130,6 +139,14 @@ export function Portfolio({ locale }: { locale: Locale }) {
   ];
   const localHome = locale === "fr" ? "/" : "/en";
   const cloudResume = `/resumes/farah-ben-harb-cloud-engineering-${locale}.pdf`;
+  const catalogue = [...archive, ...otherProjects].map((project) => {
+    const name = project.repository.split("/").at(-1)!;
+    const detail = findCaseStudy(name)!;
+    return {
+      slug: name, name: project.name, description: tr(locale, detail.description),
+      technologies: detail.technologies.slice(0, 5), category: catalogueCategories[name],
+    };
+  });
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Person",
@@ -177,6 +194,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
 
         <section className="section" id="projects">
           <SectionTitle index="01" label={t("Réalisations", "Selected work")} title={t("Projets à découvrir", "Projects to explore")} />
+          <a className="text-link catalogue-jump" href="#more-projects">{t("Voir les 15 autres projets", "Browse 15 more projects")}<ArrowDownRight aria-hidden="true" /></a>
           <CRMCase locale={locale} />
           <div className="supporting-grid">
             {supporting.map((project, index) => (
@@ -193,31 +211,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
               </article>
             ))}
           </div>
-          <div className="archive" id="more-projects">
-            <p className="archive-heading">{t("Explorer aussi", "More to explore")}<span className="archive-count">{archive.length + otherProjects.length}</span></p>
-            <div className="archive-body">
-              <h3>{t("Cloud, DevSecOps & applications", "Cloud, DevSecOps & applications")}</h3>
-              <ul className="archive-list">
-                {archive.map((project) => (
-                  <li key={project.repository} id={slug(project)}>
-                    <ProjectLink href={projectPath(locale, slug(project))}>{project.name}</ProjectLink>
-                    <p>{tr(locale, projectNotes[slug(project)])}</p>
-                    <TechStack tools={(findCaseStudy(slug(project))?.technologies ?? project.technologies).slice(0, 5)} />
-                  </li>
-                ))}
-              </ul>
-              <h3>{t("Autres projets logiciels", "Other software projects")}</h3>
-              <ul className="archive-list">
-                {otherProjects.map((project) => (
-                  <li key={project.repository}>
-                    <ProjectLink href={projectPath(locale, project.repository.split("/").at(-1)!)}>{project.name}</ProjectLink>
-                    <p>{tr(locale, findCaseStudy(project.repository.split("/").at(-1)!)!.description)}</p>
-                    <TechStack tools={project.stack.split(" · ")} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
+          <ProjectCatalogue locale={locale} projects={catalogue} />
         </section>
 
         <section className="section" id="experience">

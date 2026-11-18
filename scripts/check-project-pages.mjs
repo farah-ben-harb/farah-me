@@ -13,6 +13,7 @@ for (const locale of ["fr", "en"]) {
   assert.ok(home.includes('href="tel:+33775691867"'), `${locale}: click-to-call link`);
   assert.ok(home.includes('+33 7 75 69 18 67'), `${locale}: readable phone number`);
   assert.ok(home.includes(`aria-label="${locale === "fr" ? "Appeler Farah au" : "Call Farah at"} +33 7 75 69 18 67"`), `${locale}: accessible phone label`);
+  assert.ok(home.includes('id="project-search"') && home.includes('data-filter="ai"'), `${locale}: catalogue controls`);
   const links = [...new Set([...home.matchAll(/href="((?:\/en)?\/projects\/[^"#?]+)"/g)].map(m => m[1]))];
   assert.equal(links.length, 18, `${locale}: all 18 project pages must be discoverable`);
   for (const route of links) {
