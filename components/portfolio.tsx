@@ -1,7 +1,7 @@
 import Link from "next/link";
 import {
   ArrowDown, ArrowDownRight, ArrowUpRight, BracketsCurly, CaretDown,
-  DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin,
+  DownloadSimple, EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
 import { TechStack } from "@/components/tech-stack";
@@ -290,6 +290,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
           )}</p>
           <div className="actions">
             <a className="action action-primary" href={`mailto:${siteConfig.email}`}><EnvelopeSimple aria-hidden="true" /> {t("M’écrire", "Email me")}</a>
+            <a className="action action-outline" href={`tel:${siteConfig.phone}`} aria-label={`${t("Appeler Farah au", "Call Farah at")} ${siteConfig.phoneDisplay}`}><Phone aria-hidden="true" /> {siteConfig.phoneDisplay}</a>
             <a className="icon-link social-link" aria-label="GitHub" href={siteConfig.github}><GithubLogo aria-hidden="true" /></a>
             <a className="icon-link social-link" aria-label="LinkedIn" href={siteConfig.linkedin}><LinkedinLogo aria-hidden="true" /></a>
           </div>
