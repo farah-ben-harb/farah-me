@@ -12,8 +12,10 @@ const specs = [
   { name: "project-alif-media", width: 1280, height: 900, mobile: false, selector: ".project-media", route: "/projects/alif-app", project: true },
   { name: "desktop-home", width: 1440, height: 1200, mobile: false, selector: null },
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
-  { name: "desktop-catalogue", width: 1440, height: 1000, mobile: false, selector: "#more-projects" },
-  { name: "mobile-catalogue", width: 390, height: 844, mobile: true, selector: "#more-projects" },
+  { name: "mobile-projects", width: 390, height: 844, mobile: true, selector: "#selected-projects" },
+  { name: "tablet-projects", width: 820, height: 1180, mobile: true, selector: "#projects" },
+  { name: "desktop-groups", width: 1440, height: 1000, mobile: false, selector: "#ai-projects" },
+  { name: "mobile-groups", width: 390, height: 844, mobile: true, selector: "#ai-projects" },
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
   { name: "mobile-skills", width: 390, height: 844, mobile: true, selector: "#skills" },
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
@@ -94,7 +96,7 @@ async function capture(spec) {
     if (!returned.result.value) throw new Error(`${spec.name}: return-to-projects navigation failed`);
     await send("Runtime.evaluate", { expression: 'document.querySelector(".project-details-link").click()' });
     await sleep(1500);
-    const opened = await send("Runtime.evaluate", { expression: 'location.pathname.endsWith("/projects/crm-intelligence-mlops") && !!document.querySelector("#project-title")', returnByValue: true });
+    const opened = await send("Runtime.evaluate", { expression: 'location.pathname.endsWith("/projects/k8s-cluster-automation") && !!document.querySelector("#project-title")', returnByValue: true });
     if (!opened.result.value) throw new Error(`${spec.name}: home-to-project navigation failed`);
     socket.close();
     await fetch(`${cdpBase}/json/close/${target.id}`);
@@ -114,12 +116,14 @@ async function capture(spec) {
       educationCards: document.querySelectorAll('#education .education-card').length,
       experienceStacks: document.querySelectorAll('#experience article .stack').length,
       skillsGroups: document.querySelectorAll('#skills .skills-card').length,
-      catalogueCards: document.querySelectorAll('#more-projects .catalogue-card').length,
+      selectedCards: document.querySelectorAll('.selected-card').length,
+      directoryItems: document.querySelectorAll('.directory-item').length,
+      companionLinks: document.querySelectorAll('.companion-link').length,
       logoCount: document.querySelectorAll('.tool-logo').length,
       hasBaccalaureate: document.querySelector('#education')?.textContent.includes(${JSON.stringify("Baccalauréat scientifique")}) || document.querySelector('#education')?.textContent.includes('Scientific baccalaureate'),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
-      catalogueSearch: !!document.querySelector('#project-search') && document.querySelectorAll('.catalogue-filters button').length === 4
+      collectionNav: document.querySelectorAll('.collection-nav a').length === 3
     })`,
     returnByValue: true,
   });
@@ -134,8 +138,8 @@ async function capture(spec) {
       dimensions.cvLinks.length !== 2 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 3 ||
-      dimensions.catalogueCards !== 15 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
-      dimensions.missingAnchors.length || !dimensions.catalogueSearch) {
+      dimensions.selectedCards !== 6 || dimensions.directoryItems !== 10 || dimensions.companionLinks !== 2 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
+      dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
 
@@ -147,55 +151,25 @@ async function capture(spec) {
   const output = path.join(outputDir, `${spec.name}.png`);
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
 
-  if (spec.name === "mobile-catalogue") {
-    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-filters [data-filter=cloud]").focus()' });
-    for (const type of ["keyDown", "keyUp"]) {
-      await send("Input.dispatchKeyEvent", { type, key: " ", code: "Space", windowsVirtualKeyCode: 32 });
-    }
-    await sleep(100);
-    const keyboardFiltered = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 6 && document.querySelector("[data-filter=cloud]").getAttribute("aria-pressed") === "true"', returnByValue: true });
-    if (!keyboardFiltered.result.value) throw new Error("Keyboard filter failed");
-    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-filters [data-filter=ai]").click()' });
-    await sleep(100);
-    const filtered = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 3 && document.querySelector("[data-filter=ai]").getAttribute("aria-pressed") === "true"', returnByValue: true });
-    if (!filtered.result.value) throw new Error("AI filter failed");
-    await send("Runtime.evaluate", { expression: 'document.querySelector("#project-search").focus()' });
-    await send("Input.insertText", { text: "Crypto" });
-    await sleep(150);
-    const searched = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 1 && document.querySelector(".catalogue-card h4").textContent.includes("Cryptocurrency")', returnByValue: true });
-    if (!searched.result.value) throw new Error("Project search failed");
-    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-search-field button").click()' });
-    await send("Runtime.evaluate", { expression: 'document.querySelector("#project-search").focus()' });
-    await send("Input.insertText", { text: "no-matching-project" });
-    await sleep(150);
-    const empty = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 0 && !!document.querySelector(".catalogue-empty")', returnByValue: true });
-    if (!empty.result.value) throw new Error("Empty catalogue state failed");
-    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-empty button").click()' });
-    await sleep(100);
-    const reset = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 15 && document.querySelector("[data-filter=all]").getAttribute("aria-pressed") === "true"', returnByValue: true });
-    if (!reset.result.value) throw new Error("Catalogue reset failed");
-  }
-
-  await send("Runtime.evaluate", { expression: 'document.querySelector(".flow-steps summary").focus()' });
+  await send("Runtime.evaluate", { expression: `document.querySelector('.collection-nav a[href="#ai-projects"]').focus({preventScroll: true})` });
   for (const type of ["keyDown", "keyUp"]) {
-    await send("Input.dispatchKeyEvent", { type, key: " ", code: "Space", windowsVirtualKeyCode: 32 });
+    await send("Input.dispatchKeyEvent", { type, key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
   }
-  const flow = await send("Runtime.evaluate", {
-    expression: `(() => {
-      const steps = [...document.querySelectorAll(".flow-steps details")];
-      const keyboardOpened = steps[0].open;
-      steps[1].querySelector("summary").click();
-      return JSON.stringify({count: steps.length, keyboardOpened, firstOpen: steps[0].open, secondOpen: steps[1].open});
-    })()`,
-    returnByValue: true,
-  });
-  const pipeline = JSON.parse(flow.result.value);
-  if (pipeline.count !== 5 || !pipeline.keyboardOpened || pipeline.firstOpen || !pipeline.secondOpen) {
-    throw new Error(`${spec.name}: pipeline accordion did not respond correctly: ${flow.result.value}`);
+  let groupNavigationPassed = false;
+  const navigationDeadline = Date.now() + 5000;
+  // Wait for the real scroll result instead of racing a fixed animation delay.
+  while (!groupNavigationPassed && Date.now() < navigationDeadline) {
+    const groupNavigation = await send("Runtime.evaluate", {
+      expression: 'location.hash === "#ai-projects" && document.querySelector("#ai-projects").getBoundingClientRect().top >= 0 && document.querySelector("#ai-projects").getBoundingClientRect().top < innerHeight',
+      returnByValue: true,
+    });
+    groupNavigationPassed = groupNavigation.result.value === true;
+    if (!groupNavigationPassed) await sleep(100);
   }
+  if (!groupNavigationPassed) throw new Error(`${spec.name}: group keyboard navigation failed`);
 
   await send("Runtime.evaluate", {
-    expression: 'document.querySelector(".atlas-links a[href=\\"#devsecops-incident-platform\\"]").click()',
+    expression: `document.querySelector('.atlas-links a[href="#devsecops-incident-platform"]').click()`,
   });
   await sleep(250);
   const navigation = await send("Runtime.evaluate", {
