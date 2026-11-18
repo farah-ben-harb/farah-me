@@ -19,7 +19,7 @@ const specs = [
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
   { name: "mobile-skills", width: 390, height: 844, mobile: true, selector: "#skills" },
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
-  { name: "mobile-resumes", width: 390, height: 844, mobile: true, selector: "#resumes" },
+  { name: "mobile-cv", width: 390, height: 844, mobile: true, selector: ".hero .actions" },
   { name: "mobile-english", width: 320, height: 740, mobile: true, selector: null, route: "/en" },
   { name: "desktop-reduced-motion", width: 1280, height: 960, mobile: false, selector: null, reducedMotion: true },
 ];
@@ -110,7 +110,13 @@ async function capture(spec) {
       heroImageCount: document.querySelectorAll(".hero img").length,
       atlasLinks: document.querySelectorAll(".atlas-links a").length,
       atlasAnimates: getComputedStyle(document.querySelector(".atlas")).animationName !== "none",
-      cvCount: document.querySelectorAll("#resumes a[download]").length,
+      cvCount: document.querySelectorAll(".hero .actions .resume-link").length,
+      cvSectionCount: document.querySelectorAll("section#resumes").length,
+      cvAccessible: (() => {
+        const link = document.querySelector('.resume-link');
+        const bounds = link?.getBoundingClientRect();
+        return Boolean(link?.getAttribute('aria-label') && link?.title && link?.target === '_blank' && link?.relList.contains('noopener') && !link?.hasAttribute('download') && bounds.width >= 44 && bounds.height >= 44);
+      })(),
       cvLinks: Array.from(document.querySelectorAll('a[href$=".pdf"]'), (link) => link.getAttribute("href")),
       crm: Boolean(document.querySelector('#crm-intelligence-mlops')),
       educationCards: document.querySelectorAll('#education .education-card').length,
@@ -134,8 +140,8 @@ async function capture(spec) {
   const expectedLocale = spec.route === "/en" ? "en" : "fr";
   const expectedResume = `/resumes/farah-ben-harb-cloud-engineering-${expectedLocale}.pdf`;
   if (dimensions.language !== expectedLocale ||
-      dimensions.heroImageCount !== 0 || dimensions.cvCount !== 1 || !dimensions.crm ||
-      dimensions.cvLinks.length !== 2 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
+      dimensions.heroImageCount !== 0 || dimensions.cvCount !== 1 || dimensions.cvSectionCount !== 0 || !dimensions.cvAccessible || !dimensions.crm ||
+      dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 3 ||
       dimensions.selectedCards !== 6 || dimensions.directoryItems !== 10 || dimensions.companionLinks !== 2 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
