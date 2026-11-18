@@ -47,6 +47,14 @@ export function ProjectDetail({ project, locale }: { project: CaseStudy; locale:
           </div>
         </section>
 
+        <nav className="detail-toc" aria-label={t("Dans cette fiche", "On this page")}>
+          <span>{t("Dans cette fiche", "On this page")}</span>
+          <a href="#architecture">Architecture</a>
+          <a href="#features-title">{t("Réalisations", "Implementation")}</a>
+          <a href="#deployment-title">{t("Déploiement", "Deployment")}</a>
+          <a href="#validation-title">{t("Tests", "Tests")}</a>
+        </nav>
+
         <div className="project-body">
           <div className="project-narrative">
             <section className="detail-section" id="architecture" aria-labelledby="architecture-title">

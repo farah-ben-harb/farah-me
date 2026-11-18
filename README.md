@@ -9,7 +9,7 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 - French home page at `/` and English version at `/en`
 - An illustrated systems map linking directly to Cloud, DevOps and MLOps work
 - A Mini CRM Intelligence case study with an explorable ML pipeline, architecture and CI evidence
-- Two supporting projects (FootballMatch and Kubernetes automation) plus a visible catalogue of all 18 projects
+- Two supporting projects (FootballMatch and Kubernetes automation) plus a searchable, filterable catalogue of all 18 projects
 - Dedicated FR/EN project pages with architecture, implementation, environments, evidence, limitations and related repositories
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom, each with its own verified tool stack
 - separate education chronology (ESIGELEC, ESPRIT preparatory and engineering cycles, and the 2022 scientific baccalaureate) and technical skills section
@@ -26,7 +26,7 @@ The content follows an evidence-first rule: a deployment or test is described as
 - Tailwind CSS 4
 - Vercel hosting
 
-Both language versions and all 36 project pages are statically rendered. Repository identities stay in `lib/portfolio-data.ts`, project editorial content in `lib/project-details.ts`, home-page copy in `lib/portfolio-copy.ts`, and the shared views in `components/portfolio.tsx` and `components/project-detail.tsx`. The systems map uses inline SVG and motion respects `prefers-reduced-motion`. The pipeline uses native HTML `details` without client state. Project language switches preserve the current project. Only the verified FootballMatch API has a live-demo button; unavailable demos have an explicit note, not a placeholder link.
+Both language versions and all 36 project pages are statically rendered. Repository identities stay in `lib/portfolio-data.ts`, project editorial content in `lib/project-details.ts`, home-page copy in `lib/portfolio-copy.ts`, and the shared views in `components/portfolio.tsx` and `components/project-detail.tsx`. The project catalogue is the only client-side search/filter island; it receives compact project summaries rather than the full case-study content. The systems map uses inline SVG and motion respects `prefers-reduced-motion`. The pipeline uses native HTML `details` without client state. Project language switches preserve the current project. Only the verified FootballMatch API has a live-demo button; unavailable demos have an explicit note, not a placeholder link.
 
 ## Local Development
 

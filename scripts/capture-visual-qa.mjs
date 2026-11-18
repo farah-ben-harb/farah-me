@@ -12,6 +12,8 @@ const specs = [
   { name: "project-alif-media", width: 1280, height: 900, mobile: false, selector: ".project-media", route: "/projects/alif-app", project: true },
   { name: "desktop-home", width: 1440, height: 1200, mobile: false, selector: null },
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
+  { name: "desktop-catalogue", width: 1440, height: 1000, mobile: false, selector: "#more-projects" },
+  { name: "mobile-catalogue", width: 390, height: 844, mobile: true, selector: "#more-projects" },
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
   { name: "mobile-skills", width: 390, height: 844, mobile: true, selector: "#skills" },
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
@@ -112,12 +114,12 @@ async function capture(spec) {
       educationCards: document.querySelectorAll('#education .education-card').length,
       experienceStacks: document.querySelectorAll('#experience article .stack').length,
       skillsGroups: document.querySelectorAll('#skills .skills-card').length,
-      archiveStacks: document.querySelectorAll('#more-projects .archive-list li .stack').length,
+      catalogueCards: document.querySelectorAll('#more-projects .catalogue-card').length,
       logoCount: document.querySelectorAll('.tool-logo').length,
       hasBaccalaureate: document.querySelector('#education')?.textContent.includes(${JSON.stringify("Baccalauréat scientifique")}) || document.querySelector('#education')?.textContent.includes('Scientific baccalaureate'),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
-      archiveWorks: document.querySelector('#more-projects')?.tagName === 'DIV' && document.querySelectorAll('#more-projects .archive-list > li').length === 15
+      catalogueSearch: !!document.querySelector('#project-search') && document.querySelectorAll('.catalogue-filters button').length === 4
     })`,
     returnByValue: true,
   });
@@ -132,8 +134,8 @@ async function capture(spec) {
       dimensions.cvLinks.length !== 2 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 3 ||
-      dimensions.archiveStacks !== 15 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
-      dimensions.missingAnchors.length || !dimensions.archiveWorks) {
+      dimensions.catalogueCards !== 15 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
+      dimensions.missingAnchors.length || !dimensions.catalogueSearch) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
 
@@ -144,6 +146,35 @@ async function capture(spec) {
   });
   const output = path.join(outputDir, `${spec.name}.png`);
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
+
+  if (spec.name === "mobile-catalogue") {
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-filters [data-filter=cloud]").focus()' });
+    for (const type of ["keyDown", "keyUp"]) {
+      await send("Input.dispatchKeyEvent", { type, key: " ", code: "Space", windowsVirtualKeyCode: 32 });
+    }
+    await sleep(100);
+    const keyboardFiltered = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 6 && document.querySelector("[data-filter=cloud]").getAttribute("aria-pressed") === "true"', returnByValue: true });
+    if (!keyboardFiltered.result.value) throw new Error("Keyboard filter failed");
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-filters [data-filter=ai]").click()' });
+    await sleep(100);
+    const filtered = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 3 && document.querySelector("[data-filter=ai]").getAttribute("aria-pressed") === "true"', returnByValue: true });
+    if (!filtered.result.value) throw new Error("AI filter failed");
+    await send("Runtime.evaluate", { expression: 'document.querySelector("#project-search").focus()' });
+    await send("Input.insertText", { text: "Crypto" });
+    await sleep(150);
+    const searched = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 1 && document.querySelector(".catalogue-card h4").textContent.includes("Cryptocurrency")', returnByValue: true });
+    if (!searched.result.value) throw new Error("Project search failed");
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-search-field button").click()' });
+    await send("Runtime.evaluate", { expression: 'document.querySelector("#project-search").focus()' });
+    await send("Input.insertText", { text: "no-matching-project" });
+    await sleep(150);
+    const empty = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 0 && !!document.querySelector(".catalogue-empty")', returnByValue: true });
+    if (!empty.result.value) throw new Error("Empty catalogue state failed");
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".catalogue-empty button").click()' });
+    await sleep(100);
+    const reset = await send("Runtime.evaluate", { expression: 'document.querySelectorAll(".catalogue-card").length === 15 && document.querySelector("[data-filter=all]").getAttribute("aria-pressed") === "true"', returnByValue: true });
+    if (!reset.result.value) throw new Error("Catalogue reset failed");
+  }
 
   await send("Runtime.evaluate", { expression: 'document.querySelector(".flow-steps summary").focus()' });
   for (const type of ["keyDown", "keyUp"]) {
@@ -179,7 +210,11 @@ async function capture(spec) {
 }
 
 await mkdir(outputDir, { recursive: true });
-for (const spec of specs) {
+const selectedSpecs = process.env.VISUAL_QA_SPEC
+  ? specs.filter((spec) => spec.name === process.env.VISUAL_QA_SPEC)
+  : specs;
+if (!selectedSpecs.length) throw new Error(`Unknown visual QA spec: ${process.env.VISUAL_QA_SPEC}`);
+for (const spec of selectedSpecs) {
   const result = await capture(spec);
   console.log(`${spec.name}: ${JSON.stringify(result.dimensions)} -> ${result.output}`);
 }
