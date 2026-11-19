@@ -3,6 +3,15 @@ import assert from "node:assert/strict";
 const base = process.env.SITE_URL ?? "http://127.0.0.1:3100";
 const assets = new Set();
 const pages = new Set();
+const normalizeTool = (tool) => ({
+  "angular 18": "angular", kubeflow: "kubeflow pipelines", routage: "routing",
+  "régression logistique": "logistic regression",
+}[tool.toLowerCase()] ?? tool.toLowerCase());
+const genericDescriptions = new Set(['web modules', 'ai/prediction', 'machine learning', 'n-tier architecture', 'private cloud']);
+function toolTags(html) {
+  return [...html.matchAll(/<ul class="stack"[^>]*>([\s\S]*?)<\/ul>/g)]
+    .flatMap(match => [...match[1].matchAll(/<span>([^<]+)<\/span>/g)].map(tag => normalizeTool(tag[1])));
+}
 async function get(route) {
   const response = await fetch(new URL(route, base), { signal: AbortSignal.timeout(20000) });
   assert.equal(response.status, 200, `${route}: HTTP ${response.status}`);
@@ -10,6 +19,18 @@ async function get(route) {
 }
 for (const locale of ["fr", "en"]) {
   const home = await get(locale === "fr" ? "/" : "/en");
+  const skills = home.split('id="skills"')[1]?.split('</section>')[0] ?? '';
+  const skillTags = toolTags(skills);
+  const skillSet = new Set(skillTags);
+  assert.equal([...skills.matchAll(/class="skills-card"/g)].length, 9, `${locale}: nine skill domains`);
+  assert.equal(skillSet.size, skillTags.length, `${locale}: unique skill labels`);
+  assert.ok(skillSet.size >= 90, `${locale}: expanded skills inventory`);
+  const internships = home.split('id="experience"')[1]?.split('</section>')[0] ?? '';
+  for (const tool of toolTags(internships)) assert.ok(skillSet.has(tool), `${locale}: internship tool ${tool} is covered`);
+  for (const tool of ['langchain', 'chromadb', 'groq', 'huggingface', 'sqlalchemy', 'docker compose', 'kubeadm', 'react', 'next.js', 'gitleaks', 'dynatrace']) {
+    assert.ok(skillSet.has(tool), `${locale}: documented tool ${tool} is included`);
+  }
+  console.log(`OK ${locale}: ${skillSet.size} unique skills across nine domains`);
   const education = home.split('id="education"')[1]?.split('</section>')[0] ?? "";
   const expectedEducation = locale === "fr"
     ? ["Cycle d’ingénieur en informatique", "Spécialisation Architecture IT et Cloud Computing.", "Semestre d’échange en dernière année", "Spécialisation Réseaux et Télécommunications."]
@@ -59,6 +80,9 @@ for (const locale of ["fr", "en"]) {
   for (const route of links) {
     assert.equal(route.startsWith("/en/"), locale === "en", `Wrong locale: ${route}`);
     const html = await get(route);
+    for (const tool of toolTags(html)) {
+      if (!genericDescriptions.has(tool)) assert.ok(skillSet.has(tool), `${route}: ${tool} missing from skills`);
+    }
     pages.add(route);
     assert.match(html, new RegExp(`<html[^>]+lang="${locale}"`));
     assert.equal([...html.matchAll(/<h1[ >]/g)].length, 1, route);

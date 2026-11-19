@@ -13,6 +13,8 @@ const logos: Record<string, string> = {
   MySQL: "mysql", "C++": "cplusplus", Qt: "qt", Arduino: "arduino",
   "C#": "csharp", ".NET": "dot-net", C: "c", Jupyter: "jupyter",
   TypeScript: "typescript", Bootstrap: "bootstrap", YAML: "yaml", K3s: "k3s",
+  "Azure Container Apps": "azure", "AWS S3": "amazonwebservices", "AWS EC2": "amazonwebservices",
+  "AWS ECR": "amazonwebservices", "AWS SSM": "amazonwebservices", "Docker Compose": "docker", "Spring Cloud": "spring",
 };
 
 export function TechStack({ tools }: { tools: readonly string[] }) {

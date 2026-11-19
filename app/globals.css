@@ -281,6 +281,15 @@ section, article, details { scroll-margin-top: 1rem; }
 .skills-card:nth-child(3) { border-top-color: #a6c6ad; }
 .skills-card h3 { margin-top: 0; }
 .skills-card .stack { margin-top: .9rem; }
+.skills-intro { max-width: 53rem; margin-block: -1rem 1.8rem; color: var(--muted); }
+.skills-card { display: flex; flex-direction: column; }
+.skills-card > .eyebrow { color: var(--warm); margin-bottom: .8rem; }
+.skills-card h3 { font-size: clamp(1.45rem, 2.2vw, 1.9rem); }
+.skills-note { color: var(--muted); font-size: .76rem; margin-top: 1rem; }
+.skill-evidence { margin-top: auto; padding-top: 1.5rem; }
+.skill-evidence summary { border-top: 1px solid var(--line); padding-block: .8rem .25rem; min-height: 2.75rem; font-size: .77rem; color: var(--accent); cursor: pointer; }
+.skill-evidence a { display: flex; align-items: center; justify-content: space-between; gap: .5rem; min-height: 2.75rem; color: var(--accent); font-size: .77rem; line-height: 1.4; }
+.skill-evidence a:hover { text-decoration: underline; text-underline-offset: .2em; }
 .icon-link { display: grid; place-items: center; color: var(--accent); min-width: 2.75rem; min-height: 2.75rem; border: 1px solid var(--line); border-radius: .55rem; }
 .icon-link:hover { border-color: var(--accent); color: var(--ink); background: var(--surface-light); }
 .resume-link { width: 3rem; height: 3rem; align-content: center; gap: .12rem; }
