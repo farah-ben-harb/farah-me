@@ -11,6 +11,9 @@ const specs = [
   { name: "project-campus-mobile", width: 320, height: 740, mobile: true, selector: null, route: "/projects/CampusIdeas-SPA", project: true },
   { name: "project-alif-media", width: 1280, height: 900, mobile: false, selector: ".project-media", route: "/projects/alif-app", project: true },
   { name: "desktop-home", width: 1440, height: 1200, mobile: false, selector: null },
+  { name: "desktop-contact", width: 1440, height: 900, mobile: false, selector: "#contact" },
+  { name: "mobile-contact", width: 390, height: 1000, mobile: true, selector: "#contact" },
+  { name: "mobile-contact-en", width: 320, height: 1100, mobile: true, selector: "#contact", route: "/en" },
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
   { name: "mobile-projects", width: 390, height: 844, mobile: true, selector: "#selected-projects" },
   { name: "tablet-projects", width: 820, height: 1180, mobile: true, selector: "#projects" },
@@ -111,6 +114,8 @@ async function capture(spec) {
       atlasLinks: document.querySelectorAll(".atlas-links a").length,
       atlasAnimates: getComputedStyle(document.querySelector(".atlas")).animationName !== "none",
       cvCount: document.querySelectorAll(".hero .actions .resume-link").length,
+      contactLinks: document.querySelectorAll('#contact a').length,
+      contactLandmark: document.querySelector('#contact')?.getAttribute('aria-labelledby') === 'contact-title',
       cvSectionCount: document.querySelectorAll("section#resumes").length,
       cvAccessible: (() => {
         const link = document.querySelector('.resume-link');
@@ -141,6 +146,7 @@ async function capture(spec) {
   const expectedResume = `/resumes/farah-ben-harb-cloud-engineering-${expectedLocale}.pdf`;
   if (dimensions.language !== expectedLocale ||
       dimensions.heroImageCount !== 0 || dimensions.cvCount !== 1 || dimensions.cvSectionCount !== 0 || !dimensions.cvAccessible || !dimensions.crm ||
+      dimensions.contactLinks !== 4 || !dimensions.contactLandmark ||
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 3 ||
@@ -156,6 +162,22 @@ async function capture(spec) {
   });
   const output = path.join(outputDir, `${spec.name}.png`);
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
+
+  await send("Runtime.evaluate", { expression: 'document.querySelector(".hero-contact-link").focus({preventScroll: true})' });
+  for (const type of ["keyDown", "keyUp"]) {
+    await send("Input.dispatchKeyEvent", { type, key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
+  }
+  let contactReached = false;
+  const contactDeadline = Date.now() + 5000;
+  while (!contactReached && Date.now() < contactDeadline) {
+    const result = await send("Runtime.evaluate", {
+      expression: 'location.hash === "#contact" && document.querySelector("#contact-title").getBoundingClientRect().top >= 0 && document.querySelector("#contact-title").getBoundingClientRect().bottom < innerHeight',
+      returnByValue: true,
+    });
+    contactReached = result.result.value === true;
+    if (!contactReached) await sleep(100);
+  }
+  if (!contactReached) throw new Error(`${spec.name}: hero-to-contact keyboard navigation failed`);
 
   await send("Runtime.evaluate", { expression: `document.querySelector('.collection-nav a[href="#ai-projects"]').focus({preventScroll: true})` });
   for (const type of ["keyDown", "keyUp"]) {

@@ -97,6 +97,7 @@ section, article, details { scroll-margin-top: 1rem; }
 .hero h1 b { font-weight: inherit; color: var(--warm); }
 .hero-intro { max-width: 35rem; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.2rem); }
 .actions { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem; margin-top: 1.65rem; }
+.hero-secondary-actions { display: flex; align-items: center; gap: .6rem; }
 .action {
   display: inline-flex;
   justify-content: center;
@@ -173,7 +174,7 @@ section, article, details { scroll-margin-top: 1rem; }
 .stack li { display: inline-flex; align-items: center; gap: .36rem; min-height: 1.9rem; padding: .25rem .62rem .25rem .3rem; border: 1px solid var(--line); border-radius: 999px; font-size: .74rem; font-weight: 750; }
 .tool-logo { width: 1.3rem; height: 1.3rem; padding: .12rem; border-radius: 50%; background: #fffdf7; object-fit: contain; }
 .tool-fallback { width: 1.25rem; height: 1.25rem; padding: .18rem; border-radius: 50%; background: var(--accent); color: var(--forest-deep); }
-.experience-summary, .education-detail, .contact > p { color: var(--muted); }
+.experience-summary, .education-detail { color: var(--muted); }
 .skills-card { min-width: 0; padding: clamp(1.15rem, 2.8vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .skills-card h3 { margin: .6rem 0 .72rem; font-size: clamp(1.45rem, 2.55vw, 2.2rem); }
 .text-link { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.65rem; width: fit-content; color: var(--accent); font-size: .88rem; font-weight: 800; }
@@ -285,9 +286,34 @@ section, article, details { scroll-margin-top: 1rem; }
 .resume-link { width: 3rem; height: 3rem; align-content: center; gap: .12rem; }
 .resume-link svg { width: 1.25rem; height: 1.25rem; }
 .resume-link span { font-size: .6rem; line-height: 1; font-weight: 800; letter-spacing: .04em; }
-.social-link { min-width: 3rem; min-height: 3rem; }
-.social-link svg { width: 1.3rem; height: 1.3rem; }
-.contact > p { max-width: 41rem; }
+.contact-panel { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4.5rem); padding: clamp(1.25rem, 4vw, 3rem); border: 1px solid var(--line); border-radius: 1.5rem; background: radial-gradient(ellipse at top left, #2b4d37, transparent 75%), #122f24; }
+.contact-intro, .contact-details { min-width: 0; }
+.contact-intro h2 { font-size: clamp(2.3rem, 4.6vw, 3.8rem); margin-block: 1rem 1.25rem; text-wrap: balance; }
+.contact-message { max-width: 31rem; color: var(--muted); font-size: 1rem; }
+.contact-availability { display: flex; align-items: flex-start; gap: .8rem; margin-top: 1.8rem; }
+.contact-availability .signal { margin-top: .5rem; }
+.contact-availability p { display: grid; gap: .15rem; }
+.contact-availability strong { font-size: .88rem; color: var(--accent); }
+.contact-availability p > span { font-size: .83rem; color: var(--muted); }
+.contact-details { align-self: center; }
+.contact-email { display: block; padding: 1.1rem 1.2rem; border: 1px solid var(--accent); border-radius: .8rem; color: var(--forest-deep); background: var(--accent); }
+.contact-email:hover { background: var(--ink); border-color: var(--ink); }
+.contact-label { display: flex; align-items: center; gap: .5rem; font-size: .8rem; font-weight: 750; }
+.contact-label > svg:last-child { margin-left: auto; }
+.contact-email strong { display: block; margin-top: .35rem; font-size: clamp(.95rem, 1.6vw, 1.15rem); overflow-wrap: anywhere; }
+.contact-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem 1rem; padding-block: 1.3rem 1rem; border-bottom: 1px solid var(--line); }
+.contact-meta dt { display: flex; align-items: center; gap: .45rem; color: var(--muted); font-size: .76rem; }
+.contact-meta dt svg { color: var(--warm); }
+.contact-meta dd { font-size: .9rem; font-weight: 700; min-height: 2.75rem; display: flex; align-items: center; }
+.contact-meta a { display: inline-flex; align-items: center; min-height: 2.75rem; }
+.contact-meta a:hover { color: var(--accent); text-decoration: underline; text-underline-offset: .25em; }
+.contact-socials { padding-top: 1rem; }
+.contact-socials > p { color: var(--muted); font-size: .76rem; margin-bottom: .5rem; }
+.contact-socials > div { display: flex; flex-wrap: wrap; gap: .5rem; }
+.contact-socials a { display: inline-flex; align-items: center; gap: .5rem; min-height: 2.75rem; padding: .5rem .75rem; border: 1px solid var(--line); border-radius: .5rem; font-size: .82rem; font-weight: 750; }
+.contact-socials a > svg:first-child { color: var(--accent); width: 1.2rem; height: 1.2rem; }
+.contact-socials a > svg:last-child { color: var(--muted); width: .85rem; height: .85rem; }
+.contact-socials a:hover { border-color: var(--accent); background: var(--surface-light); }
 .footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .4rem 1rem; align-items: center; border-top: 1px solid var(--line); padding-block: 1.2rem; color: var(--muted); font-size: .83rem; }
 .up-arrow { transform: rotate(180deg); }
 
@@ -307,6 +333,7 @@ section, article, details { scroll-margin-top: 1rem; }
   .project-body { grid-template-columns: 1fr; }
   .project-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
   .collection-heading { align-items: start; flex-direction: column; }
+  .contact-panel { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 42rem) {
@@ -331,6 +358,10 @@ section, article, details { scroll-margin-top: 1rem; }
   .atlas-links a svg { display: none; }
   .nav-links a { padding-inline: .35rem; font-size: .79rem; }
   .architecture-flow { grid-template-columns: 1fr; }
+  .contact-meta { grid-template-columns: 1fr; }
+  .contact-email { padding-inline: .8rem; }
+  .contact-email strong { font-size: .875rem; }
+  .contact-socials a { padding-inline: .55rem; gap: .4rem; }
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -338,7 +369,7 @@ section, article, details { scroll-margin-top: 1rem; }
   .atlas { animation: atlas-arrive 580ms ease-out both; }
   .atlas-signal { stroke-dasharray: 12 88; animation: atlas-draw 1400ms 160ms ease-in-out both; }
   .atlas-plinth { transition: fill 160ms, stroke 160ms; }
-  .action, .atlas-links a, .selected-card, .icon-link {
+  .action, .atlas-links a, .selected-card, .icon-link, .contact-email, .contact-socials a {
     transition: background-color 160ms, border-color 160ms, color 160ms;
   }
 }

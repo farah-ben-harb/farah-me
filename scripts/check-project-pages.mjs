@@ -15,8 +15,18 @@ for (const locale of ["fr", "en"]) {
     ? ["Cycle d’ingénieur en informatique", "Spécialisation Architecture IT et Cloud Computing.", "Semestre d’échange en dernière année", "Spécialisation Réseaux et Télécommunications."]
     : ["Engineering degree in Computer Science", "Specialization in IT Architecture and Cloud Computing.", "Final-year exchange semester", "Specialization in Networks and Telecommunications."];
   for (const text of expectedEducation) assert.ok(education.includes(text), `${locale}: education includes ${text}`);
+  const contact = home.split('id="contact"')[1]?.split('</section>')[0] ?? "";
+  assert.ok(contact.includes('aria-labelledby="contact-title"'), `${locale}: named contact section`);
+  assert.ok(contact.includes(locale === "fr" ? 'Faisons connaissance.' : 'Let’s connect.'), `${locale}: localized invitation`);
+  assert.ok(contact.includes(locale === "fr" ? '6 mois · À partir de mars 2027' : '6 months · From March 2027'), `${locale}: internship availability`);
+  for (const href of ['mailto:benharbfarah85@gmail.com', 'tel:+33775691867', 'https://www.linkedin.com/in/farah-ben-harb-b26845313/', 'https://github.com/farah-ben-harb']) {
+    assert.equal([...contact.matchAll(new RegExp(`href="${href.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}"`, 'g'))].length, 1, `${locale}: one contact link for ${href}`);
+  }
+  assert.ok(contact.includes('Rouen, France') && contact.includes('benharbfarah85@gmail.com'), `${locale}: readable location and email`);
+  assert.ok(!contact.includes('<form'), `${locale}: no nonfunctional contact form`);
   const resume = `/resumes/farah-ben-harb-cloud-engineering-${locale}.pdf`;
   const hero = home.split('class="hero-copy"')[1]?.split('</section>')[0] ?? "";
+  assert.ok(hero.includes('class="action action-outline hero-contact-link" href="#contact"'), `${locale}: direct contact shortcut`);
   const resumeLink = hero.match(/<a\b[^>]*class="icon-link resume-link"[^>]*>/)?.[0] ?? "";
   for (const attribute of [`href="${resume}"`, `hrefLang="${locale}"`, 'target="_blank"', 'rel="noopener noreferrer"', 'aria-label=', 'title=']) {
     assert.ok(resumeLink.includes(attribute), `${locale}: hero CV icon has ${attribute}`);
