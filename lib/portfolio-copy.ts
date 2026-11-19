@@ -68,17 +68,14 @@ export const education = [
 export const focusAreas = [
   {
     label: ["Cloud & infrastructure", "Cloud & infrastructure"],
-    tools: ["Azure", "AWS", "OpenStack", "Terraform", "Ansible", "Linux"],
     href: "#k8s-cluster-automation",
   },
   {
     label: ["DevOps & fiabilité", "DevOps & reliability"],
-    tools: ["Kubernetes", "Helm", "Argo CD", "GitHub Actions", "Prometheus", "Grafana"],
     href: "#devsecops-incident-platform",
   },
   {
     label: ["MLOps & plateformes IA", "MLOps & AI platforms"],
-    tools: ["FastAPI", "scikit-learn", "Kubeflow Pipelines", "MLflow"],
     href: "#crm-intelligence-mlops",
   },
 ] as const;

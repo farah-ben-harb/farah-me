@@ -21,6 +21,8 @@ const specs = [
   { name: "mobile-groups", width: 390, height: 844, mobile: true, selector: "#ai-projects" },
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
   { name: "mobile-skills", width: 390, height: 844, mobile: true, selector: "#skills" },
+  { name: "desktop-skills", width: 1440, height: 1200, mobile: false, selector: "#skills" },
+  { name: "mobile-skills-en", width: 320, height: 1000, mobile: true, selector: "#skills", route: "/en" },
   { name: "mobile-home", width: 390, height: 844, mobile: true, selector: null },
   { name: "mobile-cv", width: 390, height: 844, mobile: true, selector: ".hero .actions" },
   { name: "mobile-english", width: 320, height: 740, mobile: true, selector: null, route: "/en" },
@@ -149,7 +151,7 @@ async function capture(spec) {
       dimensions.contactLinks !== 4 || !dimensions.contactLandmark ||
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
-      dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 3 ||
+      dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 ||
       dimensions.selectedCards !== 6 || dimensions.directoryItems !== 10 || dimensions.companionLinks !== 2 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
@@ -162,6 +164,17 @@ async function capture(spec) {
   });
   const output = path.join(outputDir, `${spec.name}.png`);
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
+
+  if (spec.name.includes('skills')) {
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".skill-evidence summary").focus({preventScroll: true})' });
+    for (const type of ["keyDown", "keyUp"]) {
+      await send("Input.dispatchKeyEvent", { type, key: "Enter", code: "Enter", windowsVirtualKeyCode: 13, ...(type === "keyDown" ? { text: "\r" } : {}) });
+    }
+    const evidenceOpened = await send("Runtime.evaluate", {
+      expression: 'document.querySelector(".skill-evidence").open && document.querySelector(".skill-evidence a").getBoundingClientRect().height >= 44', returnByValue: true,
+    });
+    if (!evidenceOpened.result.value) throw new Error(`${spec.name}: skills evidence keyboard disclosure failed`);
+  }
 
   await send("Runtime.evaluate", { expression: 'document.querySelector(".hero-contact-link").focus({preventScroll: true})' });
   for (const type of ["keyDown", "keyUp"]) {
@@ -178,6 +191,17 @@ async function capture(spec) {
     if (!contactReached) await sleep(100);
   }
   if (!contactReached) throw new Error(`${spec.name}: hero-to-contact keyboard navigation failed`);
+  // Fragment focus changes can finish after the heading first enters view.
+  // Let smooth scrolling settle before sending another keyboard interaction.
+  let lastScroll = null;
+  let stableScroll = 0;
+  const settleDeadline = Date.now() + 5000;
+  while (stableScroll < 3 && Date.now() < settleDeadline) {
+    await sleep(100);
+    const position = await send("Runtime.evaluate", { expression: 'scrollY', returnByValue: true });
+    stableScroll = position.result.value === lastScroll ? stableScroll + 1 : 0;
+    lastScroll = position.result.value;
+  }
 
   await send("Runtime.evaluate", { expression: `document.querySelector('.collection-nav a[href="#ai-projects"]').focus({preventScroll: true})` });
   for (const type of ["keyDown", "keyUp"]) {

@@ -6,7 +6,9 @@ import {
 import { PlatformAtlas } from "@/components/platform-atlas";
 import { ProjectCollection } from "@/components/project-collection";
 import { TechStack } from "@/components/tech-stack";
-import { education, experience, focusAreas, tr, type Locale } from "@/lib/portfolio-copy";
+import { education, experience, tr, type Locale } from "@/lib/portfolio-copy";
+import { skillGroups, skillLabel } from "@/lib/skills";
+import { findCaseStudy, projectPath } from "@/lib/project-details";
 import { siteConfig } from "@/lib/site";
 
 function SectionTitle({ index, label, title }: { index: string; label: string; title: string }) {
@@ -116,11 +118,23 @@ export function Portfolio({ locale }: { locale: Locale }) {
 
         <section className="section" id="skills">
           <SectionTitle index="04" label={t("Outils & pratiques", "Tools & practices")} title={t("Compétences", "Skills")} />
+          <p className="skills-intro">{t(
+            "Du développement applicatif aux plateformes cloud : les technologies et pratiques de mes projets et stages, regroupées par domaine. Les fiches précisent les réalisations, les configurations et les validations effectuées.",
+            "From application development to cloud platforms: technologies and practices from my projects and internships, grouped by domain. Each case study explains the implementation, configuration and completed validations.",
+          )}</p>
           <div className="skills-grid">
-            {focusAreas.map((area) => (
-              <article className="skills-card" key={area.href}>
-                <h3>{tr(locale, area.label)}</h3>
-                <TechStack tools={area.tools} />
+            {skillGroups.map((group, index) => (
+              <article className="skills-card" key={group.id} data-skill-group={group.id}>
+                <p className="eyebrow">{String(index + 1).padStart(2, "0")}</p>
+                <h3>{tr(locale, group.title)}</h3>
+                <TechStack tools={group.tools.map(tool => skillLabel(tool, locale))} />
+                {"note" in group && <p className="skills-note">{tr(locale, group.note)}</p>}
+                <details className="skill-evidence">
+                  <summary>{t("Voir les réalisations associées", "See related work")}</summary>
+                  {group.projects.map(slug => <Link key={slug} href={projectPath(locale, slug)} prefetch={false}>{findCaseStudy(slug)!.name}<ArrowUpRight aria-hidden="true" /></Link>)}
+                  {"experience" in group && <a href="#experience">{t("Expériences professionnelles", "Professional experience")}<ArrowDownRight aria-hidden="true" /></a>}
+                  {(group.id === "applications" || group.id === "cloud" || group.id === "security") && <a href="https://github.com/farah-ben-harb/farah-me">{t("Ce portfolio", "This portfolio")}<ArrowUpRight aria-hidden="true" /></a>}
+                </details>
               </article>
             ))}
           </div>
