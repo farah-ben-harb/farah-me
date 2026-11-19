@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  ArrowDown, ArrowDownRight,
+  ArrowDown, ArrowDownRight, ArrowUpRight,
   EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
@@ -68,9 +68,12 @@ export function Portfolio({ locale }: { locale: Locale }) {
             )}</p>
             <div className="actions">
               <a className="action action-primary" href="#projects">{t("Explorer les projets", "Explore projects")}<ArrowDownRight aria-hidden="true" /></a>
-              <a className="icon-link resume-link" id="resumes" href={cloudResume} hrefLang={locale} type="application/pdf" target="_blank" rel="noopener noreferrer" aria-label={resumeLabel} title={resumeLabel}>
-                <FileText aria-hidden="true" /><span aria-hidden="true">CV</span>
-              </a>
+              <div className="hero-secondary-actions">
+                <a className="action action-outline hero-contact-link" href="#contact">{t("Me contacter", "Get in touch")}<EnvelopeSimple aria-hidden="true" /></a>
+                <a className="icon-link resume-link" id="resumes" href={cloudResume} hrefLang={locale} type="application/pdf" target="_blank" rel="noopener noreferrer" aria-label={resumeLabel} title={resumeLabel}>
+                  <FileText aria-hidden="true" /><span aria-hidden="true">CV</span>
+                </a>
+              </div>
             </div>
             <p className="hero-location"><MapPin aria-hidden="true" /> {t("Rouen, France · Stage de fin d’études dès mars 2027", "Rouen, France · Available for a final-year internship from March 2027")}</p>
           </div>
@@ -123,17 +126,37 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section className="section contact" id="contact">
-          <SectionTitle index="05" label="Contact" title={t("Parlons de votre projet.", "Let’s talk about your project.")} />
-          <p>{t(
-            "Je recherche un stage de fin d’études de six mois à partir de mars 2027, en Cloud, DevOps, SRE ou MLOps.",
-            "I’m looking for a six-month final-year internship from March 2027 in Cloud, DevOps, SRE or MLOps.",
-          )}</p>
-          <div className="actions">
-            <a className="action action-primary" href={`mailto:${siteConfig.email}`}><EnvelopeSimple aria-hidden="true" /> {t("M’écrire", "Email me")}</a>
-            <a className="action action-outline" href={`tel:${siteConfig.phone}`} aria-label={`${t("Appeler Farah au", "Call Farah at")} ${siteConfig.phoneDisplay}`}><Phone aria-hidden="true" /> {siteConfig.phoneDisplay}</a>
-            <a className="icon-link social-link" aria-label="GitHub" href={siteConfig.github}><GithubLogo aria-hidden="true" /></a>
-            <a className="icon-link social-link" aria-label="LinkedIn" href={siteConfig.linkedin}><LinkedinLogo aria-hidden="true" /></a>
+        <section className="section contact" id="contact" aria-labelledby="contact-title">
+          <div className="contact-panel">
+            <div className="contact-intro">
+              <p className="eyebrow"><span>05 /</span> Contact</p>
+              <h2 id="contact-title">{t("Faisons connaissance.", "Let’s connect.")}</h2>
+              <p className="contact-message">{t(
+                "Vous recherchez une stagiaire en Cloud, DevOps, SRE ou MLOps ? Je serais ravie d’échanger sur votre équipe et les projets auxquels je pourrais contribuer.",
+                "Looking for a Cloud, DevOps, SRE or MLOps intern? I’d love to hear about your team and the projects I could contribute to.",
+              )}</p>
+              <div className="contact-availability">
+                <span className="signal" aria-hidden="true" />
+                <p><strong>{t("Stage de fin d’études", "Final-year internship")}</strong><span>{t("6 mois · À partir de mars 2027", "6 months · From March 2027")}</span></p>
+              </div>
+            </div>
+            <div className="contact-details">
+              <a className="contact-email" href={`mailto:${siteConfig.email}`}>
+                <span className="contact-label"><EnvelopeSimple aria-hidden="true" /> {t("Écrivez-moi", "Email me")}<ArrowUpRight aria-hidden="true" /></span>
+                <strong>{siteConfig.email}</strong>
+              </a>
+              <dl className="contact-meta">
+                <div><dt><Phone aria-hidden="true" /> {t("Téléphone", "Phone")}</dt><dd><a href={`tel:${siteConfig.phone}`} aria-label={`${t("Appeler Farah au", "Call Farah at")} ${siteConfig.phoneDisplay}`}>{siteConfig.phoneDisplay}</a></dd></div>
+                <div><dt><MapPin aria-hidden="true" /> {t("Localisation", "Location")}</dt><dd>Rouen, France</dd></div>
+              </dl>
+              <div className="contact-socials">
+                <p>{t("Retrouvez-moi aussi sur", "Find me on")}</p>
+                <div>
+                  <a href={siteConfig.linkedin}><LinkedinLogo aria-hidden="true" /> LinkedIn<ArrowUpRight aria-hidden="true" /></a>
+                  <a href={siteConfig.github}><GithubLogo aria-hidden="true" /> GitHub<ArrowUpRight aria-hidden="true" /></a>
+                </div>
+              </div>
+            </div>
           </div>
         </section>
       </main>
