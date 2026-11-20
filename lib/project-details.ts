@@ -90,6 +90,7 @@ const details: Record<string, Detail> = {
     deployment: ["Cible OpenStack : images, flavours, réseaux et credentials doivent être fournis par le laboratoire.", "OpenStack target: images, flavours, networks and credentials must be supplied by the lab."],
     limits: [["Aucune création récente de stack sur un cloud cible n’est revendiquée. Les identifiants historiques exposés nécessitent un traitement hors Git.", "No recent stack creation on a target cloud is claimed. Historically exposed credentials require remediation outside Git."]],
     evidence: "https://github.com/farah-ben-harb/openstack-heat-infrastructure/actions/runs/43032446675",
+    related: ["k8s-cluster-automation"],
   },
   "k8s-cluster-automation": {
     description: ["Automatiser le bootstrap d’un cluster Kubernetes sur des VM OpenStack et préparer sa supervision.", "Automate Kubernetes cluster bootstrap on OpenStack VMs and prepare its monitoring."],
@@ -99,6 +100,7 @@ const details: Record<string, Detail> = {
     validation: ["La CI statique couvre les configurations Heat, Ansible, YAML et shell ainsi que le scan de secrets. Elle ne prouve pas un bootstrap réussi sur un cluster neuf.", "Static CI covers Heat, Ansible, YAML and shell configuration plus secret scanning. It does not prove a successful fresh-cluster bootstrap."],
     deployment: ["Lab OpenStack Ubuntu avec Kubernetes/containerd ; versions et compatibilité détaillées dans le dépôt.", "OpenStack Ubuntu lab with Kubernetes/containerd; versions and compatibility are detailed in the repository."],
     limits: [["Un déploiement OpenStack/Kubernetes complet reste à revalider.", "A complete OpenStack/Kubernetes deployment still requires revalidation."], ["La révocation effective de l’ancien identifiant SMTP reste non confirmée par son propriétaire.", "Actual revocation of the historical SMTP credential remains unconfirmed by its owner."]],
+    related: ["openstack-heat-infrastructure"],
   },
   "kubernetes-anomaly-detection-openstack": {
     description: ["Transformer l’historique de métriques Kubernetes en signaux d’anomalie consultables par API.", "Turn historical Kubernetes metrics into anomaly signals accessible through an API."],
