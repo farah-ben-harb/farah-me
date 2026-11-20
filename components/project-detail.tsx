@@ -90,20 +90,15 @@ export function ProjectDetail({ project, locale }: { project: CaseStudy; locale:
               <figcaption>{t("Média du dépôt Alif, pas une capture de déploiement en direct.", "Media from the Alif repository, not a live-deployment screenshot.")}</figcaption>
             </figure>}
           </div>
-          <aside className="project-sidebar" aria-label={t("Ressources et périmètre", "Resources and scope")}>
+          <aside className="project-sidebar" aria-label={t("Ressources du projet", "Project resources")}>
             <div className="resource-card">
               <p className="eyebrow">{t("Explorer", "Explore")}</p>
-              <h2>{t("Code & démonstration", "Code & demonstration")}</h2>
+              <h2>{project.liveDemo ? t("Code & démonstration", "Code & demonstration") : t("Code & documentation", "Code & documentation")}</h2>
               <a className="text-link" href={`${project.repository}#readme`}>README<ArrowUpRight aria-hidden="true" /></a>
               <a className="text-link" href={project.repository}><GithubLogo aria-hidden="true" />{t("Dépôt GitHub", "GitHub repository")}</a>
               {project.liveDemo
                 ? <a className="text-link demo-link" href={project.liveDemo}>{t("Ouvrir la démo API", "Open the API demo")}<ArrowUpRight aria-hidden="true" /></a>
-                : <p className="demo-status">{t("Pas de démonstration publique vérifiée. Le code et sa documentation restent consultables.", "No verified public demo. Source code and documentation are available.")}</p>}
-            </div>
-            <div className="limits-card">
-              <p className="eyebrow">{t("En toute transparence", "Scope & transparency")}</p>
-              <h2>{t("Limites actuelles", "Current limitations")}</h2>
-              <ul>{project.limits.map((limit) => <li key={limit[1]}>{tr(locale, limit)}</li>)}</ul>
+                : <p className="demo-status">{t("Retrouvez le code source, les instructions et les choix techniques dans le dépôt.", "Explore the source code, instructions and technical decisions in the repository.")}</p>}
             </div>
             {!!project.related?.length && <div className="resource-card">
               <h2>{t("Projets liés", "Related projects")}</h2>

@@ -10,7 +10,7 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 - An illustrated systems map linking directly to Cloud, DevOps and MLOps work
 - Six equally sized featured cards: Kubernetes automation, FootballMatch, DevSecOps Incident Platform, GitOps Delivery Platform, OpenStack Heat and Flask Azure
 - Separate AI/MLOps and application groups, with all 18 repository case studies accessible; DevoRecruiter and Alif include their deployment repositories as companion links rather than duplicate cards
-- Dedicated FR/EN project pages with architecture, implementation, environments, evidence, limitations and related repositories
+- Dedicated FR/EN project pages focused on architecture, implementation, environments, evidence and related repositories, without scope or limitations panels
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom, each with its own verified tool stack
 - separate education chronology (ESIGELEC, ESPRIT preparatory and engineering cycles, and the 2022 scientific baccalaureate) and technical skills section
 - Nine skills categories covering project and internship technologies, with links to supporting case studies; inventory and scope are documented in `SKILLS_EVIDENCE.md` and maintained in `lib/skills.ts`
@@ -28,7 +28,7 @@ The content follows an evidence-first rule: a deployment or test is described as
 - Tailwind CSS 4
 - Vercel hosting
 
-Both language versions and all 36 project pages are statically rendered. Repository identities stay in `lib/portfolio-data.ts`, project editorial content in `lib/project-details.ts`, home-page copy in `lib/portfolio-copy.ts`, and the shared views in `components/portfolio.tsx` and `components/project-detail.tsx`. The server-rendered `components/project-collection.tsx` provides six featured cards and two compact domain groups, without filtering or hidden projects. The systems map uses inline SVG and motion respects `prefers-reduced-motion`. Project language switches preserve the current project. Only the verified FootballMatch API has a live-demo button; unavailable demos have an explicit note, not a placeholder link.
+Both language versions and all 36 project pages are statically rendered. Repository identities stay in `lib/portfolio-data.ts`, project editorial content in `lib/project-details.ts`, home-page copy in `lib/portfolio-copy.ts`, and the shared views in `components/portfolio.tsx` and `components/project-detail.tsx`. The server-rendered `components/project-collection.tsx` provides six featured cards and two compact domain groups, without filtering or hidden projects. The systems map uses inline SVG and motion respects `prefers-reduced-motion`. Project language switches preserve the current project. Only the verified FootballMatch API has a live-demo button; other projects link to their code and documentation, without placeholder demo links.
 
 ## Local Development
 
@@ -92,6 +92,6 @@ The GitHub repository is connected to Vercel. Pushes to the production branch ca
 - Do not add a live-demo link without verifying that it responds.
 - Distinguish configured pipelines from publicly executed pipelines.
 - Distinguish infrastructure definitions from a running cloud environment.
-- Keep known limitations visible rather than implying production readiness.
+- Preserve audit context in the editorial source data, without rendering dedicated scope or limitations panels. Keep deployment and validation descriptions factual; do not imply unverified production readiness.
 - Do not publish private contact data in public resume assets.
 - Keep author and committer identity set to `Farah Ben Harb <benharbfarah85@gmail.com>`.

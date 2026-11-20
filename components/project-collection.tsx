@@ -50,7 +50,7 @@ const groups = [
   },
   {
     id: "application-projects", title: ["Applications & logiciels", "Applications & software"],
-    description: ["Web, desktop et projets de formation : chaque réalisation a sa fiche, son code et ses limites.", "Web, desktop and academic work: each project has its own case study, source code and scope."],
+    description: ["Web, desktop et projets de formation : explorez les réalisations, les architectures et le code de chaque projet.", "Web, desktop and academic work: explore each project's implementation, architecture and source code."],
     entries: [
       { slug: "alif-app", companion: "Alif.tn-App-k8s" },
       { slug: "Application-Airport-Management", companion: null },

@@ -7,6 +7,7 @@ const outputDir = path.join(process.cwd(), "artifacts", "screenshots-cdp");
 
 const specs = [
   { name: "project-football-desktop", width: 1440, height: 1100, mobile: false, selector: null, route: "/projects/footballmatch-ai-platform-mlops", project: true },
+  { name: "project-football-tablet-resources", width: 820, height: 1180, mobile: true, selector: ".project-sidebar", route: "/projects/footballmatch-ai-platform-mlops", project: true },
   { name: "project-crm-mobile-en", width: 390, height: 844, mobile: true, selector: "#architecture", route: "/en/projects/crm-intelligence-mlops", project: true },
   { name: "project-campus-mobile", width: 320, height: 740, mobile: true, selector: null, route: "/projects/CampusIdeas-SPA", project: true },
   { name: "project-alif-media", width: 1280, height: 900, mobile: false, selector: ".project-media", route: "/projects/alif-app", project: true },
