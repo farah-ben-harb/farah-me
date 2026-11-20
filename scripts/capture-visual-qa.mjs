@@ -8,6 +8,7 @@ const outputDir = path.join(process.cwd(), "artifacts", "screenshots-cdp");
 const specs = [
   { name: "project-football-desktop", width: 1440, height: 1100, mobile: false, selector: null, route: "/projects/footballmatch-ai-platform-mlops", project: true },
   { name: "project-football-tablet-resources", width: 820, height: 1180, mobile: true, selector: ".project-sidebar", route: "/projects/footballmatch-ai-platform-mlops", project: true },
+  { name: "project-k8s-related", width: 1280, height: 1000, mobile: false, selector: "#architecture", route: "/projects/k8s-cluster-automation", project: true },
   { name: "project-crm-mobile-en", width: 390, height: 844, mobile: true, selector: "#architecture", route: "/en/projects/crm-intelligence-mlops", project: true },
   { name: "project-campus-mobile", width: 320, height: 740, mobile: true, selector: null, route: "/projects/CampusIdeas-SPA", project: true },
   { name: "project-alif-media", width: 1280, height: 900, mobile: false, selector: ".project-media", route: "/projects/alif-app", project: true },
@@ -18,6 +19,9 @@ const specs = [
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
   { name: "mobile-projects", width: 390, height: 844, mobile: true, selector: "#selected-projects" },
   { name: "tablet-projects", width: 820, height: 1180, mobile: true, selector: "#projects" },
+  { name: "desktop-devops", width: 1440, height: 1050, mobile: false, selector: "#devops-projects" },
+  { name: "desktop-applications", width: 1440, height: 1100, mobile: false, selector: "#application-projects" },
+  { name: "mobile-cloud-en", width: 320, height: 1100, mobile: true, selector: "#cloud-projects", route: "/en" },
   { name: "desktop-groups", width: 1440, height: 1000, mobile: false, selector: "#ai-projects" },
   { name: "mobile-groups", width: 390, height: 844, mobile: true, selector: "#ai-projects" },
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
@@ -130,14 +134,15 @@ async function capture(spec) {
       educationCards: document.querySelectorAll('#education .education-card').length,
       experienceStacks: document.querySelectorAll('#experience article .stack').length,
       skillsGroups: document.querySelectorAll('#skills .skills-card').length,
-      selectedCards: document.querySelectorAll('.selected-card').length,
-      directoryItems: document.querySelectorAll('.directory-item').length,
+      projectCards: document.querySelectorAll('.collection-card').length,
+      projectCategories: document.querySelectorAll('.collection-section').length,
+      groupedInfrastructure: document.querySelector('#k8s-cluster-automation .companion-link')?.id === 'openstack-heat-infrastructure',
       companionLinks: document.querySelectorAll('.companion-link').length,
       logoCount: document.querySelectorAll('.tool-logo').length,
       hasBaccalaureate: document.querySelector('#education')?.textContent.includes(${JSON.stringify("Baccalauréat scientifique")}) || document.querySelector('#education')?.textContent.includes('Scientific baccalaureate'),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
-      collectionNav: document.querySelectorAll('.collection-nav a').length === 3
+      collectionNav: document.querySelectorAll('.collection-nav a').length === 4
     })`,
     returnByValue: true,
   });
@@ -153,7 +158,7 @@ async function capture(spec) {
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 ||
-      dimensions.selectedCards !== 6 || dimensions.directoryItems !== 10 || dimensions.companionLinks !== 2 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
+      dimensions.projectCards !== 15 || dimensions.projectCategories !== 4 || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
@@ -230,6 +235,17 @@ async function capture(spec) {
     returnByValue: true,
   });
   if (!navigation.result.value) throw new Error(`${spec.name}: DevOps shortcut did not reveal the project`);
+
+  if (spec.name === 'desktop-projects' || spec.name === 'mobile-cloud-en') {
+    await send("Runtime.evaluate", { expression: 'document.querySelector("#openstack-heat-infrastructure").click()' });
+    await sleep(1500);
+    const infrastructure = await send("Runtime.evaluate", { expression: 'location.pathname.endsWith("/projects/openstack-heat-infrastructure") && !!document.querySelector("#project-title")', returnByValue: true });
+    if (!infrastructure.result.value) throw new Error(`${spec.name}: grouped OpenStack link failed`);
+    await send("Runtime.evaluate", { expression: 'document.querySelector(\'.project-sidebar a[href$="/projects/k8s-cluster-automation"]\').click()' });
+    await sleep(1500);
+    const cluster = await send("Runtime.evaluate", { expression: 'location.pathname.endsWith("/projects/k8s-cluster-automation") && !!document.querySelector("#project-title")', returnByValue: true });
+    if (!cluster.result.value) throw new Error(`${spec.name}: related Kubernetes navigation failed`);
+  }
 
   socket.close();
   await fetch(`${cdpBase}/json/close/${target.id}`);

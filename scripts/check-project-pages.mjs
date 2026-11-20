@@ -63,19 +63,28 @@ for (const locale of ["fr", "en"]) {
   assert.ok(home.includes('href="tel:+33775691867"'), `${locale}: click-to-call link`);
   assert.ok(home.includes('+33 7 75 69 18 67'), `${locale}: readable phone number`);
   assert.ok(home.includes(`aria-label="${locale === "fr" ? "Appeler Farah au" : "Call Farah at"} +33 7 75 69 18 67"`), `${locale}: accessible phone label`);
-  assert.equal([...home.matchAll(/class="selected-card project-details-link"/g)].length, 6, `${locale}: six selected projects`);
-  assert.equal([...home.matchAll(/class="companion-link"/g)].length, 2, `${locale}: two companion repositories`);
-  assert.ok(home.includes('id="ai-projects"') && home.includes('id="application-projects"'), `${locale}: domain groups`);
-  const selected = home.match(/<ul class="selected-grid">([\s\S]*?)<\/section>/)?.[1] ?? "";
-  assert.deepEqual([...selected.matchAll(/class="selected-card project-details-link"[^>]+id="([^"]+)"/g)].map(m => m[1]), [
-    "k8s-cluster-automation", "footballmatch-ai-platform-mlops", "devsecops-incident-platform",
-    "gitops-delivery-platform", "openstack-heat-infrastructure", "flask-azure-devops-pipeline",
-  ], `${locale}: Cloud/DevOps featured order`);
-  for (const [primary, companion] of [["devorecruiter", "devorecruiter-gitops"], ["alif-app", "Alif.tn-App-k8s"]]) {
-    const item = home.split(`class="directory-item" id="${primary}"`)[1]?.split('class="directory-item"')[0] ?? "";
+  const collection = home.split('class="project-collection"')[1]?.split('<section class="section" id="experience"')[0] ?? '';
+  const categorySlugs = {
+    'cloud-projects': ['k8s-cluster-automation', 'kubernetes-anomaly-detection-openstack'],
+    'devops-projects': ['devsecops-incident-platform', 'gitops-delivery-platform', 'flask-azure-devops-pipeline'],
+    'ai-projects': ['footballmatch-ai-platform-mlops', 'crm-intelligence-mlops', 'devorecruiter', 'CryptoCurrency-Project'],
+    'application-projects': ['alif-app', 'Application-Airport-Management', 'wefarm-smart-agriculture-platform', 'SmartFarm-Desktop-Application', 'QuantumEscape-Game-2D-SDL', 'CampusIdeas-SPA'],
+  };
+  assert.equal([...collection.matchAll(/<li class="collection-card(?: collection-card-highlight)?"/g)].length, 15, `${locale}: fifteen grouped projects`);
+  assert.equal([...collection.matchAll(/class="companion-link"/g)].length, 3, `${locale}: three companion repositories`);
+  assert.deepEqual([...collection.matchAll(/<section class="collection-section" id="([^"]+)"/g)].map(m => m[1]), Object.keys(categorySlugs), `${locale}: four ordered categories`);
+  for (const [id, slugs] of Object.entries(categorySlugs)) {
+    const category = collection.split(`id="${id}"`)[1]?.split('</section>')[0] ?? '';
+    assert.ok(collection.includes(`href="#${id}"`), `${locale}: navigation to ${id}`);
+    assert.deepEqual([...category.matchAll(/<li class="collection-card(?: collection-card-highlight)?" id="([^"]+)"/g)].map(m => m[1]), slugs, `${locale}: projects in ${id}`);
+  }
+  for (const [primary, companion] of [["k8s-cluster-automation", "openstack-heat-infrastructure"], ["devorecruiter", "devorecruiter-gitops"], ["alif-app", "Alif.tn-App-k8s"]]) {
+    const item = collection.split(`id="${primary}"`)[1]?.split('<li class="collection-card')[0] ?? '';
     assert.ok(item.includes(`class="companion-link" id="${companion}"`), `${locale}: ${companion} grouped with ${primary}`);
   }
-  const links = [...new Set([...home.matchAll(/href="((?:\/en)?\/projects\/[^"#?]+)"/g)].map(m => m[1]))];
+  const cardIds = [...collection.matchAll(/\bid="([^"]+)"/g)].map(m => m[1]);
+  assert.equal(new Set(cardIds).size, cardIds.length, `${locale}: no duplicate project anchors`);
+  const links = [...new Set([...collection.matchAll(/href="((?:\/en)?\/projects\/[^"#?]+)"/g)].map(m => m[1]))];
   assert.equal(links.length, 18, `${locale}: all 18 project pages must be discoverable`);
   for (const route of links) {
     assert.equal(route.startsWith("/en/"), locale === "en", `Wrong locale: ${route}`);
@@ -94,6 +103,11 @@ for (const locale of ["fr", "en"]) {
     assert.ok(html.includes(`property="og:url" content="https://farah-me.vercel.app${route}"`), `${route}: Open Graph URL`);
     assert.ok(html.includes('property="og:image" content="https://farah-me.vercel.app/opengraph-image"'), `${route}: Open Graph image`);
     const slug = route.split("/").at(-1);
+    const relatedSlug = { 'k8s-cluster-automation': 'openstack-heat-infrastructure', 'openstack-heat-infrastructure': 'k8s-cluster-automation' }[slug];
+    if (relatedSlug) {
+      const sidebar = html.split('class="project-sidebar"')[1]?.split('</aside>')[0] ?? '';
+      assert.ok(sidebar.includes(`href="${locale === 'en' ? '/en' : ''}/projects/${relatedSlug}"`), `${route}: reciprocal infrastructure/cluster link`);
+    }
     assert.ok(html.includes(`href="https://github.com/farah-ben-harb/${slug}"`), `${route}: GitHub`);
     assert.ok(html.includes(`href="/projects/${slug}"`) && html.includes(`href="/en/projects/${slug}"`), `${route}: FR/EN switch`);
     assert.equal(html.includes('class="action action-outline demo-link"'), slug === "footballmatch-ai-platform-mlops", `${route}: demo must be evidenced`);
