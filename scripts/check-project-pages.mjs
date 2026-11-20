@@ -86,6 +86,9 @@ for (const locale of ["fr", "en"]) {
     pages.add(route);
     assert.match(html, new RegExp(`<html[^>]+lang="${locale}"`));
     assert.equal([...html.matchAll(/<h1[ >]/g)].length, 1, route);
+    assert.ok(!html.includes('class="limits-card"'), `${route}: no limitations panel`);
+    assert.ok(html.includes(`aria-label="${locale === "fr" ? "Ressources du projet" : "Project resources"}"`), `${route}: resource-only sidebar`);
+    assert.doesNotMatch(html, /<h[2-6][^>]*>[^<]*(?:Limites actuelles|Current limitations|Périmètre|Scope)[^<]*<\/h[2-6]>/i, `${route}: no scope or limitations headings`);
     for (const section of ["architecture-title", "features-title", "deployment-title", "validation-title"]) assert.ok(html.includes(`id="${section}"`), `${route}: ${section}`);
     assert.ok(html.includes(`rel="canonical" href="https://farah-me.vercel.app${route}"`), `${route}: canonical`);
     assert.ok(html.includes(`property="og:url" content="https://farah-me.vercel.app${route}"`), `${route}: Open Graph URL`);

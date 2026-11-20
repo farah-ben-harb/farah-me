@@ -241,14 +241,10 @@ section, article, details { scroll-margin-top: 1rem; }
 .feature-list li + li { margin-top: .7rem; }
 .feature-list li::marker { color: var(--accent); }
 .project-sidebar { min-width: 0; }
-.resource-card, .limits-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.35rem; margin-bottom: 1rem; background: var(--surface); }
-.resource-card h2, .limits-card h2 { font-size: 1.7rem; margin-block: .6rem 1rem; }
+.resource-card { border: 1px solid var(--line); border-radius: var(--radius); padding: 1.35rem; margin-bottom: 1rem; background: var(--surface); }
+.resource-card h2 { font-size: 1.7rem; margin-block: .6rem 1rem; }
 .resource-card .text-link { display: flex; }
 .demo-status { font-size: .86rem; color: var(--muted); padding-top: .7rem; border-top: 1px solid var(--line); margin-top: .65rem; }
-.limits-card { background: #e8eed9; color: #142f23; }
-.limits-card .eyebrow { color: #345141; }
-.limits-card ul { padding-left: 1.1rem; font-size: .88rem; }
-.limits-card li + li { margin-top: .8rem; }
 .project-media { margin: 0 0 2rem; }
 .project-media-frame { position: relative; aspect-ratio: 16 / 9; background: var(--surface); border-radius: var(--radius); overflow: hidden; }
 .project-media-frame img { object-fit: contain; }
@@ -340,7 +336,7 @@ section, article, details { scroll-margin-top: 1rem; }
   .detail-header .back-to-projects { grid-row: 2; grid-column: 1 / -1; justify-self: start; }
   .detail-header .language-nav { grid-column: 2; grid-row: 1; }
   .project-body { grid-template-columns: 1fr; }
-  .project-sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .project-sidebar { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)); gap: 1rem; }
   .collection-heading { align-items: start; flex-direction: column; }
   .contact-panel { grid-template-columns: 1fr; }
 }
