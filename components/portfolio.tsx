@@ -3,7 +3,6 @@ import {
   ArrowDown, ArrowDownRight, ArrowUpRight,
   EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
 } from "@phosphor-icons/react/dist/ssr";
-import { PlatformAtlas } from "@/components/platform-atlas";
 import { ProjectCollection } from "@/components/project-collection";
 import { Credentials } from "@/components/credentials";
 import { TechStack } from "@/components/tech-stack";
@@ -81,7 +80,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
             <p className="hero-location"><MapPin aria-hidden="true" /> {t("Rouen, France · Stage de fin d’études dès mars 2027", "Rouen, France · Available for a final-year internship from March 2027")}</p>
           </div>
-          <PlatformAtlas locale={locale} />
         </section>
 
         <section className="section" id="projects">

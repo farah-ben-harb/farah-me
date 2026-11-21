@@ -1,11 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Fraunces, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import { type Locale, tr } from "@/lib/portfolio-copy";
 import { siteConfig } from "@/lib/site";
 import "@/app/globals.css";
 
 const manrope = Manrope({ subsets: ["latin"], variable: "--font-body", display: "swap" });
-const fraunces = Fraunces({ subsets: ["latin"], variable: "--font-display", display: "swap" });
 
 export function portfolioMetadata(locale: Locale): Metadata {
   const description = tr(locale, [
@@ -47,7 +46,7 @@ export function PortfolioLayout({
   locale: Locale;
 }) {
   return (
-    <html lang={locale} className={`${manrope.variable} ${fraunces.variable}`}>
+    <html lang={locale} className={manrope.variable}>
       <body>{children}</body>
     </html>
   );
