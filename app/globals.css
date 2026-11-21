@@ -19,17 +19,18 @@ body {
   margin: 0;
   color: var(--ink);
   background: var(--forest);
-  font-family: var(--font-body), "Trebuchet MS", sans-serif;
+  font-family: var(--font-body), sans-serif;
   font-size: 1rem;
+  font-weight: 400;
   line-height: 1.6;
 }
 
 h1, h2, h3, h4, p, ol, ul, dl, dd { margin: 0; }
 h1, h2, h3 {
-  font-family: var(--font-body), "Trebuchet MS", sans-serif;
-  font-weight: 550;
-  letter-spacing: -.035em;
-  line-height: 1.17;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 400;
+  letter-spacing: -.02em;
+  line-height: 1.2;
 }
 a { color: inherit; text-decoration: none; }
 strong { font-weight: 600; }
@@ -54,7 +55,7 @@ section, article, details { scroll-margin-top: 1rem; }
   min-height: 5.1rem;
   border-bottom: 1px solid var(--line);
 }
-.wordmark { display: inline-flex; align-items: center; gap: .6rem; width: fit-content; font-size: .97rem; font-weight: 650; }
+.wordmark { display: inline-flex; align-items: center; gap: .6rem; width: fit-content; font-size: .97rem; font-weight: 600; }
 .wordmark span { color: var(--accent); font-size: 1.4rem; line-height: 1; }
 .nav-links, .language-nav { display: flex; align-items: center; gap: .3rem; }
 .nav-links { justify-content: center; }
@@ -66,7 +67,7 @@ section, article, details { scroll-margin-top: 1rem; }
   border-radius: .5rem;
   color: var(--muted);
   font-size: .875rem;
-  font-weight: 550;
+  font-weight: 500;
 }
 .language-nav { justify-self: end; }
 .language-nav a { padding-inline: .55rem; }
@@ -90,7 +91,7 @@ section, article, details { scroll-margin-top: 1rem; }
 }
 .eyebrow > span, .eyebrow > svg { color: var(--accent); }
 .signal { width: .48rem; height: .48rem; flex: 0 0 auto; background: var(--accent); border-radius: 50%; }
-.hero h1 { margin-block: 1.25rem 1.4rem; font-size: clamp(2.75rem, 5vw, 4.6rem); line-height: 1.09; letter-spacing: -.05em; font-weight: 550; }
+.hero h1 { margin-block: 1.25rem 1.4rem; font-size: clamp(2.75rem, 5vw, 4.6rem); line-height: 1.11; letter-spacing: -.03em; font-weight: 400; }
 .hero h1 span { display: block; color: var(--accent); text-wrap: balance; }
 .hero h1 b { font-weight: inherit; color: var(--accent); }
 .hero-intro { max-width: 35rem; color: var(--muted); font-size: clamp(1rem, 1.6vw, 1.2rem); }
@@ -133,7 +134,7 @@ section, article, details { scroll-margin-top: 1rem; }
 .section-title { display: grid; gap: .6rem; margin-bottom: clamp(1.45rem, 3.25vw, 2.55rem); }
 .section-title h2 { font-size: clamp(2rem, 4vw, 3.25rem); }
 .stack { display: flex; flex-wrap: wrap; gap: .42rem; padding: 0; margin: 1.15rem 0 0; list-style: none; }
-.stack li { display: inline-flex; align-items: center; gap: .36rem; min-height: 1.9rem; padding: .25rem .62rem .25rem .3rem; border: 1px solid var(--line); border-radius: .4rem; font-size: .74rem; font-weight: 550; }
+.stack li { display: inline-flex; align-items: center; gap: .36rem; min-height: 1.9rem; padding: .25rem .62rem .25rem .3rem; border: 1px solid var(--line); border-radius: .4rem; font-size: .74rem; font-weight: 500; }
 .tool-logo { width: 1.3rem; height: 1.3rem; padding: .12rem; border-radius: 50%; background: #fffdf7; object-fit: contain; }
 .tool-symbol { width: 1.3rem; height: 1.3rem; padding: .15rem; border-radius: .3rem; background: #d7eeb01c; color: var(--accent); }
 .tool-fallback { width: 1.25rem; height: 1.25rem; padding: .18rem; border-radius: 50%; background: var(--accent); color: var(--forest-deep); }
@@ -163,7 +164,7 @@ section, article, details { scroll-margin-top: 1rem; }
 .collection-card:target, .companion-link:target { outline: 2px solid var(--accent); outline-offset: .35rem; }
 .project-pair-label { display: flex; align-items: center; gap: .5rem; margin-bottom: .85rem; font-size: .72rem; font-weight: 600; color: var(--accent); }
 .project-pair-label svg { flex-shrink: 0; width: 1.1rem; height: 1.1rem; }
-.collection-card h4 { font-family: var(--font-body), "Trebuchet MS", sans-serif; font-size: clamp(1.25rem, 2vw, 1.65rem); font-weight: 620; letter-spacing: -.035em; line-height: 1.2; margin-bottom: .85rem; }
+.collection-card h4 { font-family: var(--font-body), sans-serif; font-size: clamp(1.25rem, 2vw, 1.65rem); font-weight: 500; letter-spacing: -.02em; line-height: 1.2; margin-bottom: .85rem; }
 .collection-card h4 a { display: flex; justify-content: space-between; align-items: baseline; gap: .65rem; min-height: 2.75rem; }
 .collection-card h4 svg { flex-shrink: 0; width: .7em; height: .7em; color: var(--accent); }
 .collection-card h4 a:hover { color: var(--accent); }

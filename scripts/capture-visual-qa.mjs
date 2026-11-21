@@ -185,7 +185,18 @@ async function capture(spec) {
     if (!evidenceOpened.result.value) throw new Error(`${spec.name}: skills evidence keyboard disclosure failed`);
   }
 
-  await send("Runtime.evaluate", { expression: 'document.querySelector(".hero-contact-link").focus({preventScroll: true})' });
+  await send("Runtime.evaluate", { expression: 'document.querySelector(".hero-contact-link").focus()' });
+  let shortcutVisible = false;
+  const focusDeadline = Date.now() + 5000;
+  while (!shortcutVisible && Date.now() < focusDeadline) {
+    const result = await send("Runtime.evaluate", {
+      expression: '(() => { const link = document.querySelector(".hero-contact-link"); const bounds = link.getBoundingClientRect(); return document.activeElement === link && bounds.top >= 0 && bounds.bottom <= innerHeight; })()',
+      returnByValue: true,
+    });
+    shortcutVisible = result.result.value === true;
+    if (!shortcutVisible) await sleep(100);
+  }
+  if (!shortcutVisible) throw new Error(`${spec.name}: contact shortcut could not be focused on screen`);
   for (const type of ["keyDown", "keyUp"]) {
     await send("Input.dispatchKeyEvent", { type, key: "Enter", code: "Enter", windowsVirtualKeyCode: 13 });
   }
@@ -199,7 +210,13 @@ async function capture(spec) {
     contactReached = result.result.value === true;
     if (!contactReached) await sleep(100);
   }
-  if (!contactReached) throw new Error(`${spec.name}: hero-to-contact keyboard navigation failed`);
+  if (!contactReached) {
+    const diagnostics = await send("Runtime.evaluate", {
+      expression: 'JSON.stringify({hash: location.hash, focused: document.activeElement?.className, headingTop: document.querySelector("#contact-title")?.getBoundingClientRect().top, scrollY, innerHeight})',
+      returnByValue: true,
+    });
+    throw new Error(`${spec.name}: hero-to-contact keyboard navigation failed: ${diagnostics.result.value}`);
+  }
   // Fragment focus changes can finish after the heading first enters view.
   // Let smooth scrolling settle before sending another keyboard interaction.
   let lastScroll = null;
