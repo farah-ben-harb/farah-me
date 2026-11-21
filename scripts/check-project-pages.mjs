@@ -80,12 +80,13 @@ for (const locale of ["fr", "en"]) {
   const categorySlugs = {
     'cloud-projects': ['k8s-cluster-automation', 'kubernetes-anomaly-detection-openstack'],
     'devops-projects': ['devsecops-incident-platform', 'gitops-delivery-platform', 'flask-azure-devops-pipeline'],
-    'ai-projects': ['footballmatch-ai-platform-mlops', 'crm-intelligence-mlops', 'devorecruiter', 'CryptoCurrency-Project'],
-    'application-projects': ['alif-app', 'Application-Airport-Management', 'wefarm-smart-agriculture-platform', 'SmartFarm-Desktop-Application', 'QuantumEscape-Game-2D-SDL', 'CampusIdeas-SPA'],
+    'ai-projects': ['footballmatch-ai-platform-mlops', 'crm-intelligence-mlops', 'devorecruiter'],
+    'application-projects': ['alif-app'],
+    'other-projects': ['Application-Airport-Management', 'wefarm-smart-agriculture-platform', 'SmartFarm-Desktop-Application', 'QuantumEscape-Game-2D-SDL', 'CampusIdeas-SPA', 'CryptoCurrency-Project'],
   };
   assert.equal([...collection.matchAll(/<li class="collection-card(?: collection-card-highlight)?"/g)].length, 15, `${locale}: fifteen grouped projects`);
   assert.equal([...collection.matchAll(/class="companion-link"/g)].length, 3, `${locale}: three companion repositories`);
-  assert.deepEqual([...collection.matchAll(/<section class="collection-section" id="([^"]+)"/g)].map(m => m[1]), Object.keys(categorySlugs), `${locale}: four ordered categories`);
+  assert.deepEqual([...collection.matchAll(/<section class="collection-section" id="([^"]+)"/g)].map(m => m[1]), Object.keys(categorySlugs), `${locale}: five ordered categories`);
   for (const [id, slugs] of Object.entries(categorySlugs)) {
     const category = collection.split(`id="${id}"`)[1]?.split('</section>')[0] ?? '';
     assert.ok(collection.includes(`href="#${id}"`), `${locale}: navigation to ${id}`);
