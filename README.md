@@ -14,7 +14,7 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom, each with its own verified tool stack
 - separate education chronology (ESIGELEC, ESPRIT preparatory and engineering cycles, and the 2022 scientific baccalaureate) and technical skills section
 - Nine skills categories covering project and internship technologies, with links to supporting case studies; inventory and scope are documented in `SKILLS_EVIDENCE.md` and maintained in `lib/skills.ts`
-- locally hosted Devicon tool logos with text labels and a generic fallback for unbranded technologies; the icons are from [Devicon](https://github.com/devicons/devicon) revision `32fe1d3b3f36ad11f90ab94f7db59738139c2bf6` under the license in `public/tool-icons/LICENSE.txt`
+- Locally hosted Devicon and Simple Icons logos with text labels for branded tools, plus distinct Phosphor pictograms for concepts without an official logo. Sources and licenses are documented in `public/tool-icons/SOURCES.md`.
 - A compact CV icon beside the hero actions opens the matching Cloud Engineering PDF in a new tab, with no separate resume section
 - A compact contact card beside the hero on desktop and beneath the introduction on mobile: internship availability, visible email, click-to-call phone and labeled LinkedIn/GitHub links, fully localized in FR/EN
 

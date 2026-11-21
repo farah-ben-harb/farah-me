@@ -31,6 +31,11 @@ for (const locale of ["fr", "en"]) {
   assert.equal([...skills.matchAll(/class="skills-card"/g)].length, 9, `${locale}: nine skill domains`);
   assert.equal(skillSet.size, skillTags.length, `${locale}: unique skill labels`);
   assert.ok(skillSet.size >= 90, `${locale}: expanded skills inventory`);
+  const skillChips = [...skills.matchAll(/<ul class="stack"[^>]*>([\s\S]*?)<\/ul>/g)]
+    .flatMap(match => [...match[1].matchAll(/<li>([\s\S]*?)<\/li>/g)].map(chip => chip[1]));
+  assert.equal(skillChips.length, skillTags.length, `${locale}: every skill has a chip`);
+  assert.ok(skillChips.every(chip => /class="tool-(?:logo|symbol)"/.test(chip)), `${locale}: every skill has a specific logo or pictogram`);
+  for (const match of home.matchAll(/src="(\/tool-icons\/[^" ]+\.svg)"/g)) assets.add(match[1]);
   const internships = home.split('id="experience"')[1]?.split('</section>')[0] ?? '';
   for (const tool of toolTags(internships)) assert.ok(skillSet.has(tool), `${locale}: internship tool ${tool} is covered`);
   for (const tool of ['langchain', 'chromadb', 'groq', 'huggingface', 'sqlalchemy', 'docker compose', 'kubeadm', 'react', 'next.js', 'gitleaks', 'dynatrace']) {
