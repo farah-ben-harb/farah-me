@@ -69,6 +69,29 @@ export function Portfolio({ locale }: { locale: Locale }) {
               "Je suis Farah Ben Harb, élève-ingénieure. J’automatise l’infrastructure et la livraison de services, des clusters Kubernetes aux pipelines de modèles.",
               "I’m Farah Ben Harb, an engineering student. I automate infrastructure and service delivery, from Kubernetes clusters to model pipelines.",
             )}</p>
+          </div>
+          <aside className="hero-contact" id="contact" aria-labelledby="contact-title">
+            <p className="eyebrow"><span className="signal" /> {t("Coordonnées", "Contact details")}</p>
+            <h2 id="contact-title">{t("Échangeons.", "Let’s talk.")}</h2>
+            <p className="hero-contact-note">{t("Stage de fin d’études · 6 mois dès mars 2027", "Final-year internship · 6 months from March 2027")}</p>
+            <div className="hero-contact-links">
+              <a href={`mailto:${siteConfig.email}`}>
+                <EnvelopeSimple aria-hidden="true" />
+                <span><small>Email</small><strong>{siteConfig.email}</strong></span>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+              <a href={`tel:${siteConfig.phone}`} aria-label={`${t("Appeler Farah au", "Call Farah at")} ${siteConfig.phoneDisplay}`}>
+                <Phone aria-hidden="true" />
+                <span><small>{t("Téléphone", "Phone")}</small><strong>{siteConfig.phoneDisplay}</strong></span>
+                <ArrowUpRight aria-hidden="true" />
+              </a>
+            </div>
+            <div className="hero-contact-socials">
+              <a href={siteConfig.linkedin} target="_blank" rel="noopener noreferrer"><LinkedinLogo aria-hidden="true" /> LinkedIn</a>
+              <a href={siteConfig.github} target="_blank" rel="noopener noreferrer"><GithubLogo aria-hidden="true" /> GitHub</a>
+            </div>
+          </aside>
+          <div className="hero-actions">
             <div className="actions">
               <a className="action action-primary" href="#projects">{t("Explorer les projets", "Explore projects")}<ArrowDownRight aria-hidden="true" /></a>
               <div className="hero-secondary-actions">
@@ -78,7 +101,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
                 </a>
               </div>
             </div>
-            <p className="hero-location"><MapPin aria-hidden="true" /> {t("Rouen, France · Stage de fin d’études dès mars 2027", "Rouen, France · Available for a final-year internship from March 2027")}</p>
+            <p className="hero-location"><MapPin aria-hidden="true" /> Rouen, France</p>
           </div>
         </section>
 
@@ -104,7 +127,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
 
         <section className="section" id="education">
           <SectionTitle index="03" label={t("Parcours académique", "Academic path")} title={t("Formation", "Education")} />
-          <div className="education-grid">
+          <div className="timeline education-list">
             {education.map((item) => (
               <article className="education-card" key={`${item.school}-${item.period[0]}`}>
                 <p className="eyebrow">{tr(locale, item.period)}</p>
@@ -143,40 +166,6 @@ export function Portfolio({ locale }: { locale: Locale }) {
         <section className="section" id="certifications">
           <SectionTitle index="05" label={t("Badges & attestations", "Badges & certificates")} title={t("Certifications & formations", "Certifications & training")} />
           <Credentials locale={locale} />
-        </section>
-
-        <section className="section contact" id="contact" aria-labelledby="contact-title">
-          <div className="contact-panel">
-            <div className="contact-intro">
-              <p className="eyebrow"><span>06 /</span> Contact</p>
-              <h2 id="contact-title">{t("Faisons connaissance.", "Let’s connect.")}</h2>
-              <p className="contact-message">{t(
-                "Vous recherchez une stagiaire en Cloud, DevOps, SRE ou MLOps ? Je serais ravie d’échanger sur votre équipe et les projets auxquels je pourrais contribuer.",
-                "Looking for a Cloud, DevOps, SRE or MLOps intern? I’d love to hear about your team and the projects I could contribute to.",
-              )}</p>
-              <div className="contact-availability">
-                <span className="signal" aria-hidden="true" />
-                <p><strong>{t("Stage de fin d’études", "Final-year internship")}</strong><span>{t("6 mois · À partir de mars 2027", "6 months · From March 2027")}</span></p>
-              </div>
-            </div>
-            <div className="contact-details">
-              <a className="contact-email" href={`mailto:${siteConfig.email}`}>
-                <span className="contact-label"><EnvelopeSimple aria-hidden="true" /> {t("Écrivez-moi", "Email me")}<ArrowUpRight aria-hidden="true" /></span>
-                <strong>{siteConfig.email}</strong>
-              </a>
-              <dl className="contact-meta">
-                <div><dt><Phone aria-hidden="true" /> {t("Téléphone", "Phone")}</dt><dd><a href={`tel:${siteConfig.phone}`} aria-label={`${t("Appeler Farah au", "Call Farah at")} ${siteConfig.phoneDisplay}`}>{siteConfig.phoneDisplay}</a></dd></div>
-                <div><dt><MapPin aria-hidden="true" /> {t("Localisation", "Location")}</dt><dd>Rouen, France</dd></div>
-              </dl>
-              <div className="contact-socials">
-                <p>{t("Retrouvez-moi aussi sur", "Find me on")}</p>
-                <div>
-                  <a href={siteConfig.linkedin}><LinkedinLogo aria-hidden="true" /> LinkedIn<ArrowUpRight aria-hidden="true" /></a>
-                  <a href={siteConfig.github}><GithubLogo aria-hidden="true" /> GitHub<ArrowUpRight aria-hidden="true" /></a>
-                </div>
-              </div>
-            </div>
-          </div>
         </section>
       </main>
 
