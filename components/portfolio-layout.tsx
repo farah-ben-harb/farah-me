@@ -1,10 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope } from "next/font/google";
+import { IBM_Plex_Sans } from "next/font/google";
 import { type Locale, tr } from "@/lib/portfolio-copy";
 import { siteConfig } from "@/lib/site";
 import "@/app/globals.css";
 
-const manrope = Manrope({ subsets: ["latin"], variable: "--font-body", display: "swap" });
+const plexSans = IBM_Plex_Sans({ subsets: ["latin"], weight: "variable", variable: "--font-body", display: "swap" });
 
 export function portfolioMetadata(locale: Locale): Metadata {
   const description = tr(locale, [
@@ -46,7 +46,7 @@ export function PortfolioLayout({
   locale: Locale;
 }) {
   return (
-    <html lang={locale} className={manrope.variable}>
+    <html lang={locale} className={plexSans.variable}>
       <body>{children}</body>
     </html>
   );
