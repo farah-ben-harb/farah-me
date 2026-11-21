@@ -25,8 +25,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
   const sections = [
     [t("Projets", "Work"), "#projects"],
     [t("Expérience", "Experience"), "#experience"],
-    [t("Formation", "Education"), "#education"],
     [t("Compétences", "Skills"), "#skills"],
+    [t("Formation", "Education"), "#education"],
     [t("Certifications", "Credentials"), "#certifications"],
     ["Contact", "#contact"],
   ];
@@ -66,8 +66,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
               <span>& {t("plateformes IA", "AI platforms")}<b>.</b></span>
             </h1>
             <p className="hero-intro">{t(
-              "Je suis Farah Ben Harb, élève-ingénieure. J’automatise l’infrastructure et la livraison de services, des clusters Kubernetes aux pipelines de modèles.",
-              "I’m Farah Ben Harb, an engineering student. I automate infrastructure and service delivery, from Kubernetes clusters to model pipelines.",
+              "Élève-ingénieure en informatique, spécialisée en architecture IT et cloud computing. Mes projets relient OpenStack, Kubernetes, CI/CD et MLOps.",
+              "Computer science engineering student specializing in IT architecture and cloud computing. My projects connect OpenStack, Kubernetes, CI/CD and MLOps.",
             )}</p>
           </div>
           <aside className="hero-contact" id="contact" aria-labelledby="contact-title">
@@ -106,7 +106,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
         </section>
 
         <section className="section" id="projects">
-          <SectionTitle index="01" label={t("Réalisations", "Selected work")} title={t("Mes projets", "My projects")} />
+          <SectionTitle index="01" label={t("Réalisations", "Selected work")} title={t("Projets", "Projects")} />
           <ProjectCollection locale={locale} />
         </section>
 
@@ -125,25 +125,11 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
 
-        <section className="section" id="education">
-          <SectionTitle index="03" label={t("Parcours académique", "Academic path")} title={t("Formation", "Education")} />
-          <div className="timeline education-list">
-            {education.map((item) => (
-              <article className="education-card" key={`${item.school}-${item.period[0]}`}>
-                <p className="eyebrow">{tr(locale, item.period)}</p>
-                <h3>{tr(locale, item.title)}</h3>
-                <p className="education-school">{item.school}</p>
-                <p className="education-detail">{tr(locale, item.detail)}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
         <section className="section" id="skills">
-          <SectionTitle index="04" label={t("Outils & pratiques", "Tools & practices")} title={t("Compétences", "Skills")} />
+          <SectionTitle index="03" label={t("Outils & pratiques", "Tools & practices")} title={t("Compétences", "Skills")} />
           <p className="skills-intro">{t(
-            "Du développement applicatif aux plateformes cloud : les technologies et pratiques de mes projets et stages, regroupées par domaine. Les fiches précisent les réalisations, les configurations et les validations effectuées.",
-            "From application development to cloud platforms: technologies and practices from my projects and internships, grouped by domain. Each case study explains the implementation, configuration and completed validations.",
+            "Technologies utilisées dans mes projets et stages, regroupées par domaine. Chaque groupe renvoie aux réalisations associées.",
+            "Technologies used in my projects and internships, grouped by domain. Each group links to related work.",
           )}</p>
           <div className="skills-grid">
             {skillGroups.map((group, index) => (
@@ -158,6 +144,20 @@ export function Portfolio({ locale }: { locale: Locale }) {
                   {"experience" in group && <a href="#experience">{t("Expériences professionnelles", "Professional experience")}<ArrowDownRight aria-hidden="true" /></a>}
                   {(group.id === "applications" || group.id === "cloud" || group.id === "security") && <a href="https://github.com/farah-ben-harb/farah-me">{t("Ce portfolio", "This portfolio")}<ArrowUpRight aria-hidden="true" /></a>}
                 </details>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section className="section" id="education">
+          <SectionTitle index="04" label={t("Parcours académique", "Academic path")} title={t("Formation", "Education")} />
+          <div className="timeline education-list">
+            {education.map((item) => (
+              <article className="education-card" key={`${item.school}-${item.period[0]}`}>
+                <p className="eyebrow">{tr(locale, item.period)}</p>
+                <h3>{tr(locale, item.title)}</h3>
+                <p className="education-school">{item.school}</p>
+                <p className="education-detail">{tr(locale, item.detail)}</p>
               </article>
             ))}
           </div>

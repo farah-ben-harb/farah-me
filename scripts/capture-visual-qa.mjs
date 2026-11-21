@@ -21,6 +21,8 @@ const specs = [
   { name: "tablet-projects", width: 820, height: 1180, mobile: true, selector: "#projects" },
   { name: "desktop-devops", width: 1440, height: 1050, mobile: false, selector: "#devops-projects" },
   { name: "desktop-applications", width: 1440, height: 1100, mobile: false, selector: "#application-projects" },
+  { name: "desktop-other-projects", width: 1440, height: 1100, mobile: false, selector: "#other-projects" },
+  { name: "mobile-other-projects", width: 390, height: 900, mobile: true, selector: "#other-projects" },
   { name: "mobile-cloud-en", width: 320, height: 1100, mobile: true, selector: "#cloud-projects", route: "/en" },
   { name: "desktop-groups", width: 1440, height: 1000, mobile: false, selector: "#ai-projects" },
   { name: "mobile-groups", width: 390, height: 844, mobile: true, selector: "#ai-projects" },
@@ -145,7 +147,7 @@ async function capture(spec) {
       hasBaccalaureate: document.querySelector('#education')?.textContent.includes(${JSON.stringify("Baccalauréat scientifique")}) || document.querySelector('#education')?.textContent.includes('Scientific baccalaureate'),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
-      collectionNav: document.querySelectorAll('.collection-nav a').length === 4
+      collectionNav: document.querySelectorAll('.collection-nav a').length === 5
     })`,
     returnByValue: true,
   });
@@ -161,7 +163,7 @@ async function capture(spec) {
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 0 ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 || dimensions.skillIcons !== 111 || dimensions.unknownSkillIcons !== 0 ||
-      dimensions.projectCards !== 15 || dimensions.projectCategories !== 4 || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
+      dimensions.projectCards !== 15 || dimensions.projectCategories !== 5 || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }

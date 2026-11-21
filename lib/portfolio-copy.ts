@@ -11,8 +11,8 @@ export const experience = [
     role: ["Stage Cloud & DevOps", "Cloud & DevOps internship"],
     period: ["Juil. – août 2026", "Jul – Aug 2026"],
     summary: [
-      "Automatisation d’infrastructure Azure avec Terraform, intégration continue sur GitHub Actions et livraison vers K3s avec Helm et Argo CD. Supervision Dynatrace et intégration MCP pour Claude Desktop.",
-      "Automated Azure infrastructure with Terraform, built GitHub Actions workflows and delivered services to K3s with Helm and Argo CD. Used Dynatrace for monitoring and developed an MCP integration for Claude Desktop.",
+      "Automatisation de l’infrastructure Azure et de la livraison sur K3s. Supervision avec Dynatrace et intégration MCP pour Claude Desktop.",
+      "Automated Azure infrastructure and delivery to K3s. Used Dynatrace for monitoring and built an MCP integration for Claude Desktop.",
     ],
     tools: ["Azure", "Terraform", "GitHub Actions", "K3s", "Helm", "Argo CD", "Dynatrace", "MCP"],
   },
@@ -31,8 +31,8 @@ export const experience = [
     role: ["Stage réseaux & systèmes", "Networks & systems internship"],
     period: ["Juin – juil. 2023", "Jun – Jul 2023"],
     summary: [
-      "Découverte de l’exploitation des réseaux télécoms : Linux, TCP/IP, adressage, routage et services d’infrastructure.",
-      "Worked with telecom network operations: Linux, TCP/IP, IP addressing, routing and infrastructure services.",
+      "Découverte de l’exploitation des réseaux télécoms et des services d’infrastructure.",
+      "Explored telecom network operations and infrastructure services.",
     ],
     tools: ["Linux", "TCP/IP", "Routage"],
   },

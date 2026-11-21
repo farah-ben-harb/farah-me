@@ -13,18 +13,18 @@ type Entry = {
   primaryLabel?: Text;
   companion?: { slug: string; label: Text };
 };
-type Category = { id: string; title: Text; navigation: Text; description: Text; entries: readonly Entry[] };
+type Category = { id: string; title: Text; navigation: Text; description: Text; entries: readonly Entry[]; compact?: boolean };
 
 const categories: readonly Category[] = [
   {
     id: "cloud-projects", title: ["Cloud, infrastructure & SRE", "Cloud, infrastructure & SRE"],
     navigation: ["Cloud & Infrastructure", "Cloud & Infrastructure"],
-    description: ["Du cloud privé aux clusters Kubernetes : infrastructure as code, automatisation et observabilité.", "From private cloud to Kubernetes clusters: infrastructure as code, automation and observability."],
+    description: ["Cloud privé, clusters Kubernetes et observabilité.", "Private cloud, Kubernetes clusters and observability."],
     entries: [
       {
         slug: "k8s-cluster-automation", title: ["OpenStack & Kubernetes", "OpenStack & Kubernetes"],
-        summary: ["Deux volets liés : définir l’infrastructure du cloud privé avec Heat, puis automatiser le cluster Kubernetes avec Ansible et kubeadm.", "Two connected parts: define private-cloud infrastructure with Heat, then automate the Kubernetes cluster with Ansible and kubeadm."],
-        tools: ["OpenStack", "Heat", "Ansible", "Kubernetes", "Helm", "Prometheus"],
+        summary: ["Infrastructure OpenStack définie avec Heat ; cluster Kubernetes automatisé avec Ansible et kubeadm.", "OpenStack infrastructure defined with Heat; Kubernetes cluster automated with Ansible and kubeadm."],
+        tools: ["OpenStack", "Heat", "Ansible", "Kubernetes"],
         primaryLabel: ["Automatisation du cluster", "Cluster automation"],
         companion: { slug: "openstack-heat-infrastructure", label: ["Infrastructure du cloud privé", "Private-cloud infrastructure"] },
       },
@@ -34,7 +34,7 @@ const categories: readonly Category[] = [
   {
     id: "devops-projects", title: ["DevOps, DevSecOps & GitOps", "DevOps, DevSecOps & GitOps"],
     navigation: ["DevOps & DevSecOps", "DevOps & DevSecOps"],
-    description: ["Tester, sécuriser et livrer les applications : pipelines CI/CD, conteneurs et configuration déclarative.", "Test, secure and deliver applications through CI/CD pipelines, containers and declarative configuration."],
+    description: ["CI/CD, sécurité applicative et livraison déclarative.", "CI/CD, application security and declarative delivery."],
     entries: [
       { slug: "devsecops-incident-platform", tools: ["FastAPI", "PostgreSQL", "Docker", "Jenkins"] },
       { slug: "gitops-delivery-platform", tools: ["Kubernetes", "Kustomize", "Argo CD", "Grafana"] },
@@ -44,7 +44,7 @@ const categories: readonly Category[] = [
   {
     id: "ai-projects", title: ["IA, données & MLOps", "AI, data & MLOps"],
     navigation: ["IA & MLOps", "AI & MLOps"],
-    description: ["De l’analyse de données aux plateformes IA : modèles, services et suivi des expérimentations.", "From data analysis to AI platforms: models, services and experiment tracking."],
+    description: ["Plateformes IA, données et suivi des modèles.", "AI platforms, data and model tracking."],
     entries: [
       { slug: "footballmatch-ai-platform-mlops", tools: ["FastAPI", "YOLO11", "MLflow", "K3s"] },
       { slug: "crm-intelligence-mlops" },
@@ -52,23 +52,31 @@ const categories: readonly Category[] = [
         slug: "devorecruiter", primaryLabel: ["Application & agents IA", "Application & AI agents"],
         companion: { slug: "devorecruiter-gitops", label: ["Livraison GitOps associée", "Companion GitOps delivery"] },
       },
-      { slug: "CryptoCurrency-Project" },
     ],
   },
   {
-    id: "application-projects", title: ["Applications & logiciels", "Applications & software"],
+    id: "application-projects", title: ["Applications & microservices", "Applications & microservices"],
     navigation: ["Applications", "Applications"],
-    description: ["Web, desktop et projets de formation : des besoins métier aux interfaces et services applicatifs.", "Web, desktop and academic projects: from business needs to interfaces and application services."],
+    description: ["Application web et déploiement Kubernetes associés.", "Web application and its Kubernetes deployment."],
     entries: [
       {
         slug: "alif-app", primaryLabel: ["Application & microservices", "Application & microservices"],
         companion: { slug: "Alif.tn-App-k8s", label: ["Déploiement Kubernetes associé", "Companion Kubernetes deployment"] },
       },
+    ],
+  },
+  {
+    id: "other-projects", title: ["Autres projets", "Other projects"],
+    navigation: ["Autres projets", "Other projects"],
+    description: ["Applications web et desktop, jeu et analyse de données.", "Web and desktop applications, a game, and data analysis."],
+    compact: true,
+    entries: [
       { slug: "Application-Airport-Management" },
       { slug: "wefarm-smart-agriculture-platform" },
       { slug: "SmartFarm-Desktop-Application" },
       { slug: "QuantumEscape-Game-2D-SDL" },
       { slug: "CampusIdeas-SPA" },
+      { slug: "CryptoCurrency-Project" },
     ],
   },
 ];
@@ -94,7 +102,7 @@ export function ProjectCollection({ locale }: { locale: Locale }) {
             <div><p className="eyebrow">0{index + 1} / {category.entries.length} {t("projets", "projects")}</p><h3 id={`${category.id}-title`}>{tr(locale, category.title)}</h3></div>
             <p>{tr(locale, category.description)}</p>
           </div>
-          <ul className={`category-grid${category.entries.length % 3 === 0 ? " category-grid-three" : ""}`}>
+          <ul className={`category-grid${category.compact ? " category-grid-compact" : category.entries.length === 3 ? " category-grid-three" : category.entries.length === 1 ? " category-grid-single" : ""}`}>
             {category.entries.map((entry) => {
               const detail = project(entry.slug);
               const companion = entry.companion ? project(entry.companion.slug) : null;
@@ -104,14 +112,14 @@ export function ProjectCollection({ locale }: { locale: Locale }) {
                   <h4><Link className="project-details-link" href={projectPath(locale, entry.slug)} prefetch={false}>{entry.title ? tr(locale, entry.title) : detail.name}<ArrowUpRight aria-hidden="true" /></Link></h4>
                   <p className="collection-summary">{tr(locale, entry.summary ?? detail.description)}</p>
                   <TechStack tools={entry.tools ?? detail.technologies.slice(0, 4)} />
-                  <div className="collection-links">
+                  {companion && entry.companion && <div className="collection-links">
                     <Link className="project-primary-link" href={projectPath(locale, entry.slug)} prefetch={false}>
-                      <span>{entry.primaryLabel && <small>{tr(locale, entry.primaryLabel)}</small>}<strong>{companion ? detail.name : t("Explorer le projet", "Explore the project")}</strong></span><ArrowUpRight aria-hidden="true" />
+                      <span>{entry.primaryLabel && <small>{tr(locale, entry.primaryLabel)}</small>}<strong>{detail.name}</strong></span><ArrowUpRight aria-hidden="true" />
                     </Link>
-                    {companion && entry.companion && <Link className="companion-link" id={companion.slug} href={projectPath(locale, companion.slug)} prefetch={false}>
+                    <Link className="companion-link" id={companion.slug} href={projectPath(locale, companion.slug)} prefetch={false}>
                       <GitBranch aria-hidden="true" /><span><small>{tr(locale, entry.companion.label)}</small><strong>{companion.name}</strong></span><ArrowUpRight aria-hidden="true" />
-                    </Link>}
-                  </div>
+                    </Link>
+                  </div>}
                 </li>
               );
             })}
