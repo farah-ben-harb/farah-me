@@ -175,6 +175,10 @@ section, article, details { scroll-margin-top: 1rem; }
 .tool-logo { width: 1.3rem; height: 1.3rem; padding: .12rem; border-radius: 50%; background: #fffdf7; object-fit: contain; }
 .tool-fallback { width: 1.25rem; height: 1.25rem; padding: .18rem; border-radius: 50%; background: var(--accent); color: var(--forest-deep); }
 .experience-summary, .education-detail { color: var(--muted); }
+.credential-card ul { list-style: none; padding: 0; }
+.credential-card li { padding-block: .85rem; border-top: 1px solid var(--line); }
+.credential-card li p { font-size: .86rem; }
+.credential-card h3 svg { vertical-align: -.1em; color: var(--accent); }
 .skills-card { min-width: 0; padding: clamp(1.15rem, 2.8vw, 2rem); border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
 .skills-card h3 { margin: .6rem 0 .72rem; font-size: clamp(1.45rem, 2.55vw, 2.2rem); }
 .text-link { display: inline-flex; align-items: center; gap: .4rem; min-height: 2.65rem; width: fit-content; color: var(--accent); font-size: .88rem; font-weight: 800; }

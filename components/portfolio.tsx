@@ -5,6 +5,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { PlatformAtlas } from "@/components/platform-atlas";
 import { ProjectCollection } from "@/components/project-collection";
+import { Credentials } from "@/components/credentials";
 import { TechStack } from "@/components/tech-stack";
 import { education, experience, tr, type Locale } from "@/lib/portfolio-copy";
 import { skillGroups, skillLabel } from "@/lib/skills";
@@ -27,6 +28,7 @@ export function Portfolio({ locale }: { locale: Locale }) {
     [t("Expérience", "Experience"), "#experience"],
     [t("Formation", "Education"), "#education"],
     [t("Compétences", "Skills"), "#skills"],
+    [t("Certifications", "Credentials"), "#certifications"],
     ["Contact", "#contact"],
   ];
   const localHome = locale === "fr" ? "/" : "/en";
@@ -140,10 +142,15 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </div>
         </section>
 
+        <section className="section" id="certifications">
+          <SectionTitle index="05" label={t("Badges & attestations", "Badges & certificates")} title={t("Certifications & formations", "Certifications & training")} />
+          <Credentials locale={locale} />
+        </section>
+
         <section className="section contact" id="contact" aria-labelledby="contact-title">
           <div className="contact-panel">
             <div className="contact-intro">
-              <p className="eyebrow"><span>05 /</span> Contact</p>
+              <p className="eyebrow"><span>06 /</span> Contact</p>
               <h2 id="contact-title">{t("Faisons connaissance.", "Let’s connect.")}</h2>
               <p className="contact-message">{t(
                 "Vous recherchez une stagiaire en Cloud, DevOps, SRE ou MLOps ? Je serais ravie d’échanger sur votre équipe et les projets auxquels je pourrais contribuer.",
