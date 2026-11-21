@@ -22,6 +22,12 @@ for (const locale of ["fr", "en"]) {
   const skills = home.split('id="skills"')[1]?.split('</section>')[0] ?? '';
   const skillTags = toolTags(skills);
   const skillSet = new Set(skillTags);
+  for (const name of ["bash", "pytorch", "pip-audit", "pvc", ...(locale === "fr" ? ["adressage ip", "api rest", "gestion des secrets"] : ["ip addressing", "rest api", "secrets management"])]) {
+    assert.ok(skillSet.has(name), `${locale}: CV skill ${name}`);
+  }
+  const credentials = home.split('id="certifications"')[1]?.split('</section>')[0] ?? "";
+  assert.equal([...credentials.matchAll(/<li>/g)].length, 10, `${locale}: ten credentials`);
+  assert.equal([...credentials.matchAll(/href="https:\/\/www\.credly\.com\/go\//g)].length, 2, `${locale}: two public badges`);
   assert.equal([...skills.matchAll(/class="skills-card"/g)].length, 9, `${locale}: nine skill domains`);
   assert.equal(skillSet.size, skillTags.length, `${locale}: unique skill labels`);
   assert.ok(skillSet.size >= 90, `${locale}: expanded skills inventory`);
