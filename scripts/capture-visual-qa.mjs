@@ -25,6 +25,8 @@ const specs = [
   { name: "desktop-groups", width: 1440, height: 1000, mobile: false, selector: "#ai-projects" },
   { name: "mobile-groups", width: 390, height: 844, mobile: true, selector: "#ai-projects" },
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
+  { name: "mobile-education", width: 390, height: 844, mobile: true, selector: "#education" },
+  { name: "mobile-education-en", width: 320, height: 900, mobile: true, selector: "#education", route: "/en" },
   { name: "mobile-skills", width: 390, height: 844, mobile: true, selector: "#skills" },
   { name: "desktop-skills", width: 1440, height: 1200, mobile: false, selector: "#skills" },
   { name: "mobile-skills-en", width: 320, height: 1000, mobile: true, selector: "#skills", route: "/en" },
