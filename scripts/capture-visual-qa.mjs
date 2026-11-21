@@ -152,8 +152,8 @@ async function capture(spec) {
     returnByValue: true,
   });
   const dimensions = JSON.parse(metrics.result.value);
-  if (dimensions.scrollWidth > dimensions.innerWidth || dimensions.bodyWidth > dimensions.innerWidth) {
-    throw new Error(`${spec.name} has horizontal overflow: ${JSON.stringify(dimensions)}`);
+  if (dimensions.innerWidth !== spec.width || dimensions.scrollWidth > dimensions.innerWidth || dimensions.bodyWidth > dimensions.innerWidth) {
+    throw new Error(`${spec.name} has a viewport mismatch or horizontal overflow: ${JSON.stringify(dimensions)}`);
   }
   const expectedLocale = spec.route === "/en" ? "en" : "fr";
   const expectedResume = `/resumes/farah-ben-harb-cloud-engineering-${expectedLocale}.pdf`;
