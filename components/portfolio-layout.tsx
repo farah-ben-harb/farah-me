@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Sans } from "next/font/google";
+import { DM_Sans, Space_Grotesk } from "next/font/google";
 import { type Locale, tr } from "@/lib/portfolio-copy";
 import { siteConfig } from "@/lib/site";
 import "@/app/globals.css";
 
-const plexSans = IBM_Plex_Sans({ subsets: ["latin"], weight: "variable", variable: "--font-body", display: "swap" });
+const bodyFont = DM_Sans({ subsets: ["latin"], weight: "variable", variable: "--font-body", display: "swap" });
+const displayFont = Space_Grotesk({ subsets: ["latin"], weight: "variable", variable: "--font-display", display: "swap" });
 
 export function portfolioMetadata(locale: Locale): Metadata {
   const description = tr(locale, [
@@ -36,7 +37,7 @@ export function portfolioMetadata(locale: Locale): Metadata {
   };
 }
 
-export const portfolioViewport: Viewport = { themeColor: "#0e261d", colorScheme: "dark" };
+export const portfolioViewport: Viewport = { themeColor: "#10291f", colorScheme: "dark" };
 
 export function PortfolioLayout({
   children,
@@ -46,7 +47,7 @@ export function PortfolioLayout({
   locale: Locale;
 }) {
   return (
-    <html lang={locale} className={plexSans.variable}>
+    <html lang={locale} className={`${bodyFont.variable} ${displayFont.variable}`}>
       <body>{children}</body>
     </html>
   );

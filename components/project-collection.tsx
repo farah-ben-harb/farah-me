@@ -93,7 +93,7 @@ export function ProjectCollection({ locale }: { locale: Locale }) {
     <div className="project-collection" id="selected-projects">
       <nav className="collection-nav" aria-label={t("Parcourir les projets par catégorie", "Browse projects by category")}>
         {categories.map((category, index) => (
-          <a key={category.id} href={`#${category.id}`}><span aria-hidden="true">0{index + 1}</span>{tr(locale, category.navigation)}</a>
+          <a key={category.id} href={`#${category.id}`}><span aria-hidden="true">0{index + 1}</span><strong>{tr(locale, category.navigation)}</strong><ArrowUpRight aria-hidden="true" /></a>
         ))}
       </nav>
       {categories.map((category, index) => (
