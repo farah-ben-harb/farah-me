@@ -119,7 +119,6 @@ async function capture(spec) {
       language: document.documentElement.lang,
       heroImageCount: document.querySelectorAll(".hero img").length,
       atlasLinks: document.querySelectorAll(".atlas-links a").length,
-      atlasAnimates: getComputedStyle(document.querySelector(".atlas")).animationName !== "none",
       cvCount: document.querySelectorAll(".hero .actions .resume-link").length,
       contactLinks: document.querySelectorAll('#contact a').length,
       contactLandmark: document.querySelector('#contact')?.getAttribute('aria-labelledby') === 'contact-title',
@@ -156,7 +155,7 @@ async function capture(spec) {
       dimensions.heroImageCount !== 0 || dimensions.cvCount !== 1 || dimensions.cvSectionCount !== 0 || !dimensions.cvAccessible || !dimensions.crm ||
       dimensions.contactLinks !== 4 || !dimensions.contactLandmark ||
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
-      dimensions.atlasLinks !== 3 || dimensions.atlasAnimates === Boolean(spec.reducedMotion) ||
+      dimensions.atlasLinks !== 0 ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 ||
       dimensions.projectCards !== 15 || dimensions.projectCategories !== 4 || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
@@ -226,15 +225,10 @@ async function capture(spec) {
   }
   if (!groupNavigationPassed) throw new Error(`${spec.name}: group keyboard navigation failed`);
 
-  await send("Runtime.evaluate", {
-    expression: `document.querySelector('.atlas-links a[href="#devsecops-incident-platform"]').click()`,
-  });
+  await send("Runtime.evaluate", { expression: 'document.querySelector(\'.collection-nav a[href="#devops-projects"]\').click()' });
   await sleep(250);
-  const navigation = await send("Runtime.evaluate", {
-    expression: 'location.hash === "#devsecops-incident-platform" && document.querySelector("#devsecops-incident-platform").getBoundingClientRect().height > 0',
-    returnByValue: true,
-  });
-  if (!navigation.result.value) throw new Error(`${spec.name}: DevOps shortcut did not reveal the project`);
+  const navigation = await send("Runtime.evaluate", { expression: 'location.hash === "#devops-projects" && document.querySelector("#devops-projects").getBoundingClientRect().height > 0', returnByValue: true });
+  if (!navigation.result.value) throw new Error(`${spec.name}: DevOps category link failed`);
 
   if (spec.name === 'desktop-projects' || spec.name === 'mobile-cloud-en') {
     await send("Runtime.evaluate", { expression: 'document.querySelector("#openstack-heat-infrastructure").click()' });
