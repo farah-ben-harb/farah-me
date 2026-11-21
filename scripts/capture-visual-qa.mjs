@@ -135,6 +135,8 @@ async function capture(spec) {
       educationCards: document.querySelectorAll('#education .education-card').length,
       experienceStacks: document.querySelectorAll('#experience article .stack').length,
       skillsGroups: document.querySelectorAll('#skills .skills-card').length,
+      skillIcons: document.querySelectorAll('#skills .tool-logo, #skills .tool-symbol').length,
+      unknownSkillIcons: document.querySelectorAll('#skills .tool-fallback').length,
       projectCards: document.querySelectorAll('.collection-card').length,
       projectCategories: document.querySelectorAll('.collection-section').length,
       groupedInfrastructure: document.querySelector('#k8s-cluster-automation .companion-link')?.id === 'openstack-heat-infrastructure',
@@ -158,7 +160,7 @@ async function capture(spec) {
       dimensions.contactLinks !== 4 || !dimensions.contactLandmark ||
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 0 ||
-      dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 ||
+      dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 || dimensions.skillIcons !== 111 || dimensions.unknownSkillIcons !== 0 ||
       dimensions.projectCards !== 15 || dimensions.projectCategories !== 4 || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
