@@ -126,6 +126,7 @@ async function capture(spec) {
       cvCount: document.querySelectorAll(".hero .actions .resume-link").length,
       contactLinks: document.querySelectorAll('#contact a').length,
       contactLandmark: document.querySelector('#contact')?.getAttribute('aria-labelledby') === 'contact-title',
+      mobileActionsBeforeContact: document.querySelector('.hero-actions')?.getBoundingClientRect().top < document.querySelector('#contact')?.getBoundingClientRect().top,
       cvSectionCount: document.querySelectorAll("section#resumes").length,
       cvAccessible: (() => {
         const link = document.querySelector('.resume-link');
@@ -154,6 +155,9 @@ async function capture(spec) {
   const dimensions = JSON.parse(metrics.result.value);
   if (dimensions.innerWidth !== spec.width || dimensions.scrollWidth > dimensions.innerWidth || dimensions.bodyWidth > dimensions.innerWidth) {
     throw new Error(`${spec.name} has a viewport mismatch or horizontal overflow: ${JSON.stringify(dimensions)}`);
+  }
+  if (spec.width <= 896 && !dimensions.mobileActionsBeforeContact) {
+    throw new Error(`${spec.name}: mobile actions must appear before contact`);
   }
   const expectedLocale = spec.route === "/en" ? "en" : "fr";
   const expectedResume = `/resumes/farah-ben-harb-cloud-engineering-${expectedLocale}.pdf`;
