@@ -161,6 +161,7 @@ section, article, details { scroll-margin-top: 1rem; }
 .collection-nav svg { color: var(--accent); align-self: end; }
 .collection-heading { display: flex; justify-content: space-between; align-items: end; gap: 1rem 2rem; margin-bottom: 1.35rem; }
 .collection-heading h3 { font-size: clamp(1.85rem, 3.4vw, 2.8rem); font-weight: 500; letter-spacing: -.05em; margin-top: .5rem; }
+.collection-section:target .collection-heading h3 { color: var(--accent); }
 .collection-heading > p { max-width: 27rem; color: var(--muted); font-size: .9rem; }
 .collection-section + .collection-section { margin-top: 3.5rem; padding-top: 3rem; border-top: 1px solid var(--line); }
 .category-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; list-style: none; padding: 0; }
@@ -281,8 +282,8 @@ section, article, details { scroll-margin-top: 1rem; }
   #contact { scroll-margin-top: 1rem; }
   .hero { grid-template-columns: 1fr; row-gap: 1.5rem; }
   .hero-copy { grid-column: 1; grid-row: 1; }
-  .hero-contact { grid-column: 1; grid-row: 2; align-self: stretch; }
-  .hero-actions { grid-column: 1; grid-row: 3; margin-top: 0; }
+  .hero-actions { grid-column: 1; grid-row: 2; margin-top: 0; }
+  .hero-contact { grid-column: 1; grid-row: 3; align-self: stretch; }
   .site-header { position: relative; grid-template-columns: 1fr auto; padding-top: .65rem; }
   .nav-links { grid-column: 1 / -1; grid-row: 2; justify-content: flex-start; flex-wrap: wrap; }
   .skills-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -326,7 +327,7 @@ section, article, details { scroll-margin-top: 1rem; }
   .hero-copy, .hero-actions, .hero-contact { animation: enter-up 600ms both; }
   .hero-actions { animation-delay: 110ms; }
   .hero-contact { animation-delay: 180ms; }
-  .action, .collection-card, .collection-nav a, .icon-link, .hero-contact-links a, .hero-contact-socials a {
+  .action, .collection-card, .collection-nav a, .collection-heading h3, .icon-link, .hero-contact-links a, .hero-contact-socials a {
     transition: background-color 180ms, border-color 180ms, color 180ms, transform 220ms ease, box-shadow 220ms ease;
   }
   .action:hover, .collection-nav a:hover { transform: translateY(-3px); }
