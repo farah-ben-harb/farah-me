@@ -7,7 +7,8 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 ## What This Portfolio Shows
 
 - French home page at `/` and English version at `/en`
-- A simple editorial introduction leading directly to categorized Cloud, DevOps and MLOps projects
+- An editorial introduction followed by a technical focus map and categorized Cloud, DevOps and MLOps projects
+- A four-part technical focus map linking private cloud, Kubernetes automation, GitOps and observability to separate evidence-backed case studies; it is navigation, not a claim of one deployed end-to-end system
 - Five project categories: Cloud/Infrastructure/SRE, DevOps/DevSecOps/GitOps, AI/Data/MLOps, Applications/Microservices, and a compact Other Projects group
 - Fifteen project cards keep all 18 repository case studies accessible. OpenStack Heat and Kubernetes Cluster Automation share one card with explicit infrastructure/cluster links and reciprocal links between their detail pages. DevoRecruiter and Alif retain their deployment repositories as companion links.
 - Dedicated FR/EN project pages focused on architecture, implementation, environments, evidence and related repositories, without scope or limitations panels
