@@ -9,7 +9,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [...Object.values(languages).map((url) => ({
     url,
     alternates: { languages },
-  })), ...caseStudies.flatMap((project) => {
+  })), ...["projects", "profile"].flatMap((page) => {
+    const languages = { fr: `${siteConfig.url}/${page}`, en: `${siteConfig.url}/en/${page}` };
+    return Object.values(languages).map((url) => ({ url, alternates: { languages } }));
+  }), ...caseStudies.flatMap((project) => {
     const languages = { fr: `${siteConfig.url}${projectPath("fr", project.slug)}`, en: `${siteConfig.url}${projectPath("en", project.slug)}` };
     return Object.values(languages).map((url) => ({ url, alternates: { languages } }));
   })];

@@ -19,18 +19,25 @@ async function get(route) {
 }
 for (const locale of ["fr", "en"]) {
   const home = await get(locale === "fr" ? "/" : "/en");
-  const platformMap = home.split('<section class="platform-map"')[1]?.split('<section class="section" id="projects"')[0] ?? '';
-  assert.equal([...platformMap.matchAll(/<li class="platform-stage">/g)].length, 4, `${locale}: four technical focus links`);
-  for (const slug of ['openstack-heat-infrastructure', 'k8s-cluster-automation', 'gitops-delivery-platform', 'kubernetes-anomaly-detection-openstack']) {
-    assert.ok(platformMap.includes(`href="${locale === "fr" ? "" : "/en"}/projects/${slug}"`), `${locale}: technical focus links to ${slug}`);
+  const prefix = locale === "fr" ? "" : "/en";
+  const profile = await get(`${prefix}/profile`);
+  const catalog = await get(`${prefix}/projects`);
+  assert.equal([...home.matchAll(/class="home-project-number"/g)].length, 4, `${locale}: four selected projects on the home page`);
+  assert.ok(!home.includes('class="project-collection"') && !home.includes('id="skills"') && !home.includes('id="certifications"'), `${locale}: full catalog and inventory live on dedicated pages`);
+  for (const page of ["projects", "profile"]) {
+    assert.ok(home.includes(`href="${prefix}/${page}"`), `${locale}: home links to ${page}`);
   }
-  const skills = home.split('id="skills"')[1]?.split('</section>')[0] ?? '';
+  assert.ok(catalog.includes(`href="${prefix}/profile"`) && profile.includes(`href="${prefix}/projects"`), `${locale}: cross-page navigation`);
+  for (const [page, html] of [["projects", catalog], ["profile", profile]]) {
+    assert.ok(html.includes(`href="/${page}"`) && html.includes(`href="/en/${page}"`), `${locale}: ${page} language switch preserves the page`);
+  }
+  const skills = profile.split('id="skills"')[1]?.split('</section>')[0] ?? '';
   const skillTags = toolTags(skills);
   const skillSet = new Set(skillTags);
   for (const name of ["bash", "pytorch", "pip-audit", "pvc", ...(locale === "fr" ? ["adressage ip", "api rest", "gestion des secrets"] : ["ip addressing", "rest api", "secrets management"])]) {
     assert.ok(skillSet.has(name), `${locale}: CV skill ${name}`);
   }
-  const credentials = home.split('id="certifications"')[1]?.split('</section>')[0] ?? "";
+  const credentials = profile.split('id="certifications"')[1]?.split('</section>')[0] ?? "";
   assert.equal([...credentials.matchAll(/<li>/g)].length, 10, `${locale}: ten credentials`);
   assert.equal([...credentials.matchAll(/href="https:\/\/www\.credly\.com\/go\//g)].length, 2, `${locale}: two public badges`);
   assert.equal([...skills.matchAll(/class="skills-card"/g)].length, 9, `${locale}: nine skill domains`);
@@ -40,14 +47,14 @@ for (const locale of ["fr", "en"]) {
     .flatMap(match => [...match[1].matchAll(/<li>([\s\S]*?)<\/li>/g)].map(chip => chip[1]));
   assert.equal(skillChips.length, skillTags.length, `${locale}: every skill has a chip`);
   assert.ok(skillChips.every(chip => /class="tool-(?:logo|symbol)"/.test(chip)), `${locale}: every skill has a specific logo or pictogram`);
-  for (const match of home.matchAll(/src="(\/tool-icons\/[^" ]+\.svg)"/g)) assets.add(match[1]);
-  const internships = home.split('id="experience"')[1]?.split('</section>')[0] ?? '';
+  for (const match of profile.matchAll(/src="(\/tool-icons\/[^" ]+\.svg)"/g)) assets.add(match[1]);
+  const internships = profile.split('id="experience"')[1]?.split('</section>')[0] ?? '';
   for (const tool of toolTags(internships)) assert.ok(skillSet.has(tool), `${locale}: internship tool ${tool} is covered`);
   for (const tool of ['langchain', 'chromadb', 'groq', 'huggingface', 'sqlalchemy', 'docker compose', 'kubeadm', 'react', 'next.js', 'gitleaks', 'dynatrace']) {
     assert.ok(skillSet.has(tool), `${locale}: documented tool ${tool} is included`);
   }
   console.log(`OK ${locale}: ${skillSet.size} unique skills across nine domains`);
-  const education = home.split('id="education"')[1]?.split('</section>')[0] ?? "";
+  const education = profile.split('id="education"')[1]?.split('</section>')[0] ?? "";
   assert.ok(education.includes('class="timeline education-list"'), `${locale}: education follows a readable vertical timeline`);
   const expectedEducation = locale === "fr"
     ? ["Cycle d’ingénieur en informatique", "Spécialisation Architecture IT et Cloud Computing.", "Semestre d’échange en dernière année", "Spécialisation Réseaux et Télécommunications."]
@@ -65,7 +72,7 @@ for (const locale of ["fr", "en"]) {
   assert.ok(!contact.includes('<form'), `${locale}: no nonfunctional contact form`);
   assert.ok(!home.includes('<section class="section contact"'), `${locale}: no footer contact section`);
   const resume = `/resumes/farah-ben-harb-cloud-engineering-${locale}.pdf`;
-  assert.ok(hero.includes('class="action action-outline hero-contact-link" href="#contact"'), `${locale}: direct contact shortcut`);
+  assert.ok(hero.includes(`class="action action-outline hero-contact-link" href="${prefix}/profile"`), `${locale}: direct profile shortcut`);
   const resumeLink = hero.match(/<a\b[^>]*class="icon-link resume-link"[^>]*>/)?.[0] ?? "";
   for (const attribute of [`href="${resume}"`, `hrefLang="${locale}"`, 'target="_blank"', 'rel="noopener noreferrer"', 'aria-label=', 'title=']) {
     assert.ok(resumeLink.includes(attribute), `${locale}: hero CV icon has ${attribute}`);
@@ -81,8 +88,7 @@ for (const locale of ["fr", "en"]) {
   assert.ok(home.includes('href="tel:+33775691867"'), `${locale}: click-to-call link`);
   assert.ok(home.includes('+33 7 75 69 18 67'), `${locale}: readable phone number`);
   assert.ok(home.includes(`aria-label="${locale === "fr" ? "Appeler Farah au" : "Call Farah at"} +33 7 75 69 18 67"`), `${locale}: accessible phone label`);
-  const collection = home.split('class="project-collection"')[1]?.split('<section class="section" id="skills"')[0] ?? '';
-  assert.ok(home.indexOf('id="experience"') < home.indexOf('id="projects"'), `${locale}: experience precedes the project catalog`);
+  const collection = catalog.split('class="project-collection"')[1]?.split('</main>')[0] ?? '';
   const categorySlugs = {
     'featured-projects': ['k8s-cluster-automation', 'kubernetes-anomaly-detection-openstack', 'devsecops-incident-platform', 'gitops-delivery-platform', 'flask-azure-devops-pipeline', 'footballmatch-ai-platform-mlops'],
     'ai-projects': ['crm-intelligence-mlops', 'devorecruiter'],
@@ -137,6 +143,7 @@ for (const locale of ["fr", "en"]) {
 for (const asset of assets) await get(asset);
 const sitemap = await get("/sitemap.xml");
 for (const route of pages) assert.ok(sitemap.includes(`https://farah-me.vercel.app${route}</loc>`), `Missing sitemap: ${route}`);
+for (const route of ["/projects", "/profile", "/en/projects", "/en/profile"]) assert.ok(sitemap.includes(`https://farah-me.vercel.app${route}</loc>`), `Missing sitemap: ${route}`);
 for (const route of ["/projects/not-a-project", "/en/projects/not-a-project"]) {
   assert.equal((await fetch(new URL(route, base))).status, 404, `${route}: should be 404`);
 }
