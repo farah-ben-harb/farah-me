@@ -19,6 +19,11 @@ async function get(route) {
 }
 for (const locale of ["fr", "en"]) {
   const home = await get(locale === "fr" ? "/" : "/en");
+  const platformMap = home.split('<section class="platform-map"')[1]?.split('<section class="section" id="projects"')[0] ?? '';
+  assert.equal([...platformMap.matchAll(/<li class="platform-stage">/g)].length, 4, `${locale}: four technical focus links`);
+  for (const slug of ['openstack-heat-infrastructure', 'k8s-cluster-automation', 'gitops-delivery-platform', 'kubernetes-anomaly-detection-openstack']) {
+    assert.ok(platformMap.includes(`href="${locale === "fr" ? "" : "/en"}/projects/${slug}"`), `${locale}: technical focus links to ${slug}`);
+  }
   const skills = home.split('id="skills"')[1]?.split('</section>')[0] ?? '';
   const skillTags = toolTags(skills);
   const skillSet = new Set(skillTags);

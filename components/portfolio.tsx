@@ -1,7 +1,8 @@
 import Link from "next/link";
 import {
   ArrowDown, ArrowDownRight, ArrowUpRight,
-  EnvelopeSimple, FileText, GithubLogo, LinkedinLogo, MapPin, Phone,
+  ChartLineUp, CloudArrowUp, Cube, EnvelopeSimple, FileText, GitBranch,
+  GithubLogo, LinkedinLogo, MapPin, Phone,
 } from "@phosphor-icons/react/dist/ssr";
 import { ProjectCollection } from "@/components/project-collection";
 import { Credentials } from "@/components/credentials";
@@ -19,6 +20,13 @@ function SectionTitle({ index, label, title }: { index: string; label: string; t
     </div>
   );
 }
+
+const platformStages = [
+  { slug: "openstack-heat-infrastructure", icon: CloudArrowUp, title: ["Cloud privé", "Private cloud"], tools: "OpenStack · Heat" },
+  { slug: "k8s-cluster-automation", icon: Cube, title: ["Automatisation", "Automation"], tools: "Ansible · kubeadm" },
+  { slug: "gitops-delivery-platform", icon: GitBranch, title: ["GitOps", "GitOps"], tools: "Kustomize · Argo CD" },
+  { slug: "kubernetes-anomaly-detection-openstack", icon: ChartLineUp, title: ["Observabilité", "Observability"], tools: "Prometheus · FastAPI" },
+] as const;
 
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = (fr: string, en: string) => tr(locale, [fr, en]);
@@ -60,10 +68,10 @@ export function Portfolio({ locale }: { locale: Locale }) {
       <main id="content">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <p className="eyebrow"><span className="signal" /> Cloud · DevOps · MLOps</p>
+            <p className="eyebrow"><span className="signal" /> Cloud · DevOps · SRE · MLOps</p>
             <h1 id="hero-title">
-              {t("Ingénierie Cloud", "Cloud engineering")}
-              <span>& {t("plateformes IA", "AI platforms")}<b>.</b></span>
+              Cloud & DevOps
+              <span>{t("du code au cluster", "from code to cluster")}<b>.</b></span>
             </h1>
             <p className="hero-intro">{t(
               "Élève-ingénieure en informatique, spécialisée en architecture IT et cloud computing. Mes projets relient OpenStack, Kubernetes, CI/CD et MLOps.",
@@ -103,6 +111,29 @@ export function Portfolio({ locale }: { locale: Locale }) {
             </div>
             <p className="hero-location"><MapPin aria-hidden="true" /> Rouen, France</p>
           </div>
+        </section>
+
+        <section className="platform-map" aria-labelledby="platform-map-title">
+          <div className="platform-map-heading">
+            <p className="eyebrow"><span>00 /</span> {t("Parcours technique", "Technical focus")}</p>
+            <h2 id="platform-map-title">{t("Du cloud à l’observabilité.", "From cloud to observability.")}</h2>
+            <p>{t("Quatre domaines illustrés par mes projets.", "Four areas illustrated by my projects.")}</p>
+          </div>
+          <ol className="platform-map-stages">
+            {platformStages.map((stage, index) => {
+              const Icon = stage.icon;
+              return (
+                <li className="platform-stage" key={stage.slug}>
+                  <Link href={projectPath(locale, stage.slug)} prefetch={false}>
+                    <span className="platform-stage-top"><span className="platform-stage-number">0{index + 1}</span><Icon aria-hidden="true" /></span>
+                    <strong>{tr(locale, stage.title)}</strong>
+                    <small>{stage.tools}</small>
+                    <ArrowUpRight className="platform-stage-arrow" aria-hidden="true" />
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
         </section>
 
         <section className="section" id="projects">

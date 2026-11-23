@@ -17,6 +17,8 @@ const specs = [
   { name: "mobile-contact", width: 390, height: 1000, mobile: true, selector: "#contact" },
   { name: "mobile-contact-en", width: 320, height: 1100, mobile: true, selector: "#contact", route: "/en" },
   { name: "desktop-projects", width: 1440, height: 1200, mobile: false, selector: "#projects" },
+  { name: "desktop-platform-map", width: 1440, height: 900, mobile: false, selector: ".platform-map" },
+  { name: "mobile-platform-map", width: 390, height: 844, mobile: true, selector: ".platform-map" },
   { name: "mobile-projects", width: 390, height: 844, mobile: true, selector: "#selected-projects" },
   { name: "tablet-projects", width: 820, height: 1180, mobile: true, selector: "#projects" },
   { name: "desktop-devops", width: 1440, height: 1050, mobile: false, selector: "#devops-projects" },
@@ -142,6 +144,8 @@ async function capture(spec) {
       unknownSkillIcons: document.querySelectorAll('#skills .tool-fallback').length,
       projectCards: document.querySelectorAll('.collection-card').length,
       projectCategories: document.querySelectorAll('.collection-section').length,
+      platformStages: document.querySelectorAll('.platform-stage a').length,
+      reducedMotionRespected: !matchMedia('(prefers-reduced-motion: reduce)').matches || getComputedStyle(document.querySelector('.platform-map-stages'), '::after').content === 'none',
       groupedInfrastructure: document.querySelector('#k8s-cluster-automation .companion-link')?.id === 'openstack-heat-infrastructure',
       companionLinks: document.querySelectorAll('.companion-link').length,
       logoCount: document.querySelectorAll('.tool-logo').length,
@@ -167,7 +171,7 @@ async function capture(spec) {
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 0 ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 || dimensions.skillIcons !== 111 || dimensions.unknownSkillIcons !== 0 ||
-      dimensions.projectCards !== 15 || dimensions.projectCategories !== 5 || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
+      dimensions.projectCards !== 15 || dimensions.projectCategories !== 5 || dimensions.platformStages !== 4 || !dimensions.reducedMotionRespected || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
@@ -179,6 +183,17 @@ async function capture(spec) {
   });
   const output = path.join(outputDir, `${spec.name}.png`);
   await writeFile(output, Buffer.from(screenshot.data, "base64"));
+
+  if (spec.name.includes('platform-map')) {
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".platform-stage a").click()' });
+    await sleep(1500);
+    const opened = await send("Runtime.evaluate", { expression: 'location.pathname.endsWith("/projects/openstack-heat-infrastructure") && !!document.querySelector("#project-title")', returnByValue: true });
+    if (!opened.result.value) throw new Error(`${spec.name}: technical focus link failed`);
+    await send("Runtime.evaluate", { expression: 'document.querySelector(".back-to-projects").click()' });
+    await sleep(1500);
+    const returned = await send("Runtime.evaluate", { expression: 'location.hash === "#projects" && !!document.querySelector("#hero-title")', returnByValue: true });
+    if (!returned.result.value) throw new Error(`${spec.name}: technical focus return link failed`);
+  }
 
   if (spec.name.includes('skills')) {
     await send("Runtime.evaluate", { expression: 'document.querySelector(".skill-evidence summary").focus({preventScroll: true})' });
