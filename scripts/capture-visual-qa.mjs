@@ -21,11 +21,11 @@ const specs = [
   { name: "mobile-platform-map", width: 390, height: 844, mobile: true, selector: ".platform-map" },
   { name: "mobile-projects", width: 390, height: 844, mobile: true, selector: "#selected-projects" },
   { name: "tablet-projects", width: 820, height: 1180, mobile: true, selector: "#projects" },
-  { name: "desktop-devops", width: 1440, height: 1050, mobile: false, selector: "#devops-projects" },
+  { name: "desktop-featured", width: 1440, height: 1050, mobile: false, selector: "#featured-projects" },
   { name: "desktop-applications", width: 1440, height: 1100, mobile: false, selector: "#application-projects" },
   { name: "desktop-other-projects", width: 1440, height: 1100, mobile: false, selector: "#other-projects" },
   { name: "mobile-other-projects", width: 390, height: 900, mobile: true, selector: "#other-projects" },
-  { name: "mobile-cloud-en", width: 320, height: 1100, mobile: true, selector: "#cloud-projects", route: "/en" },
+  { name: "mobile-featured-en", width: 320, height: 1100, mobile: true, selector: "#featured-projects", route: "/en" },
   { name: "desktop-groups", width: 1440, height: 1000, mobile: false, selector: "#ai-projects" },
   { name: "mobile-groups", width: 390, height: 844, mobile: true, selector: "#ai-projects" },
   { name: "desktop-education", width: 1440, height: 960, mobile: false, selector: "#education" },
@@ -144,6 +144,8 @@ async function capture(spec) {
       unknownSkillIcons: document.querySelectorAll('#skills .tool-fallback').length,
       projectCards: document.querySelectorAll('.collection-card').length,
       projectCategories: document.querySelectorAll('.collection-section').length,
+      featuredCards: document.querySelectorAll('#featured-projects .collection-card').length,
+      experienceBeforeProjects: Boolean(document.querySelector('#experience')?.compareDocumentPosition(document.querySelector('#projects')) & Node.DOCUMENT_POSITION_FOLLOWING),
       platformStages: document.querySelectorAll('.platform-stage a').length,
       reducedMotionRespected: !matchMedia('(prefers-reduced-motion: reduce)').matches || getComputedStyle(document.querySelector('.platform-map-stages'), '::after').content === 'none',
       groupedInfrastructure: document.querySelector('#k8s-cluster-automation .companion-link')?.id === 'openstack-heat-infrastructure',
@@ -152,7 +154,7 @@ async function capture(spec) {
       hasBaccalaureate: document.querySelector('#education')?.textContent.includes(${JSON.stringify("Baccalauréat scientifique")}) || document.querySelector('#education')?.textContent.includes('Scientific baccalaureate'),
       missingAnchors: [...document.querySelectorAll('a[href^="#"]')]
         .filter((link) => !document.getElementById(link.hash.slice(1))).map((link) => link.hash),
-      collectionNav: document.querySelectorAll('.collection-nav a').length === 5
+      collectionNav: document.querySelectorAll('.collection-nav a').length === 4
     })`,
     returnByValue: true,
   });
@@ -171,7 +173,7 @@ async function capture(spec) {
       dimensions.cvLinks.length !== 1 || dimensions.cvLinks.some((href) => href !== expectedResume) ||
       dimensions.atlasLinks !== 0 ||
       dimensions.educationCards !== 4 || dimensions.experienceStacks !== 3 || dimensions.skillsGroups !== 9 || dimensions.skillIcons !== 111 || dimensions.unknownSkillIcons !== 0 ||
-      dimensions.projectCards !== 15 || dimensions.projectCategories !== 5 || dimensions.platformStages !== 4 || !dimensions.reducedMotionRespected || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
+      dimensions.projectCards !== 15 || dimensions.projectCategories !== 4 || dimensions.featuredCards !== 6 || !dimensions.experienceBeforeProjects || dimensions.platformStages !== 4 || !dimensions.reducedMotionRespected || !dimensions.groupedInfrastructure || dimensions.companionLinks !== 3 || dimensions.logoCount < 20 || !dimensions.hasBaccalaureate ||
       dimensions.missingAnchors.length || !dimensions.collectionNav) {
     throw new Error(`${spec.name} failed the portfolio smoke check: ${JSON.stringify(dimensions)}`);
   }
@@ -267,12 +269,12 @@ async function capture(spec) {
   }
   if (!groupNavigationPassed) throw new Error(`${spec.name}: group keyboard navigation failed`);
 
-  await send("Runtime.evaluate", { expression: 'document.querySelector(\'.collection-nav a[href="#devops-projects"]\').click()' });
+  await send("Runtime.evaluate", { expression: 'document.querySelector(\'.collection-nav a[href="#featured-projects"]\').click()' });
   await sleep(250);
-  const navigation = await send("Runtime.evaluate", { expression: 'location.hash === "#devops-projects" && document.querySelector("#devops-projects").getBoundingClientRect().height > 0', returnByValue: true });
-  if (!navigation.result.value) throw new Error(`${spec.name}: DevOps category link failed`);
+  const navigation = await send("Runtime.evaluate", { expression: 'location.hash === "#featured-projects" && document.querySelector("#featured-projects").getBoundingClientRect().height > 0', returnByValue: true });
+  if (!navigation.result.value) throw new Error(`${spec.name}: featured category link failed`);
 
-  if (spec.name === 'desktop-projects' || spec.name === 'mobile-cloud-en') {
+  if (spec.name === 'desktop-projects' || spec.name === 'mobile-featured-en') {
     await send("Runtime.evaluate", { expression: 'document.querySelector("#openstack-heat-infrastructure").click()' });
     await sleep(1500);
     const infrastructure = await send("Runtime.evaluate", { expression: 'location.pathname.endsWith("/projects/openstack-heat-infrastructure") && !!document.querySelector("#project-title")', returnByValue: true });

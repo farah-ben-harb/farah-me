@@ -81,17 +81,17 @@ for (const locale of ["fr", "en"]) {
   assert.ok(home.includes('href="tel:+33775691867"'), `${locale}: click-to-call link`);
   assert.ok(home.includes('+33 7 75 69 18 67'), `${locale}: readable phone number`);
   assert.ok(home.includes(`aria-label="${locale === "fr" ? "Appeler Farah au" : "Call Farah at"} +33 7 75 69 18 67"`), `${locale}: accessible phone label`);
-  const collection = home.split('class="project-collection"')[1]?.split('<section class="section" id="experience"')[0] ?? '';
+  const collection = home.split('class="project-collection"')[1]?.split('<section class="section" id="skills"')[0] ?? '';
+  assert.ok(home.indexOf('id="experience"') < home.indexOf('id="projects"'), `${locale}: experience precedes the project catalog`);
   const categorySlugs = {
-    'cloud-projects': ['k8s-cluster-automation', 'kubernetes-anomaly-detection-openstack'],
-    'devops-projects': ['devsecops-incident-platform', 'gitops-delivery-platform', 'flask-azure-devops-pipeline'],
-    'ai-projects': ['footballmatch-ai-platform-mlops', 'crm-intelligence-mlops', 'devorecruiter'],
+    'featured-projects': ['k8s-cluster-automation', 'kubernetes-anomaly-detection-openstack', 'devsecops-incident-platform', 'gitops-delivery-platform', 'flask-azure-devops-pipeline', 'footballmatch-ai-platform-mlops'],
+    'ai-projects': ['crm-intelligence-mlops', 'devorecruiter'],
     'application-projects': ['alif-app'],
     'other-projects': ['Application-Airport-Management', 'wefarm-smart-agriculture-platform', 'SmartFarm-Desktop-Application', 'QuantumEscape-Game-2D-SDL', 'CampusIdeas-SPA', 'CryptoCurrency-Project'],
   };
   assert.equal([...collection.matchAll(/<li class="collection-card(?: collection-card-highlight)?"/g)].length, 15, `${locale}: fifteen grouped projects`);
   assert.equal([...collection.matchAll(/class="companion-link"/g)].length, 3, `${locale}: three companion repositories`);
-  assert.deepEqual([...collection.matchAll(/<section class="collection-section" id="([^"]+)"/g)].map(m => m[1]), Object.keys(categorySlugs), `${locale}: five ordered categories`);
+  assert.deepEqual([...collection.matchAll(/<section class="collection-section" id="([^"]+)"/g)].map(m => m[1]), Object.keys(categorySlugs), `${locale}: four ordered groups`);
   for (const [id, slugs] of Object.entries(categorySlugs)) {
     const category = collection.split(`id="${id}"`)[1]?.split('</section>')[0] ?? '';
     assert.ok(collection.includes(`href="#${id}"`), `${locale}: navigation to ${id}`);

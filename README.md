@@ -9,7 +9,7 @@ Production: [farah-me.vercel.app](https://farah-me.vercel.app)
 - French home page at `/` and English version at `/en`
 - An editorial introduction followed by a technical focus map and categorized Cloud, DevOps and MLOps projects
 - A four-part technical focus map linking private cloud, Kubernetes automation, GitOps and observability to separate evidence-backed case studies; it is navigation, not a claim of one deployed end-to-end system
-- Five project categories: Cloud/Infrastructure/SRE, DevOps/DevSecOps/GitOps, AI/Data/MLOps, Applications/Microservices, and a compact Other Projects group
+- Recruiter-first order: experience, six featured Cloud/DevOps/SRE/MLOps project cards, then AI/data, applications and a compact Other Projects group
 - Fifteen project cards keep all 18 repository case studies accessible. OpenStack Heat and Kubernetes Cluster Automation share one card with explicit infrastructure/cluster links and reciprocal links between their detail pages. DevoRecruiter and Alif retain their deployment repositories as companion links.
 - Dedicated FR/EN project pages focused on architecture, implementation, environments, evidence and related repositories, without scope or limitations panels
 - professional experience at Devoteam, Ooredoo, and Tunisie Telecom, each with its own verified tool stack
@@ -29,7 +29,7 @@ The content follows an evidence-first rule: a deployment or test is described as
 - Tailwind CSS 4
 - Vercel hosting
 
-Both language versions and all 36 project pages are statically rendered. Repository identities stay in `lib/portfolio-data.ts`, project editorial content in `lib/project-details.ts`, home-page copy in `lib/portfolio-copy.ts`, and the shared views in `components/portfolio.tsx` and `components/project-detail.tsx`. The server-rendered `components/project-collection.tsx` groups every project into five named categories, with anchor navigation and no filtering or hidden projects. Six smaller projects remain discoverable in a compact Other Projects group. Project language switches preserve the current project. Only the verified FootballMatch API has a live-demo button; other projects link to their code and documentation, without placeholder demo links.
+Both language versions and all 36 project pages are statically rendered. Repository identities stay in `lib/portfolio-data.ts`, project editorial content in `lib/project-details.ts`, home-page copy in `lib/portfolio-copy.ts`, and the shared views in `components/portfolio.tsx` and `components/project-detail.tsx`. The server-rendered `components/project-collection.tsx` presents six featured cards followed by AI/data, applications and other work, with anchor navigation and no filtering or hidden projects. Six smaller projects remain discoverable in a compact Other Projects group. Project language switches preserve the current project. Only the verified FootballMatch API has a live-demo button; other projects link to their code and documentation, without placeholder demo links.
 
 ## Local Development
 
