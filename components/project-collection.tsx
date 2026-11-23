@@ -10,16 +10,18 @@ type Entry = {
   title?: Text;
   summary?: Text;
   tools?: readonly string[];
+  focus?: Text;
   primaryLabel?: Text;
   companion?: { slug: string; label: Text };
 };
-type Category = { id: string; title: Text; navigation: Text; description: Text; entries: readonly Entry[]; compact?: boolean };
+type Category = { id: string; title: Text; navigation: Text; description: Text; entries: readonly Entry[]; featured?: boolean; compact?: boolean };
 
 const categories: readonly Category[] = [
   {
-    id: "cloud-projects", title: ["Cloud, infrastructure & SRE", "Cloud, infrastructure & SRE"],
-    navigation: ["Cloud & Infrastructure", "Cloud & Infrastructure"],
-    description: ["Cloud privé, clusters Kubernetes et observabilité.", "Private cloud, Kubernetes clusters and observability."],
+    id: "featured-projects", title: ["Projets phares", "Featured projects"],
+    navigation: ["Projets phares", "Featured projects"],
+    description: ["Cloud privé, Kubernetes, DevSecOps, GitOps, CI/CD et MLOps : six études de cas à explorer en priorité.", "Private cloud, Kubernetes, DevSecOps, GitOps, CI/CD and MLOps: six case studies to explore first."],
+    featured: true,
     entries: [
       {
         slug: "k8s-cluster-automation", title: ["OpenStack & Kubernetes", "OpenStack & Kubernetes"],
@@ -28,25 +30,18 @@ const categories: readonly Category[] = [
         primaryLabel: ["Automatisation du cluster", "Cluster automation"],
         companion: { slug: "openstack-heat-infrastructure", label: ["Infrastructure du cloud privé", "Private-cloud infrastructure"] },
       },
-      { slug: "kubernetes-anomaly-detection-openstack" },
+      { slug: "kubernetes-anomaly-detection-openstack", focus: ["SRE · Observabilité", "SRE · Observability"] },
+      { slug: "devsecops-incident-platform", focus: ["DevSecOps", "DevSecOps"], tools: ["FastAPI", "PostgreSQL", "Docker", "Jenkins"] },
+      { slug: "gitops-delivery-platform", focus: ["GitOps", "GitOps"], tools: ["Kubernetes", "Kustomize", "Argo CD", "Grafana"] },
+      { slug: "flask-azure-devops-pipeline", focus: ["CI/CD · Infrastructure as Code", "CI/CD · Infrastructure as Code"], tools: ["Flask", "Terraform", "Azure", "GitHub Actions"] },
+      { slug: "footballmatch-ai-platform-mlops", focus: ["MLOps · Plateforme IA", "MLOps · AI platform"], tools: ["FastAPI", "YOLO11", "MLflow", "K3s"] },
     ],
   },
   {
-    id: "devops-projects", title: ["DevOps, DevSecOps & GitOps", "DevOps, DevSecOps & GitOps"],
-    navigation: ["DevOps & DevSecOps", "DevOps & DevSecOps"],
-    description: ["CI/CD, sécurité applicative et livraison déclarative.", "CI/CD, application security and declarative delivery."],
+    id: "ai-projects", title: ["IA & données", "AI & data"],
+    navigation: ["IA & données", "AI & data"],
+    description: ["Deux autres plateformes applicatives : analyse métier et recrutement assisté par IA.", "Two more application platforms: business analytics and AI-assisted recruiting."],
     entries: [
-      { slug: "devsecops-incident-platform", tools: ["FastAPI", "PostgreSQL", "Docker", "Jenkins"] },
-      { slug: "gitops-delivery-platform", tools: ["Kubernetes", "Kustomize", "Argo CD", "Grafana"] },
-      { slug: "flask-azure-devops-pipeline", tools: ["Flask", "Terraform", "Azure", "GitHub Actions"] },
-    ],
-  },
-  {
-    id: "ai-projects", title: ["IA, données & MLOps", "AI, data & MLOps"],
-    navigation: ["IA & MLOps", "AI & MLOps"],
-    description: ["Plateformes IA, données et suivi des modèles.", "AI platforms, data and model tracking."],
-    entries: [
-      { slug: "footballmatch-ai-platform-mlops", tools: ["FastAPI", "YOLO11", "MLflow", "K3s"] },
       { slug: "crm-intelligence-mlops" },
       {
         slug: "devorecruiter", primaryLabel: ["Application & agents IA", "Application & AI agents"],
@@ -102,13 +97,14 @@ export function ProjectCollection({ locale }: { locale: Locale }) {
             <div><p className="eyebrow">0{index + 1} / {category.entries.length} {t("projets", "projects")}</p><h3 id={`${category.id}-title`}>{tr(locale, category.title)}</h3></div>
             <p>{tr(locale, category.description)}</p>
           </div>
-          <ul className={`category-grid${category.compact ? " category-grid-compact" : category.entries.length === 3 ? " category-grid-three" : category.entries.length === 1 ? " category-grid-single" : ""}`}>
+          <ul className={`category-grid${category.featured ? " category-grid-featured" : category.compact ? " category-grid-compact" : category.entries.length === 3 ? " category-grid-three" : category.entries.length === 1 ? " category-grid-single" : ""}`}>
             {category.entries.map((entry) => {
               const detail = project(entry.slug);
               const companion = entry.companion ? project(entry.companion.slug) : null;
               return (
                 <li className={`collection-card${entry.title ? " collection-card-highlight" : ""}`} key={entry.slug} id={entry.slug}>
                   {entry.title && <p className="project-pair-label"><GitBranch aria-hidden="true" />{t("Un projet, deux volets liés", "One project, two connected parts")}</p>}
+                  {entry.focus && <p className="project-focus-label">{tr(locale, entry.focus)}</p>}
                   <h4><Link className="project-details-link" href={projectPath(locale, entry.slug)} prefetch={false}>{entry.title ? tr(locale, entry.title) : detail.name}<ArrowUpRight aria-hidden="true" /></Link></h4>
                   <p className="collection-summary">{tr(locale, entry.summary ?? detail.description)}</p>
                   <TechStack tools={entry.tools ?? detail.technologies.slice(0, 4)} />

@@ -31,8 +31,8 @@ const platformStages = [
 export function Portfolio({ locale }: { locale: Locale }) {
   const t = (fr: string, en: string) => tr(locale, [fr, en]);
   const sections = [
-    [t("Projets", "Work"), "#projects"],
     [t("Expérience", "Experience"), "#experience"],
+    [t("Projets", "Work"), "#projects"],
     [t("Compétences", "Skills"), "#skills"],
     [t("Formation", "Education"), "#education"],
     [t("Certifications", "Credentials"), "#certifications"],
@@ -136,13 +136,8 @@ export function Portfolio({ locale }: { locale: Locale }) {
           </ol>
         </section>
 
-        <section className="section" id="projects">
-          <SectionTitle index="01" label={t("Réalisations", "Selected work")} title={t("Projets", "Projects")} />
-          <ProjectCollection locale={locale} />
-        </section>
-
         <section className="section" id="experience">
-          <SectionTitle index="02" label={t("Parcours professionnel", "Professional background")} title={t("Expérience", "Experience")} />
+          <SectionTitle index="01" label={t("Parcours professionnel", "Professional background")} title={t("Expérience", "Experience")} />
           <div className="timeline experience-list">
             {experience.map((item) => (
               <article key={item.company}>
@@ -154,6 +149,11 @@ export function Portfolio({ locale }: { locale: Locale }) {
               </article>
             ))}
           </div>
+        </section>
+
+        <section className="section" id="projects">
+          <SectionTitle index="02" label={t("Réalisations", "Selected work")} title={t("Projets", "Projects")} />
+          <ProjectCollection locale={locale} />
         </section>
 
         <section className="section" id="skills">
