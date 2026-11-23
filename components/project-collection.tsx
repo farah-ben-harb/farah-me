@@ -11,7 +11,6 @@ type Entry = {
   summary?: Text;
   tools?: readonly string[];
   focus?: Text;
-  primaryLabel?: Text;
   companion?: { slug: string; label: Text };
 };
 type Category = { id: string; title: Text; navigation: Text; description: Text; entries: readonly Entry[]; featured?: boolean; compact?: boolean };
@@ -27,7 +26,6 @@ const categories: readonly Category[] = [
         slug: "k8s-cluster-automation", title: ["OpenStack & Kubernetes", "OpenStack & Kubernetes"],
         summary: ["Infrastructure OpenStack définie avec Heat ; cluster Kubernetes automatisé avec Ansible et kubeadm.", "OpenStack infrastructure defined with Heat; Kubernetes cluster automated with Ansible and kubeadm."],
         tools: ["OpenStack", "Heat", "Ansible", "Kubernetes"],
-        primaryLabel: ["Automatisation du cluster", "Cluster automation"],
         companion: { slug: "openstack-heat-infrastructure", label: ["Infrastructure du cloud privé", "Private-cloud infrastructure"] },
       },
       { slug: "kubernetes-anomaly-detection-openstack", focus: ["SRE · Observabilité", "SRE · Observability"] },
@@ -44,7 +42,7 @@ const categories: readonly Category[] = [
     entries: [
       { slug: "crm-intelligence-mlops" },
       {
-        slug: "devorecruiter", primaryLabel: ["Application & agents IA", "Application & AI agents"],
+        slug: "devorecruiter",
         companion: { slug: "devorecruiter-gitops", label: ["Livraison GitOps associée", "Companion GitOps delivery"] },
       },
     ],
@@ -55,7 +53,7 @@ const categories: readonly Category[] = [
     description: ["Application web et déploiement Kubernetes associés.", "Web application and its Kubernetes deployment."],
     entries: [
       {
-        slug: "alif-app", primaryLabel: ["Application & microservices", "Application & microservices"],
+        slug: "alif-app",
         companion: { slug: "Alif.tn-App-k8s", label: ["Déploiement Kubernetes associé", "Companion Kubernetes deployment"] },
       },
     ],
@@ -109,9 +107,6 @@ export function ProjectCollection({ locale }: { locale: Locale }) {
                   <p className="collection-summary">{tr(locale, entry.summary ?? detail.description)}</p>
                   <TechStack tools={entry.tools ?? detail.technologies.slice(0, 4)} />
                   {companion && entry.companion && <div className="collection-links">
-                    <Link className="project-primary-link" href={projectPath(locale, entry.slug)} prefetch={false}>
-                      <span>{entry.primaryLabel && <small>{tr(locale, entry.primaryLabel)}</small>}<strong>{detail.name}</strong></span><ArrowUpRight aria-hidden="true" />
-                    </Link>
                     <Link className="companion-link" id={companion.slug} href={projectPath(locale, companion.slug)} prefetch={false}>
                       <GitBranch aria-hidden="true" /><span><small>{tr(locale, entry.companion.label)}</small><strong>{companion.name}</strong></span><ArrowUpRight aria-hidden="true" />
                     </Link>

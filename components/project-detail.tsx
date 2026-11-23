@@ -28,7 +28,7 @@ export function ProjectDetail({ project, locale }: { project: CaseStudy; locale:
       <a className="skip-link" href="#project-content">{t("Aller au contenu", "Skip to content")}</a>
       <header className="site-header detail-header">
         <Link className="wordmark" href={home}><span aria-hidden="true">✳</span> Farah Ben Harb</Link>
-        <Link className="text-link back-to-projects" href={`${home}#projects`}><ArrowLeft aria-hidden="true" />{t("Tous les projets", "All projects")}</Link>
+        <Link className="text-link back-to-projects" href={`${locale === "fr" ? "" : "/en"}/projects`}><ArrowLeft aria-hidden="true" />{t("Tous les projets", "All projects")}</Link>
         <nav className="language-nav" aria-label={t("Langue", "Language")}>
           <Link aria-current={locale === "fr" ? "page" : undefined} href={projectPath("fr", project.slug)} hrefLang="fr" lang="fr" aria-label="Français">FR</Link>
           <Link aria-current={locale === "en" ? "page" : undefined} href={projectPath("en", project.slug)} hrefLang="en" lang="en" aria-label="English">EN</Link>
